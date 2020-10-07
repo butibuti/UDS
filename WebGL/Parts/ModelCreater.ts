@@ -1,8 +1,8 @@
 
-import IModel from "../IModel"
-import Model from "../Model"
+import IModel from "../Graphic/IModel"
+import Model from "../Graphic/Model"
 import ResourceContainer from "./ResourceContainer"
-import GraphicDevice from "../GraphicDevice";
+import GraphicDevice from "../Graphic/GraphicDevice";
 import Transform from "../Transform";
 
 export default class ModelCreater{

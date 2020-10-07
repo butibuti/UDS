@@ -1,3 +1,5 @@
+import Matrix4x4 from "./Matrix";
+
 export default class Vector3{
     data: Float32Array;
     constructor(x:number,y:number,z:number){
@@ -65,11 +67,34 @@ export default class Vector3{
         output.data[2]=this.data[2]*arg_scalar;
         return output;
     }
+    Multiply_Vec3(arg_vector:Vector3):Vector3{
+        var output=new Vector3(0,0,0);
+        output.data[0]=this.data[0]*arg_vector.data[0];
+        output.data[1]=this.data[1]*arg_vector.data[1];
+        output.data[2]=this.data[2]*arg_vector.data[2];
+        return output;
+    }
     Multiply_b(arg_scalar:number):Vector3{
         this.data[0]*=arg_scalar;
         this.data[1]*=arg_scalar;
         this.data[2]*=arg_scalar;
         return this;
+    }
+    Multiply_Vec3_b(arg_vector:Vector3):Vector3{
+        
+        this.data[0]=this.data[0]*arg_vector.data[0];
+        this.data[1]=this.data[1]*arg_vector.data[1];
+        this.data[2]=this.data[2]*arg_vector.data[2];
+        return this;
+    }
+
+    Multiply_Matrix(arg_matrix:Matrix4x4){
+        var output=new Vector3(0,0,0);
+        output.data[0]=this.data[0]*arg_matrix.data[0]+this.data[0]*arg_matrix.data[4]+this.data[0]*arg_matrix.data[8]+this.data[0]*arg_matrix.data[12];
+        output.data[1]=this.data[1]*arg_matrix.data[1]+this.data[1]*arg_matrix.data[5]+this.data[1]*arg_matrix.data[9]+this.data[1]*arg_matrix.data[13];
+        output.data[2]=this.data[2]*arg_matrix.data[2]+this.data[2]*arg_matrix.data[6]+this.data[2]*arg_matrix.data[10]+this.data[2]*arg_matrix.data[14];
+        
+        return output;
     }
 
     Div(arg_scalar:number):Vector3{

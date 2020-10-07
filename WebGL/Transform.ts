@@ -69,6 +69,19 @@ export default class Transform{
         this.generateFunc=this.ScaleRotationTranslate;
     }
 
+    GetFront():Vector3 {
+        return new Vector3(0, 0, 1).Multiply_Matrix ( this.Rotation);
+    }
+
+    GetRight():Vector3 {
+        return new Vector3(1, 0, 0) .Multiply_Matrix ( this.Rotation);
+
+    }
+
+    GetUp():Vector3 {
+        return new Vector3(0, 1, 0) .Multiply_Matrix ( this.Rotation);
+    }
+
     ScaleRotationTranslate(){
         
         this.matrix=new Matrix4x4();

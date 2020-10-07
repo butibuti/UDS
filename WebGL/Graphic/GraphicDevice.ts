@@ -1,8 +1,8 @@
-import Vector4 from "./Math/Vector4"
-import Shader from "./Resource/Shader"
-import Matrix4x4 from "./Math/Matrix"
-import Texture from "./Resource/Texture"
-import Vector2 from "./Math/Vector2";
+import Vector4 from "../Math/Vector4"
+import Shader from "../Resource/Shader"
+import Matrix4x4 from "../Math/Matrix"
+import Texture from "../Resource/Texture"
+import Vector2 from "../Math/Vector2";
 
 export default class GraphicDevice{
     canvas:HTMLCanvasElement;

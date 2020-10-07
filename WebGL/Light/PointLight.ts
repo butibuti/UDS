@@ -1,5 +1,5 @@
 import Light from "./Light"
-import GraphicDevice from "../GraphicDevice"
+import GraphicDevice from "../Graphic/GraphicDevice"
 import Transform from "../Transform"
 
 

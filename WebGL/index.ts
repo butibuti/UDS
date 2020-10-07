@@ -1,4 +1,4 @@
-import GraphicDevice from "./GraphicDevice"
+import GraphicDevice from "./Graphic/GraphicDevice"
 
 import ResourceContainer from "./Parts/ResourceContainer"
 import ModelCreater from "./Parts/ModelCreater";

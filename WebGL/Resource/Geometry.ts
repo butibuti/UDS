@@ -1,4 +1,4 @@
-import GraphicDevice from "../GraphicDevice"
+import GraphicDevice from "../Graphic/GraphicDevice"
 import IGeometry from "./IGeometry"
 
 export default class Geometry implements IGeometry{

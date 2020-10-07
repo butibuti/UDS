@@ -1,8 +1,8 @@
-import Matrix4x4 from "./Math/Matrix"
-import Transform from "./Transform"
+import Matrix4x4 from "../Math/Matrix"
+import Transform from "../Transform"
 import GraphicDevice from "./GraphicDevice"
-import FrameBufferTexture from "./FrameBufferTexture";
-import Vector4 from "./Math/Vector4";
+import FrameBufferTexture from "../Resource/FrameBufferTexture";
+import Vector4 from "../Math/Vector4";
 
 export default class Camera{
     device:GraphicDevice;

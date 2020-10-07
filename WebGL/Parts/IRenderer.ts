@@ -1,6 +1,6 @@
-import IModel from "../IModel"
+import IModel from "../Graphic/IModel"
 import ID from "./ID"
-import Camera from "../Camera"
+import Camera from "../Graphic/Camera"
 import Light from "../Light/Light"
 export default interface IRenderer{
     Draw(camera:Camera):void;

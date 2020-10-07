@@ -1,6 +1,6 @@
-import GraphicDevice from "./GraphicDevice";
-import ResourceContainer from "./Parts/ResourceContainer";
-import ITexture from "./Resource/ITexture";
+import GraphicDevice from "../Graphic/GraphicDevice";
+import ResourceContainer from "../Parts/ResourceContainer";
+import ITexture from "./ITexture";
 
 export default class FrameBufferTexture implements ITexture{
     graphicDevice:GraphicDevice;

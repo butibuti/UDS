@@ -1,4 +1,4 @@
-import GraphicDevice from "../GraphicDevice"
+import GraphicDevice from "../Graphic/GraphicDevice"
 import FileLoader from "../Tool/FileLoader"
 import IShader from "./IShader"
 

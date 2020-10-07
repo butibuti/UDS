@@ -1,6 +1,6 @@
 import ResourceContainer from "../Parts/ResourceContainer";
 import ResourceCreater from "../Tool/ResourceCreater";
-import GraphicDevice from "../GraphicDevice"
+import GraphicDevice from "../Graphic/GraphicDevice"
 import ITexture from "./ITexture"
 
 export default class Texture implements ITexture{

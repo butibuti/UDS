@@ -1,7 +1,7 @@
 import IRenderer from "./IRenderer"
-import IModel from "../IModel";
+import IModel from "../Graphic/IModel";
 import ID from "./ID";
-import Camera from "../Camera"
+import Camera from "../Graphic/Camera"
 import Light from "../Light/Light";
 
 class Layer{

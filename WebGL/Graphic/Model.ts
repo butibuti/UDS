@@ -1,12 +1,12 @@
 
 import GraphicDevice from "./GraphicDevice"
-import Transform from "./Transform"
-import Light from "./Light/Light"
+import Transform from "../Transform"
+import Light from "../Light/Light"
 import IModel from "./IModel"
-import IShader from "./Resource/IShader"
-import IMaterial from "./Resource/IMaterial"
-import IGeometry from "./Resource/IGeometry"
-import IMesh from "./Resource/IMesh"
+import IShader from "../Resource/IShader"
+import IMaterial from "../Resource/IMaterial"
+import IGeometry from "../Resource/IGeometry"
+import IMesh from "../Resource/IMesh"
 
 export default class Model implements IModel{
     graphicDevice:GraphicDevice;

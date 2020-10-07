@@ -3,18 +3,13 @@ import ISceneManager from "./Scene/ISceneManager";
 import ResourceCreater from "./Tool/ResourceCreater";
 import GeometryGenerater from "./Tool/GeometryGenerator";
 import Quaternion from "./Math/Quat";
-import Transform from "./Transform";
 import Vector4 from "./Math/Vector4";
 import Vector3 from "./Math/Vector3";
 import PointLight from "./Light/PointLight";
 import ModelDrawComponent from "./Component/ModelDrawComponent";
 import GameObject from "./GameObject/GameObject";
-import Camera from "./Camera";
-import GraphicDevice from "./GraphicDevice";
-import FrameBufferTexture from "./FrameBufferTexture";
+import FrameBufferTexture from "./Resource/FrameBufferTexture";
 import Vector2 from "./Math/Vector2";
-import Matrix4x4 from "./Math/Matrix";
-import ResourceContainer from "./Parts/ResourceContainer";
 
 class float{
 
@@ -113,7 +108,7 @@ export default class SampleScene extends Scene{
     //this.torus.SetComponent(new ModelDrawComponent("hsvTorus","caloryMaterial","pointLight",1)) as ModelDrawComponent;
   
       this.cube.SetComponent(new ModelDrawComponent(true, "cube","nonTextureMaterial","texShader_light",1,"maguro")) as ModelDrawComponent;
-      this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","cameraMaterial","dotEffect",0)) as ModelDrawComponent;
+      this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","cameraMaterial","texShader",0)) as ModelDrawComponent;
       this.projectionPlane.transform.Scale=new Vector3(500,500,1);
   
       this. torus.transform.generateFunc=this. torus.transform.ScaleTranslateRotation;

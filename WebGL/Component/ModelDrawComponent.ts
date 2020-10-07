@@ -1,5 +1,5 @@
 import Component from "./Component";
-import IModel from "../IModel";
+import IModel from "../Graphic/IModel";
 import Transform from "../Transform";
 import ID from "../Parts/ID";
 

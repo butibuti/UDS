@@ -2,7 +2,7 @@ import IScene from "./IScene";
 import GameTime from "../Parts/GameTime";
 import ResourceContainer from "../Parts/ResourceContainer";
 import ModelCreater from "../Parts/ModelCreater";
-import GraphicDevice from "../GraphicDevice";
+import GraphicDevice from "../Graphic/GraphicDevice";
 
 export default interface ISceneManager{
     Update():void;

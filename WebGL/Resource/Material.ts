@@ -1,5 +1,5 @@
 import Vector4 from "../Math/Vector4"
-import GraphicDevice from "../GraphicDevice"
+import GraphicDevice from "../Graphic/GraphicDevice"
 import ITexture from "./ITexture"
 import IMaterial from "./IMaterial"
 import Texture from "./Texture";

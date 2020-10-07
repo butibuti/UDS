@@ -1,15 +1,17 @@
 import IScene from "./IScene";
 import IRenderer from "../Parts/IRenderer"
 import Renderer from "../Parts/Renderer"
-import Camera from "../Camera";
+import Camera from "../Graphic/Camera";
 import ISceneManager from "./ISceneManager";
 import GameObjectManager from "../GameObject/GameObjectManager";
-import FrameBufferTexture from "../FrameBufferTexture";
+import FrameBufferTexture from "../Resource/FrameBufferTexture";
+
 function Sleep(time) {
     return new Promise( (resolve) => {
       setTimeout(resolve, time)
     })
-  }
+}
+
 export default class Scene implements IScene{
     sceneManger:ISceneManager;
     renderer:IRenderer;

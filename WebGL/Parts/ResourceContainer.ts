@@ -5,7 +5,7 @@ import IShader from "../Resource/IShader"
 import IMesh from "../Resource/IMesh";
 import ISound from "../Resource/ISound"
 import ResourceCreater from "../Tool/ResourceCreater";
-import GraphicDevice from "../GraphicDevice";
+import GraphicDevice from "../Graphic/GraphicDevice";
 
 export default class ResourceContainer{
     private iTextures:Map<string,ITexture>;
