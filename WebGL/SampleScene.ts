@@ -45,23 +45,23 @@ export default class SampleScene extends Scene{
     
     async OnLoad(){
       
-      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('public/shader/PointLightVS.glsl',"public/shader/PointLightFS.glsl",this.sceneManger.GetGraphicDevice()),"pointLight");
+      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/PointLightVS.glsl',"shader/PointLightFS.glsl",this.sceneManger.GetGraphicDevice()),"pointLight");
   
-      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('public/shader/UVNormalColorVS.glsl',"public/shader/DefaultFS.glsl",this.sceneManger.GetGraphicDevice()),"texShader");
-      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('public/shader/UVNormalVS.glsl',"public/shader/DefaultFS_light.glsl",this.sceneManger.GetGraphicDevice()),"texShader_light");
-      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('public/shader/UVNormalVS.glsl',"public/shader/ZoomBlur.glsl",this.sceneManger.GetGraphicDevice()),"zoomEffect");
-      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('public/shader/UVNormalVS.glsl',"public/shader/DotEffect.glsl",this.sceneManger.GetGraphicDevice()),"dotEffect");
-      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('public/shader/UVNormalColorVS.glsl',"public/shader/BlackTestFS.glsl",this.sceneManger.GetGraphicDevice()),"black");
+      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalColorVS.glsl',"shader/DefaultFS.glsl",this.sceneManger.GetGraphicDevice()),"texShader");
+      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/DefaultFS_light.glsl",this.sceneManger.GetGraphicDevice()),"texShader_light");
+      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/ZoomBlur.glsl",this.sceneManger.GetGraphicDevice()),"zoomEffect");
+      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/DotEffect.glsl",this.sceneManger.GetGraphicDevice()),"dotEffect");
+      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalColorVS.glsl',"shader/BlackTestFS.glsl",this.sceneManger.GetGraphicDevice()),"black");
   
       this.sceneManger.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry　( GeometryGenerater.CreateTorus(32,32,0.5,1),false,true,true,this.sceneManger.GetGraphicDevice()),"hsvTorus");
       this.sceneManger.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),true,true,true,this.sceneManger.GetGraphicDevice()),"cube");
       this.sceneManger.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),new Vector4(1.0,1.0,1.0,1)),true,false,false,this.sceneManger.GetGraphicDevice()),"plane");
       
-      this.sceneManger.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("public/model/Maguro/maguro.b3m",this.sceneManger.GetResourceContainer(),this.sceneManger.GetGraphicDevice()),"maguro");
-      this.sceneManger.GetResourceContainer().AddSoundFromFile("public/audio/Ending.mp3","sample");
+      this.sceneManger.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/Maguro/maguro.b3m",this.sceneManger.GetResourceContainer(),this.sceneManger.GetGraphicDevice()),"maguro");
+      this.sceneManger.GetResourceContainer().AddSoundFromFile("audio/Ending.mp3","sample");
       
       // テクスチャを生成
-      var caloryTexture= ResourceCreater.CreateTexture ('public/image/calory.png',this.sceneManger.GetGraphicDevice())
+      var caloryTexture= ResourceCreater.CreateTexture ('image/calory.png',this.sceneManger.GetGraphicDevice())
       this.sceneManger.GetResourceContainer().AddTexture(caloryTexture,"calory");
       var frameBuffer= this.sceneManger.GetResourceContainer().AddTexture(ResourceCreater.CreateFrameBuffer(1024,1024,this.sceneManger.GetGraphicDevice()),"camera");
       
@@ -132,7 +132,7 @@ export default class SampleScene extends Scene{
       var time = 1.5;
       
       if(this.sceneManger.GetGameTime().AbsoluteFrame>=360){
-        this.sceneManger.GetResourceContainer().GetSound("sample").Play();
+        //this.sceneManger.GetResourceContainer().GetSound("sample").Play();
     
       }
 

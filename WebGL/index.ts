@@ -13,8 +13,8 @@ onload = function(){
   var canvas :HTMLCanvasElement= document.getElementById('myCanvas') as HTMLCanvasElement;
   
   var audioElement = document.createElement('audio');
-  audioElement.src = '/public/audio/Ending.mp3';
-audioElement.volume=0.0;
+  audioElement.src = 'audio/Ending.mp3';
+//audioElement.volume=0.0;
 
   canvas.width = 800;
   canvas.height = 500;

@@ -8,9 +8,21 @@ module.exports = {
 
     watch: true,
 
-    entry: './src/main.js', 
+    entry: './game.js', 
     output: {
       path: __dirname + '/public/source',
       filename: 'main.js'
+    },
+    
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                loader: 'ts-loader'
+            }
+        ]
+    },
+    resolve: {
+      extensions: ['.ts', '.js']
     }
   };
