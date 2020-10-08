@@ -43,9 +43,9 @@ export default class Input{
     static AddKeyDownEvent(arg_obj,isUseEvent?:boolean){
         var event={obj:arg_obj ,handleEvent: OnKeyDown};
         if(isUseEvent)
-        this.canvas.addEventListener("keydown", event,isUseEvent);
+        document.addEventListener("keydown", event,isUseEvent);
         else{
-            this.canvas.addEventListener("keydown",event,false);
+            document.addEventListener("keydown",event,false);
         }
     }
     static AddMouseMoveEvent(arg_obj,isUseEvent?:boolean){

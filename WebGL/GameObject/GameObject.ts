@@ -4,6 +4,7 @@ import GameObjectManager from "./GameObjectManager"
 import IRenderer from "../Parts/IRenderer";
 import IScene from "../Scene/IScene"
 import GameTime from "../Parts/GameTime";
+import CollisionManager from "../Parts/Collision/CollisionManager";
 export default class GameObject{
     transform :Transform;
     private isRemove:boolean;
@@ -56,9 +57,13 @@ export default class GameObject{
     GetRenderer():IRenderer{
         return this.manager.Scene.GetRenderer();
     }
+    GetCollisionManager():CollisionManager{
+        return this.manager.Scene.GetCollisionManager();
+    }
     Update():void{
-        this.components.concat(this.newComponents);
+        this.components=this.components.concat(this.newComponents);
         this.newComponents=new Array();
+        
         
         this.components.forEach(component=>component.Update());
         var remove=this.components.filter(component=>component.IsRemove);
@@ -72,5 +77,9 @@ export default class GameObject{
         arg_component.Set(this);
         this.newComponents.push(arg_component);
         return arg_component;
+    }
+    Hit(arg_object:GameObject){
+        this.components.forEach(component=>component.Hit(arg_object));
+        
     }
 }

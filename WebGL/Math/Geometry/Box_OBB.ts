@@ -9,6 +9,7 @@ export default class Box_OBB{
 
     constructor( arg_length:Vector3) {
         this.halfLengthes = arg_length.Multiply(0.5);
+        this.directs=new Array(3);
     }
     GetDirect(index:number):Vector3 {
         return this.directs[index];

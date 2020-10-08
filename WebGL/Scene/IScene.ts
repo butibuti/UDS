@@ -1,3 +1,4 @@
+import CollisionManager from "../Parts/Collision/CollisionManager";
 import IRenderer from "../Parts/IRenderer";
 import ISceneManager from "./ISceneManager";
 
@@ -12,6 +13,7 @@ export default interface IScene{
     Initialize():void;
     OnInitialize():void;
     GetRenderer():IRenderer;
+    GetCollisionManager():CollisionManager;
     GetSceneManager():ISceneManager;
     LoadingUpdate();
     IsLoaded ():boolean;

@@ -1,4 +1,4 @@
-import Light from "./Light/Light";
+import Light from "../Light/Light";
 
 export default interface IModel{
     Draw():void;

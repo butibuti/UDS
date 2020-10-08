@@ -18,7 +18,7 @@ export default class GeometryHelper{
         return abs(arg_surfaceNormal.Dot(arg_point .Sub( arg_surfacePoint))) / arg_surfaceNormal.Length();
     }
     
-    static  GetDistanceLineLine( arg_line:Line,  arg_otherLine:Line):number {
+    static GetDistanceLineLine( arg_line:Line,  arg_otherLine:Line):number {
         var normal = arg_line.velocity.Cross(arg_otherLine.velocity).Normalize();
         return normal.Dot(arg_otherLine.point .Sub( arg_line.point));
     }

@@ -10,6 +10,13 @@ import ModelDrawComponent from "./Component/ModelDrawComponent";
 import GameObject from "./GameObject/GameObject";
 import FrameBufferTexture from "./Resource/FrameBufferTexture";
 import Vector2 from "./Math/Vector2";
+import SampleComponent from "./Component/SampleComponent";
+
+import CollisionComponent from "./Component/CollisionComponent";
+
+enum PrimitiveType{
+  sphere=0,box_AABB=1,box_OBB=2,point=3,
+}
 
 class float{
 
@@ -30,8 +37,12 @@ export default class SampleScene extends Scene{
     bQuaternion = new Quaternion().Identity();
     sQuaternion = new Quaternion().Identity();
     zoomData=new float();
-    torus:GameObject;
+    
+
     cube:GameObject;
+    anotherCube:GameObject;
+
+
     projectionPlane:GameObject;
     zoomDirection=1.0;
     LoadingUpdate(){
@@ -101,24 +112,30 @@ export default class SampleScene extends Scene{
 
 
 
-      this.torus= this.gameObjectManager.AddGameObject("torus");
+      
       this.cube=this.gameObjectManager.AddGameObject("cube");
+      this.anotherCube=this.gameObjectManager.AddGameObject("cube");
+
       this.projectionPlane=this.gameObjectManager.AddGameObject("projectionCube");
 
     //this.torus.SetComponent(new ModelDrawComponent("hsvTorus","caloryMaterial","pointLight",1)) as ModelDrawComponent;
   
-      this.cube.SetComponent(new ModelDrawComponent(true, "cube","nonTextureMaterial","texShader_light",1,"maguro")) as ModelDrawComponent;
+      this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1)) as ModelDrawComponent;
+      this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1)) as ModelDrawComponent;
+      
       this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","cameraMaterial","texShader",0)) as ModelDrawComponent;
       this.projectionPlane.transform.Scale=new Vector3(500,500,1);
   
-      this. torus.transform.generateFunc=this. torus.transform.ScaleTranslateRotation;
-      this. torus.transform.Position=new Vector3(0,0,0);
-
-      this.cube.transform.BaseTransform=this.torus.transform;
-      this.cube.transform.Position=new Vector3(1,0,0);
-      this.cube.transform.Scale=new Vector3(0.5,0.5,0.5);
+      this.cube.SetComponent(new SampleComponent());
+      
+      this.cube.transform.Position=new Vector3(0.5,0,0.5);
+      this.anotherCube.transform.Position=new Vector3(-1,-5,10)
+      
       this.projectionPlane.transform.Position=new Vector3(0,0,-1);
-        
+      
+      this.cube.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,new Vector3(1.0,1.0,1.0),0));
+      this.anotherCube.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,new Vector3(1.0,1.0,1.0),0));
+
     }
     OnUpdate(){
         // カウンタを元にラジアンを算出
@@ -136,17 +153,6 @@ export default class SampleScene extends Scene{
       this.bQuaternion.Rotate(-rad,new Vector3 (0,1,0));
       this.sQuaternion=this.aQuaternion.SphereLerp( this.bQuaternion, time );
   
-      
-      this.zoomData.data[0]+=0.1*this.zoomDirection;
-      if(this.zoomData.data[0]>50){
-        this.zoomData.data[0]=50;
-        this.zoomDirection=-1;
-      }else if(this.zoomData.data[0]<0){
-        this.zoomData.data[0]=0;
-        this.zoomDirection=1;
-      }
-
-      this.torus.transform.Rotation=this.sQuaternion.ToMatrix4x4();
       
       
 

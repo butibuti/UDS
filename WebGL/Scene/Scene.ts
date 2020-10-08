@@ -5,6 +5,7 @@ import Camera from "../Graphic/Camera";
 import ISceneManager from "./ISceneManager";
 import GameObjectManager from "../GameObject/GameObjectManager";
 import FrameBufferTexture from "../Resource/FrameBufferTexture";
+import CollisionManager from "../Parts/Collision/CollisionManager";
 
 function Sleep(time) {
     return new Promise( (resolve) => {
@@ -15,6 +16,7 @@ function Sleep(time) {
 export default class Scene implements IScene{
     sceneManger:ISceneManager;
     renderer:IRenderer;
+    collisionManager:CollisionManager;
     gameObjectManager:GameObjectManager;
     private isLoaded:boolean=false;
     private map_camera:Map<string, Camera>;
@@ -25,7 +27,11 @@ export default class Scene implements IScene{
         this.ary_camera=new Array();
         this.sceneManger=sceneManger;
         this.gameObjectManager=new GameObjectManager(this);
+        this.collisionManager=new CollisionManager();
         this.AddCamera(0,0,"last",true);
+    }
+    GetCollisionManager(): CollisionManager {
+        return this.collisionManager;
     }
     IsLoaded ():boolean{
         return this.isLoaded;
@@ -61,13 +67,14 @@ export default class Scene implements IScene{
     }
     Update(): void {
         this.OnUpdate();
+        this.gameObjectManager.Update();
+        this.collisionManager.Check();
         this.Draw();
     }
     LoadingUpdate():void{
         console.log("now loading");
     }
     OnUpdate(): void {
-        this.gameObjectManager.Update();
     }
     Start(): void {
         this.OnStart();

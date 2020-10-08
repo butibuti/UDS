@@ -47,7 +47,8 @@ export default class GameObjectManager{
        this.map_gameObjects.delete(arg_gameObjectName);
     }
     Update():void{
-        this.gameObjects.concat(this.newGameObjects);
+        
+        this.gameObjects=this.gameObjects.concat(this.newGameObjects);
         this.newGameObjects=new Array();
 
         this.gameObjects.forEach(obj=>obj.Update());

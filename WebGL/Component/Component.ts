@@ -29,4 +29,7 @@ export default class Component{
     Update(){
 
     }
+    Hit(arg_gameObject:GameObject){
+        
+    }
 }

@@ -30,8 +30,8 @@ class Layer{
         return id;
     }
     UnRegist(arg_ID: ID) {
-        this.ary_IModels.splice(arg_ID.num-1,1);
-        this.ary_IDs.splice(arg_ID.num-1,1);
+        this.ary_IModels.splice(arg_ID.num,1);
+        this.ary_IDs.splice(arg_ID.num,1);
 
         for(var i=arg_ID.num-1;i<this.ary_IDs.length;i++){
             this.ary_IDs[i].num--;
