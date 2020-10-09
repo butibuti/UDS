@@ -5,4 +5,5 @@ export default interface IGeometry{
     GetIndexSize():number;
     SetSubset(arg_subset:Array<number>);
     GetSubSet():Array<number>;
+    ChangeVBO(vbo:WebGLBuffer,slot:number);
 }

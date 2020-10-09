@@ -131,7 +131,7 @@ export default class GeometryGenerater{
         return {p : pos, n : nor, c : col, uv : st, i : idx};
     }
     
-  static CreatePlane(arg_size:Vector2,arg_color?:Vector4){
+  static CreatePlane(arg_size:Vector2,isReverse:boolean,arg_color?:Vector4){
     var pos=new Array();
     var nor =new Array();
     var col = new Array();
@@ -149,6 +149,7 @@ export default class GeometryGenerater{
         0.0,  0.0,  -1.0,
         0.0,  0.0,  -1.0,
     ];
+    if(arg_color)
     col=[
         arg_color.x,arg_color.y,arg_color.z,arg_color.w,
         arg_color.x,arg_color.y,arg_color.z,arg_color.w,
@@ -159,13 +160,50 @@ export default class GeometryGenerater{
         2, 3, 1,
         2, 1, 0,
     ]
+    if(isReverse)
     uv=[
-        0.0, 0.0,
-        1.0, 0.0,
         0.0, 1.0,
-        1.0, 1.0
+        1.0, 1.0,
+        0.0, 0.0,
+        1.0, 0.0
     ];
+    else{
+        uv=[
+            0.0, 0.0,
+            1.0, 0.0,
+            0.0, 1.0,
+            1.0, 1.0
+        ];
+    }
     return {p : pos, n : nor, c : col, i : idx,uv:uv};
   }
 
+  static CreateTextGeometry(textLength:number){
+    var pos=new Array();
+    var idx = new Array();
+    var uv=new Array();
+
+    var unit=1.0;
+
+    for(var i=0;i<textLength;i++){
+        pos.push( -unit*0.5+i*unit,  unit,  0.0);
+        pos.push(unit*0.5+i*unit,  unit,  0.0,);
+        pos.push(-unit*0.5+i*unit, -unit,  0.0,);
+        pos.push(unit*0.5+i*unit, -unit,  0.0,);
+    }
+
+    
+    for(var i=0;i<textLength;i++){
+    idx.push( 2+i*4, 3+i*4, 1+i*4);
+    idx.push( 2+i*4, 1+i*4, 0+i*4,);
+    }
+    
+    for(var i=0;i<textLength;i++){
+    uv.push(0.0, 1.0,);
+    uv.push(1.0, 1.0);
+    uv.push(0.0, 0.0);
+    uv.push( 1.0, 0.0);
+    }
+    return {p : pos,  i : idx,uv:uv};
+  }
 }

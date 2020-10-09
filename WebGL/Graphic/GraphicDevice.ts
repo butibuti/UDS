@@ -48,7 +48,8 @@ export default class GraphicDevice{
         this.clearFunc=this.Clear;
         this.context.clearColor(this.clearColor.x, this.clearColor.y, this.clearColor.z, this.clearColor.w);
         this.context.clearDepth(1.0);
-    }
+        this.context .blendFunc(this.context.SRC_ALPHA,this.context.ONE_MINUS_SRC_ALPHA);
+        this.context.enable(this.context.BLEND);}
     SetClearColor(arg_color:Vector4):Vector4{
         this.clearColor=arg_color;
         this.context.clearColor(this.clearColor.x, this.clearColor.y, this.clearColor.z, this.clearColor.w);

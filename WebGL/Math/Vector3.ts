@@ -1,6 +1,9 @@
 import Matrix4x4 from "./Matrix";
 
 export default class Vector3{
+    static xAxis:Vector3 =new Vector3(1,0,0);
+    static yAxis:Vector3 =new Vector3(0,1,0);
+    static zAxis:Vector3 =new Vector3(0,0,1);
     data: Float32Array;
     constructor(x:number,y:number,z:number){
         this.data = new Float32Array(3);

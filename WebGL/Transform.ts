@@ -70,16 +70,16 @@ export default class Transform{
     }
 
     GetFront():Vector3 {
-        return new Vector3(0, 0, 1).Multiply_Matrix ( this.Rotation);
+        return Vector3.zAxis.Multiply_Matrix ( this.Rotation);
     }
 
     GetRight():Vector3 {
-        return new Vector3(1, 0, 0) .Multiply_Matrix ( this.Rotation);
+        return Vector3.xAxis .Multiply_Matrix ( this.Rotation);
 
     }
 
     GetUp():Vector3 {
-        return new Vector3(0, 1, 0) .Multiply_Matrix ( this.Rotation);
+        return Vector3.yAxis .Multiply_Matrix ( this.Rotation);
     }
 
     ScaleRotationTranslate(){

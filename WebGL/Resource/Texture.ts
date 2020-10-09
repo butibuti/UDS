@@ -28,6 +28,10 @@ export default class Texture implements ITexture{
         this.graphicDevice.context.activeTexture(this.graphicDevice.context.TEXTURE0);
         this.graphicDevice.context.bindTexture(this.graphicDevice.context.TEXTURE_2D,this.data);
         this.graphicDevice.context.uniform1i(this.graphicDevice.shader.GetTextureSlot(slot),slot);
+        
+        this.graphicDevice.context.texParameteri(this.graphicDevice.context.TEXTURE_2D, this.graphicDevice.context.TEXTURE_MIN_FILTER, this.graphicDevice.context.NEAREST);
+        this.graphicDevice.context.texParameteri(this.graphicDevice.context.TEXTURE_2D, this.graphicDevice.context.TEXTURE_MAG_FILTER, this.graphicDevice.context.NEAREST);
+    
     }
     SetContainer(resourceContainer:ResourceContainer){
         this.resourceContainer= resourceContainer;

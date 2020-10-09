@@ -30,6 +30,9 @@ export default class Geometry implements IGeometry{
         this.subset=new Array();
         this.subset.push(data.i.length);
     }
+    ChangeVBO(vbo: WebGLBuffer, slot: number) {
+        this.vboList[slot]=vbo;
+    }
     GetIndexSize(): number {
         return this.indexSize;
     }

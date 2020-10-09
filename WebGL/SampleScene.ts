@@ -14,6 +14,8 @@ import SampleComponent from "./Component/SampleComponent";
 
 import CollisionComponent from "./Component/CollisionComponent";
 import Matrix4x4 from "./Math/Matrix";
+import TextDrawComponent from "./Component/TextDrawComponent";
+import Transform from "./Transform";
 
 enum PrimitiveType{
   sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -55,6 +57,7 @@ export default class SampleScene extends Scene{
       this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/PointLightVS.glsl',"shader/PointLightFS.glsl",this.sceneManger.GetGraphicDevice()),"pointLight");
   
       this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalColorVS.glsl',"shader/DefaultFS.glsl",this.sceneManger.GetGraphicDevice()),"texShader");
+      this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalColorVS.glsl',"shader/FontShaderFS.glsl",this.sceneManger.GetGraphicDevice()),"fontShader");
       this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/DefaultFS_light.glsl",this.sceneManger.GetGraphicDevice()),"texShader_light");
       this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/ZoomBlur.glsl",this.sceneManger.GetGraphicDevice()),"zoomEffect");
       this.sceneManger.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/DotEffect.glsl",this.sceneManger.GetGraphicDevice()),"dotEffect");
@@ -62,14 +65,15 @@ export default class SampleScene extends Scene{
   
       this.sceneManger.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry　( GeometryGenerater.CreateTorus(32,32,0.5,1),false,true,true,this.sceneManger.GetGraphicDevice()),"hsvTorus");
       this.sceneManger.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),true,true,true,this.sceneManger.GetGraphicDevice()),"cube");
-      this.sceneManger.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),new Vector4(1.0,1.0,1.0,1)),true,false,false,this.sceneManger.GetGraphicDevice()),"plane");
+      this.sceneManger.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),false, new Vector4(1.0,1.0,1.0,1)),true,false,false,this.sceneManger.GetGraphicDevice()),"plane");
       
       this.sceneManger.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/Maguro/maguro.b3m",this.sceneManger.GetResourceContainer(),this.sceneManger.GetGraphicDevice()),"maguro");
       this.sceneManger.GetResourceContainer().AddSoundFromFile("audio/Ending.mp3","sample");
       
       // テクスチャを生成
-      var caloryTexture= ResourceCreater.CreateTexture ('image/calory.png',this.sceneManger.GetGraphicDevice())
+      var caloryTexture= ResourceCreater.CreateTexture ('image/calory.png',this.sceneManger.GetGraphicDevice());
       this.sceneManger.GetResourceContainer().AddTexture(caloryTexture,"calory");
+      this.sceneManger.GetResourceContainer().AddTexture(ResourceCreater.CreateTexture ('image/charmap.png',this.sceneManger.GetGraphicDevice()),"font");
       var frameBuffer= this.sceneManger.GetResourceContainer().AddTexture(ResourceCreater.CreateFrameBuffer(1024,1024,this.sceneManger.GetGraphicDevice()),"camera");
       
   
@@ -103,12 +107,11 @@ export default class SampleScene extends Scene{
       this.sceneManger.GetGraphicDevice().EnableStencil();
   
 
-      this.GetCamera("main").transform.Position=new Vector3(3,-3,10);
+      this.GetCamera("main").transform.Position=new Vector3(0,-3,10);
       
-    // カメラの上方向を表すベクトル
-      var camUpDirection =new Vector3(0,1,0);
+      
 
-      this.GetCamera("main").transform.LookAt( new Vector3(0,0,0),camUpDirection);
+      this.GetCamera("main").transform.LookAt( new Vector3(0,0,0),Vector3.yAxis);
       this.GetCamera("main").clearColor=new Vector4(0.3,0.3,0.3,1.0);
 
 
@@ -121,16 +124,25 @@ export default class SampleScene extends Scene{
 
     //this.torus.SetComponent(new ModelDrawComponent("hsvTorus","caloryMaterial","pointLight",1)) as ModelDrawComponent;
   
-      this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,true)) as ModelDrawComponent;
+      //this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
+     
+      var tr=new Transform();
+      tr.Position=new Vector3(1,1,1);
+      var tr2=new Transform();
+      tr2.Position=new Vector3(-1,-1,2);
+
+      this.cube.SetComponent(new TextDrawComponent("butibuti", "font","fontShader",new Vector4(0.75,0.75,0.25,1),1,true)) as ModelDrawComponent;
+      this.cube.SetComponent(new TextDrawComponent("butibuti", "font","fontShader",new Vector4(1.0,1.0,1.0,1),1,true,tr)) as ModelDrawComponent;
+      this.cube.SetComponent(new TextDrawComponent("butibuti", "font","fontShader",new Vector4(0.5,0.75,0.75,1),1,true,tr2)) as ModelDrawComponent;
       //this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,true)) as ModelDrawComponent;
       
       this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","cameraMaterial","texShader",0,false)) as ModelDrawComponent;
-      this.projectionPlane.transform.Scale=new Vector3(500,500,1);
+     this.projectionPlane.transform.Scale=new Vector3(500,500,1);
   
       this.cube.SetComponent(new SampleComponent());
       
       this.cube.transform.Position=new Vector3(0.5,0,0.5);
-      this.anotherCube.transform.Position=new Vector3(0,-5,10)
+      this.anotherCube.transform.Position=new Vector3(-1,-5,10)
       
       this.projectionPlane.transform.Position=new Vector3(0,0,-1);
       
@@ -150,8 +162,8 @@ export default class SampleScene extends Scene{
       }
 
       // 回転クォータニオンの生成
-      this.aQuaternion.Rotate(rad,new Vector3 (1.0, 0.0, 0.0));
-      this.bQuaternion.Rotate(-rad,new Vector3 (0,1,0));
+      this.aQuaternion.Rotate(rad,Vector3.xAxis);
+      this.bQuaternion.Rotate(-rad,Vector3.yAxis);
       this.sQuaternion=this.aQuaternion.SphereLerp( this.bQuaternion, time );
   
       
