@@ -92,6 +92,7 @@ export default class Transform{
 
     }
     LookAt(arg_targetPos:Vector3,arg_upAxis:Vector3){
+        this.rotation.Identity();
         var z:Vector3 = (arg_targetPos.Sub(this.Position)).Normalize().Multiply(-1);
         var x:Vector3 = arg_upAxis.Cross(z).Normalize();
         var y:Vector3  = z.Cross(x).Normalize();

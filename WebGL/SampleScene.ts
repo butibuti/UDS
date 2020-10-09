@@ -13,6 +13,7 @@ import Vector2 from "./Math/Vector2";
 import SampleComponent from "./Component/SampleComponent";
 
 import CollisionComponent from "./Component/CollisionComponent";
+import Matrix4x4 from "./Math/Matrix";
 
 enum PrimitiveType{
   sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -102,8 +103,8 @@ export default class SampleScene extends Scene{
       this.sceneManger.GetGraphicDevice().EnableStencil();
   
 
-      this.GetCamera("main").transform.Position=new Vector3(0,-3,10);
-    //this.GetCamera("main").transform.Rotation=new Matrix4x4().Rotate_b(0* Math.PI / 180,new Vector3(0,0,1));
+      this.GetCamera("main").transform.Position=new Vector3(3,-3,10);
+      
     // カメラの上方向を表すベクトル
       var camUpDirection =new Vector3(0,1,0);
 
@@ -129,7 +130,7 @@ export default class SampleScene extends Scene{
       this.cube.SetComponent(new SampleComponent());
       
       this.cube.transform.Position=new Vector3(0.5,0,0.5);
-      this.anotherCube.transform.Position=new Vector3(-1,-5,10)
+      this.anotherCube.transform.Position=new Vector3(0,-5,10)
       
       this.projectionPlane.transform.Position=new Vector3(0,0,-1);
       
