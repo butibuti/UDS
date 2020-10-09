@@ -53,6 +53,8 @@ export default class  SceneManager  implements ISceneManager{
         return this.currentScene;
     }
     ChangeScene(key: string) {
+        if(this.currentScene)
+        this.currentScene.End();
         this.currentScene=this.map_scenes[key];
         this.currentScene.Start();
     }

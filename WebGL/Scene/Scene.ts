@@ -40,6 +40,8 @@ export default class Scene implements IScene{
         this.OnRelease();
         this.sceneManger=null;
         this.gameObjectManager.Release();
+        this.collisionManager.Release();
+        this.renderer.Release();
     }
     OnRelease(){
 

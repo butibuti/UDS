@@ -5,13 +5,7 @@ import OctCell from "./OctCell";
 
  const MaxLevel = 7;
 
-class int{
-
-	data:Int32Array;
-	constructor(){
-	  this.data=new Int32Array(1);
-	}
-  }
+ 
  const  LEVEL_FLAG= [ (111 << 0),(111 << 3),(111 << 6),(111 << 9),(111 << 12),(111 << 15),(111 << 18),(111 << 21),(111<< 24),(111 << 27),];
 	class OctreeHelper {
 

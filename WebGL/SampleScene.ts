@@ -120,10 +120,10 @@ export default class SampleScene extends Scene{
 
     //this.torus.SetComponent(new ModelDrawComponent("hsvTorus","caloryMaterial","pointLight",1)) as ModelDrawComponent;
   
-      this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1)) as ModelDrawComponent;
-      this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1)) as ModelDrawComponent;
+      this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,true)) as ModelDrawComponent;
+      //this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,true)) as ModelDrawComponent;
       
-      this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","cameraMaterial","texShader",0)) as ModelDrawComponent;
+      this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","cameraMaterial","texShader",0,false)) as ModelDrawComponent;
       this.projectionPlane.transform.Scale=new Vector3(500,500,1);
   
       this.cube.SetComponent(new SampleComponent());

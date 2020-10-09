@@ -41,6 +41,11 @@ class Layer{
         
         this.ary_IModels.forEach(imodel=>imodel.Draw());
     }
+    Release(){
+        this.ary_IDs.length=0;
+        this.ary_IModels.length=0;
+        this.ary_lights.length=0;
+    }
 }
 
 export default class Renderer implements IRenderer{
@@ -81,4 +86,7 @@ export default class Renderer implements IRenderer{
         this.layers[camera.layer].Draw();
     }
 
+    Release(){
+        this.layers.forEach(layer=>layer.Release());
+    }
 }

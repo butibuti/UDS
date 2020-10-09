@@ -24,7 +24,7 @@ class Layer{
         var  vec_collisionObjects=new Array<CollisionObject >();
 		
         this.octree.CreateCollisionObjectList(0, vec_collisionObjects, list_objStack);
-        console.log(vec_collisionObjects.length);
+        //console.log(vec_collisionObjects.length);
         for(var i=0;i<vec_collisionObjects.length;i++){
          
             for(var j=i+1;j<vec_collisionObjects.length;j++){
@@ -33,6 +33,9 @@ class Layer{
             }   
         }
         
+    }
+    Release(){
+        this.octree.Release();
     }
 }
 
@@ -63,6 +66,9 @@ export default class CollisionManager{
     Check(): void {
         this.layers.forEach(layer=>layer.Check());
     }
-
+    Release():void{
+        this.layers.forEach(layer=>layer.Release() );
+        this.layers.length=0;
+    }
 
 }

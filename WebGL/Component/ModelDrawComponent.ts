@@ -10,6 +10,7 @@ class ModelInfo{
     materialName: string;
     meshName:string=null;
     lighting:boolean;
+    billBoard:boolean;
 }
 
 export default class ModelDrawComponent extends Component{
@@ -21,7 +22,7 @@ export default class ModelDrawComponent extends Component{
     get Layer():number{
         return this.layer;
     }
-    constructor(isLighting:boolean, geometryName:string,materialName:string,shaderName:string,layer:number,meshName?:string,arg_transform?:Transform){
+    constructor(isLighting:boolean, geometryName:string,materialName:string,shaderName:string,layer:number,isBillBoard :boolean, meshName?:string,arg_transform?:Transform){
         super();
 
         this.layer=layer;
@@ -34,16 +35,18 @@ export default class ModelDrawComponent extends Component{
         this.transform=arg_transform;
 
         this.info.lighting=isLighting;
+
+        this.info.billBoard=isBillBoard;
     }
     OnSet(){
         if(!this.transform){
             this.transform=this.gameObject.transform;
         }
         if(this.info.meshName){
-            this.model=this.gameObject.Manager.Scene.GetSceneManager().GetModelCreater().CreateModelFromMesh(this.info.lighting, this.info.meshName,this.info.shaderName,this.transform);
+            this.model=this.gameObject.Manager.Scene.GetSceneManager().GetModelCreater().CreateModelFromMesh(this.info.lighting,this.info.billBoard, this.info.meshName,this.info.shaderName,this.transform);
         }else{
             console.log("mesh");
-        this.model=this.gameObject.Manager.Scene.GetSceneManager().GetModelCreater().CreateModel(this.info.lighting,this.info.geometryName,this.info.materialName,this.info.shaderName,this.transform);
+        this.model=this.gameObject.Manager.Scene.GetSceneManager().GetModelCreater().CreateModel(this.info.lighting,this.info.billBoard,this.info.geometryName,this.info.materialName,this.info.shaderName,this.transform);
         
         }
         this.modelID= this.gameObject.GetRenderer().Regist(this.model,this.layer);

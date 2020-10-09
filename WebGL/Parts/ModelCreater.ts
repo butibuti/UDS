@@ -14,14 +14,14 @@ export default class ModelCreater{
         this.resourceContainer=arg_resourceContainer;
         this.graphicDevice=arg_garaphicDevice;
     }
-    CreateModel(isLighting:boolean, geometryPath:string,materialPath:string,shaderPath:string,arg_transform:Transform):IModel{
+    CreateModel(isLighting:boolean,isBillBoard:boolean, geometryPath:string,materialPath:string,shaderPath:string,arg_transform:Transform):IModel{
 
-        var model=new Model(isLighting);
+        var model=new Model(isLighting,isBillBoard);
         model.Initialize_geom(this.graphicDevice,this.resourceContainer.GetGeometry(geometryPath),this.resourceContainer.GetMaterial(materialPath),this.resourceContainer.GetShader(shaderPath),arg_transform);
         return model;
     }
-    CreateModelFromMesh(isLighting:boolean,meshPath:string,shaderPath:string,arg_transform:Transform):IModel{
-        var model=new Model(isLighting);
+    CreateModelFromMesh(isLighting:boolean,isBillBoard:boolean,meshPath:string,shaderPath:string,arg_transform:Transform):IModel{
+        var model=new Model(isLighting,isBillBoard);
         model.Initialize_mesh(this.graphicDevice,this.resourceContainer.GetMesh(meshPath),this.resourceContainer.GetShader(shaderPath),arg_transform);
         return model;
     }

@@ -36,7 +36,7 @@ export default class Camera{
     Attach():void{
         
         this.device.SetClearColor(this.clearColor);
-        this.device.SetCameraMatrix(this.transform.Matrix.Inverse(),this.projectionMatrix);
+        this.device.SetCameraStatus(this.transform.Matrix.Inverse(),this.projectionMatrix,this.transform.Rotation,this.transform.Position);
         if(this.targetFrame){
             this.device.context.viewport(0, 0, this.targetFrame.width,  this.targetFrame.height);
 		    this.device.context.bindFramebuffer(this.device.context.FRAMEBUFFER,this.targetFrame.frameBuffer);

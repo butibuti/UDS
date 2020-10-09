@@ -3,6 +3,7 @@ import Shader from "../Resource/Shader"
 import Matrix4x4 from "../Math/Matrix"
 import Texture from "../Resource/Texture"
 import Vector2 from "../Math/Vector2";
+import Vector3 from "../Math/Vector3";
 
 export default class GraphicDevice{
     canvas:HTMLCanvasElement;
@@ -13,11 +14,28 @@ export default class GraphicDevice{
     private viewMatrix :Matrix4x4;
     private projectionMatrix :Matrix4x4;
     private tempMatrix:Matrix4x4;
-
+    private camPosition:Vector3;
+    private camRotationInv:Matrix4x4;
     get TempMatrix():Matrix4x4{
         return this.tempMatrix;
 
     }
+    get ViewMatrix():Matrix4x4{
+        return this.viewMatrix;
+
+    }
+    get ProjectionMatrix():Matrix4x4{
+        return this.projectionMatrix;
+
+    }
+    get CameraPosition():Vector3{
+        return this.camPosition;
+    }
+
+    get CameraRotationInv():Matrix4x4{
+        return this.camRotationInv;
+    }
+
     shader:Shader;
     constructor(arg_canvas:HTMLCanvasElement){
         this.canvas=arg_canvas;
@@ -229,10 +247,12 @@ export default class GraphicDevice{
         
     }
 
-    SetCameraMatrix(arg_viewMatrix:Matrix4x4,arg_projectionMatrix:Matrix4x4){
+    SetCameraStatus(arg_viewMatrix:Matrix4x4,arg_projectionMatrix:Matrix4x4,arg_cameraMatrix:Matrix4x4, arg_cameraPosition:Vector3){
         this.viewMatrix=arg_viewMatrix;
         this.projectionMatrix=arg_projectionMatrix;
         this.tempMatrix=this.projectionMatrix.Multiply(this.viewMatrix);
+        this.camPosition=arg_cameraPosition;
+        this.camRotationInv=(arg_cameraMatrix);
     }
 }
 function OnTexLoad(img:HTMLImageElement,arg_texture:Texture,arg_source:string,device: GraphicDevice){

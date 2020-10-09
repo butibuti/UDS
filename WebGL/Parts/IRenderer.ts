@@ -8,4 +8,5 @@ export default interface IRenderer{
     Regist(arg_registObj: IModel,layer:number):ID;
     UnRegist(arg_ID: ID,layer:number);
     SetLight(arg_light:Light,layer:number):Light;
+    Release():void;
 }

@@ -67,9 +67,10 @@ export default class GameObjectManager{
 
     Release(){
         this.map_gameObjects.clear();
-        this.newGameObjects.forEach(obj=>obj.Remove());
+        this.newGameObjects.forEach(obj=>obj.Release());
         this.newGameObjects.length=0;
-        this.gameObjects.forEach(obj=>obj.Remove());
+        this.gameObjects.forEach(obj=>obj.Release());
         this.gameObjects.length=0;
+        this.scene=null;
     }
 }

@@ -26,6 +26,13 @@ export default class Component{
     OnRemove(){
 
     }
+    Release(){
+
+        this.OnRelease();
+        this.gameObject=null;
+    }
+    OnRelease(){
+    }
     Update(){
 
     }

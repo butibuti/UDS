@@ -5,7 +5,7 @@ export default class OctCell {
     
 	shp_head: CollisionObject;
     Release() {
-	    while (this.shp_head&&this.shp_head.shp_next)
+	    while (this.shp_head!=null&&this.shp_head.shp_next!=null)
 		{
 		this.shp_head = this.shp_head.shp_next;
         this.shp_head.shp_bef = null;
@@ -14,7 +14,7 @@ export default class OctCell {
 	}
 	RegistObject(arg_obj:CollisionObject) {
 
-		if (arg_obj.p_cell == this||!arg_obj)
+		if (arg_obj.p_cell == this||(arg_obj==null))
 				return;
 
 		arg_obj.Remove();
