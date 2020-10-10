@@ -5,6 +5,8 @@ import ModelCreater from "./Parts/ModelCreater";
 import SceneManager from "./Scene/SceneManager";
 import SampleScene from "./SampleScene";
 import Input from "./Tool/Input";
+import TitleScene from "./TitleScene";
+import LoadScene from "./LoadScene";
 
 onload = function(){
 
@@ -12,8 +14,7 @@ onload = function(){
   //canvasエレメントを取得
   var canvas :HTMLCanvasElement= document.getElementById('myCanvas') as HTMLCanvasElement;
   
-  var audioElement = document.createElement('audio');
-  audioElement.src = 'audio/Ending.mp3';
+  
 //audioElement.volume=0.0;
 
   canvas.width = 800;
@@ -23,7 +24,7 @@ onload = function(){
 
   var resourceContainer=new ResourceContainer();
 
-  canvas.addEventListener("click", OnClick,false);
+  
   const graphicDevice:GraphicDevice=new GraphicDevice(canvas);
 
   var modelCreater:ModelCreater=new ModelCreater(graphicDevice,resourceContainer);
@@ -31,8 +32,8 @@ onload = function(){
   const sceneManager=new SceneManager(modelCreater,resourceContainer,graphicDevice);
 
 
-  sceneManager.AddScene(new SampleScene(sceneManager),"sample");
-  sceneManager.ChangeScene("sample");
+  sceneManager.AddScene(new TitleScene (sceneManager),"title");
+  sceneManager.ChangeScene("title");
   tick();
   // 恒常ループ
   function tick(){
@@ -46,9 +47,5 @@ onload = function(){
     requestAnimationFrame(tick);
   };
  
-  function OnClick(){
-    
-  audioElement.play();
-  }
 
 };

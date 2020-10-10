@@ -185,11 +185,12 @@ export default class GeometryGenerater{
 
     var unit=1.0;
 
+    var half=textLength/2.0;
     for(var i=0;i<textLength;i++){
-        pos.push( -unit*0.5+i*unit,  unit,  0.0);
-        pos.push(unit*0.5+i*unit,  unit,  0.0,);
-        pos.push(-unit*0.5+i*unit, -unit,  0.0,);
-        pos.push(unit*0.5+i*unit, -unit,  0.0,);
+        pos.push( -unit*0.5+i*unit-unit*half,  unit,  0.0);
+        pos.push(unit*0.5+i*unit-unit*half,  unit,  0.0,);
+        pos.push(-unit*0.5+i*unit-unit*half, -unit,  0.0,);
+        pos.push(unit*0.5+i*unit-unit*half, -unit,  0.0,);
     }
 
     

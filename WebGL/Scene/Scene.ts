@@ -14,7 +14,7 @@ function Sleep(time) {
 }
 
 export default class Scene implements IScene{
-    sceneManger:ISceneManager;
+    sceneManager:ISceneManager;
     renderer:IRenderer;
     collisionManager:CollisionManager;
     gameObjectManager:GameObjectManager;
@@ -25,7 +25,7 @@ export default class Scene implements IScene{
         this.renderer=new Renderer();
         this.map_camera=new Map();
         this.ary_camera=new Array();
-        this.sceneManger=sceneManger;
+        this.sceneManager=sceneManger;
         this.gameObjectManager=new GameObjectManager(this);
         this.collisionManager=new CollisionManager();
         this.AddCamera(0,0,"last",true);
@@ -38,7 +38,7 @@ export default class Scene implements IScene{
     }
     Release(){
         this.OnRelease();
-        this.sceneManger=null;
+        this.sceneManager=null;
         this.gameObjectManager.Release();
         this.collisionManager.Release();
         this.renderer.Release();
@@ -49,9 +49,9 @@ export default class Scene implements IScene{
     AddCamera(order:number, layer:number,cameraName:string,isPararell:boolean,frameBufferTexture?:FrameBufferTexture):Camera{
         var newCamera:Camera;
         if(frameBufferTexture){
-            newCamera=new Camera(this.sceneManger.GetGraphicDevice(),layer,isPararell,frameBufferTexture);
+            newCamera=new Camera(this.sceneManager.GetGraphicDevice(),layer,isPararell,frameBufferTexture);
         }else
-        newCamera=new Camera(this.sceneManger.GetGraphicDevice(),layer,isPararell);
+        newCamera=new Camera(this.sceneManager.GetGraphicDevice(),layer,isPararell);
 
         this.ary_camera.splice(order,0,newCamera);
 
@@ -65,7 +65,7 @@ export default class Scene implements IScene{
     Draw(): void {
         this.ary_camera.forEach(camera=>this.renderer.Draw(camera));
         
-        this.sceneManger.GetGraphicDevice().Present();
+        this.sceneManager.GetGraphicDevice().Present();
     }
     Update(): void {
         this.OnUpdate();
@@ -97,7 +97,7 @@ export default class Scene implements IScene{
     async Load(){
         await this.OnLoad();
         
-        while(this.sceneManger.GetResourceContainer().GetLoadingObjCount()){
+        while(this.sceneManager.GetResourceContainer().GetLoadingObjCount()){
             await Sleep(100); 
         }
         console.log("end loading");
@@ -113,6 +113,6 @@ export default class Scene implements IScene{
         return this.renderer;
     }
     GetSceneManager():ISceneManager{
-        return this.sceneManger;
+        return this.sceneManager;
     }
 }
