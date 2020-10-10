@@ -38,7 +38,6 @@ export default class  SceneManager  implements ISceneManager{
         this.gameTime.Count();
         }
         else{
-            this.currentScene.OnLoadingUpdate();
             this.currentScene.Draw();
         }
     }

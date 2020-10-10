@@ -20,7 +20,7 @@ export default class Scene implements IScene{
     gameObjectManager:GameObjectManager;
     private isLoaded:boolean=false;
     private map_camera:Map<string, Camera>;
-    private ary_camera:Array<Camera>;
+    protected ary_camera:Array<Camera>;
     constructor(sceneManger:ISceneManager){
         this.renderer=new Renderer();
         this.map_camera=new Map();
@@ -46,6 +46,9 @@ export default class Scene implements IScene{
     OnRelease(){
 
     }
+    GetCameraCount():number{
+        return this.ary_camera.length;
+    }
     AddCamera(order:number, layer:number,cameraName:string,isPararell:boolean,frameBufferTexture?:FrameBufferTexture):Camera{
         var newCamera:Camera;
         if(frameBufferTexture){
@@ -63,6 +66,7 @@ export default class Scene implements IScene{
 
     }
     Draw(): void {
+        console.log("Draw:Scene");
         this.ary_camera.forEach(camera=>this.renderer.Draw(camera));
         
         this.sceneManager.GetGraphicDevice().Present();
@@ -74,11 +78,8 @@ export default class Scene implements IScene{
         this.Draw();
     }
     LoadingUpdate():void{
-
-        
-        
-        this.OnLoadingUpdate();
-        this.Draw();
+       this.OnLoadingUpdate();
+       this.Draw();
     }
     OnLoadingUpdate():void{
     }

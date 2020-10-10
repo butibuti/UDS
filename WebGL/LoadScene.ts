@@ -52,11 +52,11 @@ export default class LoadScene extends Scene{
 
 
     BefLoad(){
-console.log("befLoad");
         this.renderer.AddLayer();
         this.AddCamera(0 ,1,"main",false,this.sceneManager.GetResourceContainer().GetTexture("loadingCamera") as FrameBufferTexture);
     // 頂点シェーダとフラグメントシェーダの生成
       
+    
         var light=new PointLight(this.sceneManager.GetGraphicDevice());
         light.transform.Position=new Vector3(-5,-5,10);
         //this.renderer.SetLight(light,0);
@@ -104,6 +104,14 @@ console.log("befLoad");
         
         
     }
+
+    
+    Draw(): void {
+      console.log("draw:LoadScene");
+      this.ary_camera.forEach(camera=>this.renderer.Draw(camera));
+      
+      this.sceneManager.GetGraphicDevice().Present();
+  }
 
     OnLoadingUpdate():void{
       console.log("onloadingUpdate!:Scene");
