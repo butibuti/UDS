@@ -14,6 +14,7 @@ function Sleep(time) {
 }
 
 export default class Scene implements IScene{
+    isCurrent=false;
     sceneManager:ISceneManager;
     renderer:IRenderer;
     collisionManager:CollisionManager;
@@ -66,7 +67,7 @@ export default class Scene implements IScene{
 
     }
     Draw(): void {
-        console.log("Draw:Scene");
+        
         this.ary_camera.forEach(camera=>this.renderer.Draw(camera));
         
         this.sceneManager.GetGraphicDevice().Present();

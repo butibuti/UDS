@@ -104,17 +104,10 @@ export default class LoadScene extends Scene{
         
         
     }
-
     
-    Draw(): void {
-      console.log("draw:LoadScene");
-      this.ary_camera.forEach(camera=>this.renderer.Draw(camera));
-      
-      this.sceneManager.GetGraphicDevice().Present();
-  }
 
     OnLoadingUpdate():void{
-      console.log("onloadingUpdate!:Scene");
+      
     }
     
     async OnLoad(){
@@ -155,6 +148,7 @@ export default class LoadScene extends Scene{
 
 
     OnInitialize(){
+      if(this.isCurrent)
       this.sceneManager.ChangeScene("sample");
     }
     OnStart(){

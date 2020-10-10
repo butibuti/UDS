@@ -3,6 +3,7 @@ import IRenderer from "../Parts/IRenderer";
 import ISceneManager from "./ISceneManager";
 
 export default interface IScene{
+    isCurrent:boolean;
     Draw():void;
     Update():void;
     OnUpdate():void;

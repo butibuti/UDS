@@ -146,9 +146,7 @@ export default class SampleScene extends Scene{
 
     }
     OnKeyDown(e:KeyboardEvent){
-        if(e.key=="A"){
             
           this.sceneManager.ChangeScene("title");
-        }
     }
 }
