@@ -75,11 +75,13 @@ export default class Scene implements IScene{
     }
     LoadingUpdate():void{
 
+        console.log("loadingUpdate!:Scene");
         
         this.OnLoadingUpdate();
         this.Draw();
     }
     OnLoadingUpdate():void{
+        console.log("onloadingUpdate!:Scene");
     }
     OnUpdate(): void {
     }

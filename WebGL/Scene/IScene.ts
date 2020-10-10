@@ -15,7 +15,8 @@ export default interface IScene{
     GetRenderer():IRenderer;
     GetCollisionManager():CollisionManager;
     GetSceneManager():ISceneManager;
-    LoadingUpdate();
+    LoadingUpdate():void;
+    OnLoadingUpdate():void;
     IsLoaded ():boolean;
     Release();
     OnRelease();

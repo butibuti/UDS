@@ -105,11 +105,7 @@ export default class LoadScene extends Scene{
         
     }
 
-    OnLoadingUpdate(){
-      
-      
-        this.cube.transform.Position.Add(new Vector3(0.5,0,0.0));
-    }
+    
     
     async OnLoad(){
       
@@ -154,7 +150,5 @@ export default class LoadScene extends Scene{
     OnStart(){
       this.sceneManager.ChangeScene("sample");
     }
-    OnUpdate(){
-        
-    }
+    
 }

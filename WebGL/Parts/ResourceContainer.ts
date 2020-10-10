@@ -163,10 +163,10 @@ export default class ResourceContainer{
     }
     GetLoadingObjCount():number{
         if(this.loadingObjectCount<=0){
-            console.log(0+":loading");
+            
             return 0;
         }
-        console.log(this.loadingObjectCount+":loading");
+        
         return this.loadingObjectCount;
     }
 }
