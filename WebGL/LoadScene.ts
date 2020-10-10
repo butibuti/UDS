@@ -52,7 +52,7 @@ export default class LoadScene extends Scene{
 
 
     BefLoad(){
-
+console.log("befLoad");
         this.renderer.AddLayer();
         this.AddCamera(0 ,1,"main",false,this.sceneManager.GetResourceContainer().GetTexture("loadingCamera") as FrameBufferTexture);
     // 頂点シェーダとフラグメントシェーダの生成
@@ -69,7 +69,7 @@ export default class LoadScene extends Scene{
         
   
         this.GetCamera("main").transform.LookAt( new Vector3(0,0,0),Vector3.yAxis);
-        this.GetCamera("main").clearColor=new Vector4(1.0,0.3,0.3,1.0);
+        this.GetCamera("main").clearColor=new Vector4(0.0,0.0,0.0,1.0);
   
   
   
@@ -105,7 +105,9 @@ export default class LoadScene extends Scene{
         
     }
 
-    
+    OnLoadingUpdate():void{
+      console.log("onloadingUpdate!:Scene");
+    }
     
     async OnLoad(){
       

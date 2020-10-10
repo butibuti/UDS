@@ -75,13 +75,12 @@ export default class Scene implements IScene{
     }
     LoadingUpdate():void{
 
-        console.log("loadingUpdate!:Scene");
+        
         
         this.OnLoadingUpdate();
         this.Draw();
     }
     OnLoadingUpdate():void{
-        console.log("onloadingUpdate!:Scene");
     }
     OnUpdate(): void {
     }
@@ -102,6 +101,7 @@ export default class Scene implements IScene{
 
     }
     async Load(){
+        this.BefLoad();
         await this.OnLoad();
         
         while(this.sceneManager.GetResourceContainer().GetLoadingObjCount()){
