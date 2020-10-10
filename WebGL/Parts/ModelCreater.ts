@@ -79,7 +79,7 @@ export default class ModelCreater{
         var uv:WebGLBuffer=this.fontUVContainer[text];
 
         if(!uv){
-            console.log("create:"+text);
+            
             var data=new Array<number>();
     
             

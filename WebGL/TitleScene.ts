@@ -15,6 +15,7 @@ import TextDrawComponent from "./Component/TextDrawComponent";
 import Transform from "./Transform";
 import LoadScene from "./LoadScene";
 import Input from "./Tool/Input";
+import TransformAnimation from "./Component/TransformAnimation";
 
 
 
@@ -125,9 +126,14 @@ export default class TitleScene extends Scene{
       pressAnyTransform.Scale=new Vector3(0.25,0.25,0.25);
       pressAnyTransform.Position=new Vector3(0,1,0);
 
+
+      var pressTarget=new Transform();
+      pressTarget.Scale=new Vector3(0.4,0.4,0.4);
+      pressTarget.Position=new Vector3(0,1,0);
+
       this.texts.SetComponent(new TextDrawComponent("Title", "font","fontShader",new Vector4(0.75,0.75,0.25,1),1,true,transform)) as ModelDrawComponent;
       this.texts.SetComponent(new TextDrawComponent("Press Any Key", "font","fontShader",new Vector4(0.0,0.0,0.0,1),1,true,pressAnyTransform)) as ModelDrawComponent;
-      
+      this.texts.SetComponent(new TransformAnimation(60,pressTarget,pressAnyTransform));
       //this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,true)) as ModelDrawComponent;
       
       this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","titleCameraMaterial","texShader",0,false)) as ModelDrawComponent;

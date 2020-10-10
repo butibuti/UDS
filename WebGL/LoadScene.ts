@@ -69,7 +69,7 @@ export default class LoadScene extends Scene{
         
   
         this.GetCamera("main").transform.LookAt( new Vector3(0,0,0),Vector3.yAxis);
-        this.GetCamera("main").clearColor=new Vector4(0.3,0.3,0.3,1.0);
+        this.GetCamera("main").clearColor=new Vector4(1.0,0.3,0.3,1.0);
   
   
   
@@ -105,8 +105,9 @@ export default class LoadScene extends Scene{
         
     }
 
-    LoadingUpdate(){
-        
+    OnLoadingUpdate(){
+      
+      
         this.cube.transform.Position.Add(new Vector3(0.5,0,0.0));
     }
     

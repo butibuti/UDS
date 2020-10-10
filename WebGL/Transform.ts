@@ -61,6 +61,19 @@ export default class Transform{
     get BaseTransform():Transform{
         return this.baseTransform;
     }
+
+    get SetPosition():Vector3{
+        
+        this.matrix=null;
+        return this.position;
+    }
+
+    get SetScale():Vector3{
+        
+        this.matrix=null;
+        return this.scale;
+    }
+
     constructor(){
         this.position=new Vector3(0,0,0);
         this.scale=new Vector3(1,1,1);

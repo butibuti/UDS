@@ -74,7 +74,12 @@ export default class Scene implements IScene{
         this.Draw();
     }
     LoadingUpdate():void{
-        console.log("now loading");
+
+        
+        this.OnLoadingUpdate();
+        this.Draw();
+    }
+    OnLoadingUpdate():void{
     }
     OnUpdate(): void {
     }
@@ -100,7 +105,7 @@ export default class Scene implements IScene{
         while(this.sceneManager.GetResourceContainer().GetLoadingObjCount()){
             await Sleep(100); 
         }
-        console.log("end loading");
+        
         this.isLoaded=true;
         this.Initialize();
     }
