@@ -79,7 +79,7 @@ export default class GameObject{
         return arg_component;
     }
     Hit(arg_object:GameObject){
-        //if(this!=arg_object)
+        
         console.log("collision:"+this.name+","+arg_object.name);
         this.components.forEach(component=>component.Hit(arg_object));
         
