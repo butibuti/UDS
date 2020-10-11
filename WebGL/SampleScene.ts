@@ -36,7 +36,6 @@ export default class SampleScene extends Scene{
         super(sceneManger);
         this.zoomData.data[0]=0.5;
     }
-    
     aQuaternion = new Quaternion().Identity();
     bQuaternion = new Quaternion().Identity();
     sQuaternion = new Quaternion().Identity();
@@ -71,8 +70,8 @@ export default class SampleScene extends Scene{
 
 
     OnInitialize(){
-      
       this.renderer.AddLayer();
+      this.UseCollisionManager();
       this.AddCamera(0 ,1,"main",false,this.sceneManager.GetResourceContainer().GetTexture("playCamera") as FrameBufferTexture);
   // 頂点シェーダとフラグメントシェーダの生成
     
@@ -87,14 +86,16 @@ export default class SampleScene extends Scene{
       
       
 
-      this.GetCamera("main").transform.LookAt( new Vector3(0,0,0),Vector3.yAxis);
+      this.GetCamera("main").transform.LookAt( new Vector3(0,0,-1),Vector3.yAxis);
       this.GetCamera("main").clearColor=new Vector4(0.3,0.3,0.3,1.0);
 
 
 
       
-      this.cube=this.gameObjectManager.AddGameObject("cube");
-      this.anotherCube=this.gameObjectManager.AddGameObject("cube");
+      this.cube=this.gameObjectManager.AddGameObject("cube",new Transform(new Vector3(0,0,-1),new Vector3(10,10,10),new Vector3(1,1,1)));
+      
+      
+      this.anotherCube=this.gameObjectManager.AddGameObject("cube",new Transform(new Vector3(3,1,0),new Vector3(0,0,0),new Vector3(3,1,1)));
 
       this.projectionPlane=this.gameObjectManager.AddGameObject("projectionCube");
 
@@ -102,37 +103,37 @@ export default class SampleScene extends Scene{
   
       //this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
      
-      var tr=new Transform();
-      tr.Position=new Vector3(1,1,1);
-      var tr2=new Transform();
-      tr2.Position=new Vector3(-1,-1,2);
+      
 
-      this.cube.SetComponent(new TextDrawComponent("butibuti", "font","fontShader",new Vector4(0.75,0.75,0.25,1),1,true)) as ModelDrawComponent;
-      this.cube.SetComponent(new TextDrawComponent("butibuti", "font","fontShader",new Vector4(1.0,1.0,1.0,1),1,true,tr)) as ModelDrawComponent;
-      this.cube.SetComponent(new TextDrawComponent("butibuti", "font","fontShader",new Vector4(0.5,0.75,0.75,1),1,true,tr2)) as ModelDrawComponent;
-      //this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,true)) as ModelDrawComponent;
+      
+      this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
+      this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
       
       this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","playCameraMaterial","texShader",0,false)) as ModelDrawComponent;
      this.projectionPlane.transform.Scale=new Vector3(500,500,1);
   
       this.cube.SetComponent(new SampleComponent());
       
-      this.cube.transform.Position=new Vector3(0.5,0,0.5);
-      this.anotherCube.transform.Position=new Vector3(-1,-5,10)
+      
+      this.anotherCube.transform.BaseTransform=this.cube.transform;
       
       this.projectionPlane.transform.Position=new Vector3(0,0,-1);
       
       this.cube.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,new Vector3(1.0,1.0,1.0),0));
       this.anotherCube.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,new Vector3(1.0,1.0,1.0),0));
 
+      var obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(3,0,-1),new Vector3(0,0,0)));
+      obj.SetComponent(new ModelDrawComponent(false, "sphere","caloryMaterial","texShader",1,false));
+      obj.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),0));
+
     }
     OnStart(){
       
-      Input.AddKeyDownEvent(this,true);
+      Input.AddKeyDownEvent(this,"sampleSceneEvent",true);
     }
     OnEnd(){
       
-      Input.RemoveKeyDownEvent(this);
+      Input.RemoveKeyDownEvent("sampleSceneEvent");
     }
     OnUpdate(){
         // カウンタを元にラジアンを算出
@@ -146,7 +147,11 @@ export default class SampleScene extends Scene{
 
     }
     OnKeyDown(e:KeyboardEvent){
-            
-          this.sceneManager.ChangeScene("title");
+
+      
+          if(e.key=="Escape"){
+            this.sceneManager.ChangeScene("title");
+          }
+          
     }
 }

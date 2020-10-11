@@ -45,7 +45,7 @@ export default class ModelDrawComponent extends Component{
         if(this.info.meshName){
             this.model=this.gameObject.Manager.Scene.GetSceneManager().GetModelCreater().CreateModelFromMesh(this.info.lighting,this.info.billBoard, this.info.meshName,this.info.shaderName,this.transform);
         }else{
-            console.log("mesh");
+            
         this.model=this.gameObject.Manager.Scene.GetSceneManager().GetModelCreater().CreateModel(this.info.lighting,this.info.billBoard,this.info.geometryName,this.info.materialName,this.info.shaderName,this.transform);
         
         }

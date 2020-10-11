@@ -1,5 +1,6 @@
 import Quaternion from "../Math/Quat";
 import Vector3 from "../Math/Vector3";
+import Easing from "../Tool/Easing";
 import Transform from "../Transform";
 import Component from "./Component";
 
@@ -58,7 +59,7 @@ export default class TransformAnimation extends Component{
 
 
         this.transform.Position=this.initPosition.Add(this.offset.Multiply(this.currentTime/this.time));
-        this.transform.Scale= this.initScale.Add(this.scalePase.Multiply(this.currentTime/this.time));
+        this.transform.Scale= this.initScale.Add(this.scalePase.Multiply(Easing.easeInOutBack( this.currentTime/this.time)));
         //this.transform.Rotation= this.transform.Rotation
 
     }

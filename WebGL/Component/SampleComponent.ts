@@ -1,25 +1,42 @@
+
 import Vector3 from "../Math/Vector3";
 import Input from "../Tool/Input";
 import Component from "./Component";
 
 export default class SampleComponent extends Component{
+    constructor(){
+        super();
+        Input.AddKeyDownEvent(this,"samplecomponent",true);
+    }
     OnSet(){
-        Input.AddKeyDownEvent(this,true);
+    }
+
+    Update(){
+        
+        this.gameObject.transform.RollY_Local_Degrees(2);
+        this.gameObject.transform.RollX_World_Degrees(1);
     }
     OnKeyDown(e:KeyboardEvent){
+        
         if(e.key=="ArrowLeft"){
-            
-            this.gameObject.transform.Position=this.gameObject.transform.Position.Add_b(new  Vector3( -1.0,0,0));
+            this.gameObject.transform.TranslateX(-0.5);
         }
         if(e.key=="ArrowRight"){
-            this.gameObject.transform.Position=this.gameObject.transform.Position.Add_b(new  Vector3( 1.00,0,0));
+            this.gameObject.transform.TranslateX(0.5);
         }
         if(e.key=="ArrowUp"){
-            this.gameObject.transform.Position=this.gameObject.transform.Position.Add_b(new  Vector3( 0,-1.00,0));
+            this.gameObject.transform.TranslateY(-1);
         }
         if(e.key=="ArrowDown"){
             
-            this.gameObject.transform.Position=this.gameObject.transform.Position.Add_b(new  Vector3(0, 1.00,0));
+            this.gameObject.transform.TranslateY(1);
+        }
+        if(e.key=="8"){
+            this.gameObject.transform.TranslateZ(-1);
+        }
+        if(e.key=="5"){
+            
+            this.gameObject.transform.TranslateZ(1);
         }
     }
 }

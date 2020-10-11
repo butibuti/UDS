@@ -3,9 +3,10 @@ import IRenderer from "../Parts/IRenderer";
 import ISceneManager from "./ISceneManager";
 
 export default interface IScene{
-    isCurrent:boolean;
+    IsCurrentScene():boolean;
+    SetCurrentScene(arg_iscurrent:boolean);
+    Update:Function;
     Draw():void;
-    Update():void;
     OnUpdate():void;
     Start():void;
     OnStart():void;

@@ -137,6 +137,7 @@ export default class GeometryHelper{
                 output .Add_b(arg_box.GetDirect(i).Multiply( (1 - s)).Multiply( L)  );
         }
         var outputLen = output.Length();
+        //console.log(outputLen);
         return outputLen;
     }
 

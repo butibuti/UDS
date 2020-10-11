@@ -157,21 +157,16 @@ export default class TitleScene extends Scene{
 
     }
     OnStart(){
-
-      Input.AddKeyDownEvent(this,true);
+      Input.AddKeyDownEvent(this,"titleSceneEvent",true);
     }
-    OnEnd(){
-        Input.RemoveKeyDownEvent(this);
+    OnEnd(){      
+        Input.RemoveKeyDownEvent("titleSceneEvent");
     }
     OnKeyDown(e:KeyboardEvent){
-        
-      
-      
-            if(!this.isLoad){
-            this.sceneManager.AddScene(new LoadScene (this.sceneManager),"load");
-            this.isLoad=true;
-        }
-            this.sceneManager.ChangeScene("load");
+      if(e.key!="Escape"){
+        this.sceneManager.ChangeScene("load");
+
+      }
         
     }
 }

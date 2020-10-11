@@ -93,10 +93,14 @@ export default class Vector3{
 
     Multiply_Matrix(arg_matrix:Matrix4x4){
         var output=new Vector3(0,0,0);
-        output.data[0]=this.data[0]*arg_matrix.data[0]+this.data[0]*arg_matrix.data[4]+this.data[0]*arg_matrix.data[8]+this.data[0]*arg_matrix.data[12];
-        output.data[1]=this.data[1]*arg_matrix.data[1]+this.data[1]*arg_matrix.data[5]+this.data[1]*arg_matrix.data[9]+this.data[1]*arg_matrix.data[13];
-        output.data[2]=this.data[2]*arg_matrix.data[2]+this.data[2]*arg_matrix.data[6]+this.data[2]*arg_matrix.data[10]+this.data[2]*arg_matrix.data[14];
+        // output.data[0]=this.data[0]*arg_matrix.data[0]+this.data[0]*arg_matrix.data[4]+this.data[0]*arg_matrix.data[8]+this.data[0]*arg_matrix.data[12];
+        // output.data[1]=this.data[1]*arg_matrix.data[1]+this.data[1]*arg_matrix.data[5]+this.data[1]*arg_matrix.data[9]+this.data[1]*arg_matrix.data[13];
+        // output.data[2]=this.data[2]*arg_matrix.data[2]+this.data[2]*arg_matrix.data[6]+this.data[2]*arg_matrix.data[10]+this.data[2]*arg_matrix.data[14];
         
+        output.data[0]=this.data[0]*arg_matrix.data[0]+this.data[1]*arg_matrix.data[1]+this.data[2]*arg_matrix.data[2]+arg_matrix.data[3];
+        output.data[1]=this.data[0]*arg_matrix.data[4]+this.data[1]*arg_matrix.data[5]+this.data[2]*arg_matrix.data[6]+arg_matrix.data[7];
+        output.data[2]=this.data[0]*arg_matrix.data[8]+this.data[1]*arg_matrix.data[9]+this.data[2]*arg_matrix.data[10]+arg_matrix.data[11];
+
         return output;
     }
 
@@ -149,5 +153,8 @@ export default class Vector3{
         var length=this.Length();
         this.Div_b(length);
         return this;
+    }
+    Clone():Vector3{
+        return new Vector3(this.data[0],this.data[1],this.data[2]);
     }
 }

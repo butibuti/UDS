@@ -6,7 +6,7 @@ import CollisionLayer from "./Octree";
 class Layer{
     octree:CollisionLayer;
     constructor(){
-        this.octree=new CollisionLayer(5,new Vector3(-30,-30,-60),new Vector3(30,30,30))
+        this.octree=new CollisionLayer(6,new Vector3(-30,-30,-30),new Vector3(30,30,30))
     }
 
     Regist(arg_registObj: CollisionObject): ID {
@@ -24,13 +24,12 @@ class Layer{
         var  vec_collisionObjects=new Array<CollisionObject >();
 		
         this.octree.CreateCollisionObjectList(0, vec_collisionObjects, list_objStack);
-        //console.log(vec_collisionObjects.length);
-        for(var i=0;i<vec_collisionObjects.length;i++){
+        
+        //console.log(vec_collisionObjects);
+        for(var i=0;i<vec_collisionObjects.length;i+=2){
          
-            for(var j=i+1;j<vec_collisionObjects.length;j++){
-               
-                vec_collisionObjects[i].HitCheck(vec_collisionObjects[j]);
-            }   
+                vec_collisionObjects[i].HitCheck(vec_collisionObjects[i+1]);
+                
         }
         
     }

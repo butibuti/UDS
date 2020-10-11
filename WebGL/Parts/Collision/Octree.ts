@@ -60,6 +60,9 @@ export default class CollisionLayer
 			this.maxCellNum = this.OctPowSevenDevided[MaxLevel-1];
 	
 			this.unit =this. width .Div ((1 <<this. maxLevel));
+
+			console.log(this.unit);
+
 			this.ary_cells = new Array<OctCell>(this.maxCellNum);
 	
 			this.CreateCell(0);
@@ -151,6 +154,7 @@ export default class CollisionLayer
 		CreateCollisionObjectList( arg_cellNum:number,  arg_output:Array<CollisionObject>,  arg_stack:Array<CollisionObject>) {
 			
 			var objItr= this.ary_cells[arg_cellNum].GetHead();
+			//var i=0;
 			while (objItr!=null)
 			{
 				var rObjItr =objItr.shp_next;
@@ -166,10 +170,12 @@ export default class CollisionLayer
 					arg_output.push(arg_stack[ itr]);
 				}
 				objItr = objItr.shp_next;
+				
 			}
+			//console.log(i);
 
 			var ChildFlag = false;
-			// ③ 子空間に移動
+			// ③ 子空間
 			var ObjNum = 0;
 			var i:number, nextCellNum:number;
 			for (i = 0; i < 8; i++) {

@@ -15,6 +15,7 @@ function Sleep(time) {
 
 export default class Scene implements IScene{
     isCurrent=false;
+    Update: Function;
     sceneManager:ISceneManager;
     renderer:IRenderer;
     collisionManager:CollisionManager;
@@ -28,8 +29,19 @@ export default class Scene implements IScene{
         this.ary_camera=new Array();
         this.sceneManager=sceneManger;
         this.gameObjectManager=new GameObjectManager(this);
-        this.collisionManager=new CollisionManager();
+        this.Update=this.Update_WithoutCollision;
         this.AddCamera(0,0,"last",true);
+    }
+    IsCurrentScene(): boolean {
+        return this.isCurrent;
+    }
+    SetCurrentScene(arg_iscurrent: boolean) {
+        this.isCurrent=arg_iscurrent;
+    }
+    UseCollisionManager(){
+        this.collisionManager=new CollisionManager();
+        this.Update=this.Update_WithCollision;
+
     }
     GetCollisionManager(): CollisionManager {
         return this.collisionManager;
@@ -72,12 +84,21 @@ export default class Scene implements IScene{
         
         this.sceneManager.GetGraphicDevice().Present();
     }
-    Update(): void {
+
+    Update_WithCollision(){
+
         this.OnUpdate();
         this.gameObjectManager.Update();
         this.collisionManager.Check();
         this.Draw();
     }
+    Update_WithoutCollision(){
+
+        this.OnUpdate();
+        this.gameObjectManager.Update();
+        this.Draw();
+    }
+
     LoadingUpdate():void{
        this.OnLoadingUpdate();
        this.Draw();
@@ -111,6 +132,7 @@ export default class Scene implements IScene{
         }
         
         this.isLoaded=true;
+        
         this.Initialize();
     }
     async OnLoad(){

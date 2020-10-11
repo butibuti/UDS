@@ -38,11 +38,12 @@ export default class  SceneManager  implements ISceneManager{
         this.gameTime.Count();
         }
         else{
-            console.log("current");
+            
             this.currentScene.Draw();
         }
     }
     AddScene(arg_scene: IScene, key: string): IScene {
+        
         arg_scene.Load();
         this.map_scenes[key]=arg_scene;
         return arg_scene;
@@ -55,11 +56,11 @@ export default class  SceneManager  implements ISceneManager{
     }
     ChangeScene(key: string) {
         if(this.currentScene){
-            this.currentScene.isCurrent=false;
+            this.currentScene.SetCurrentScene(false);
         this.currentScene.End();
         }
         this.currentScene=this.map_scenes[key];
-        this.currentScene.isCurrent=true
+        this.currentScene.SetCurrentScene( true);
         this.currentScene.Start();
     }
     RemoveScene(key: string) {

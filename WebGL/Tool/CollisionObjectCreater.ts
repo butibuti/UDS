@@ -175,6 +175,7 @@ class CollisionPrimitive_Box_OBB implements CollisionPrimitive{
         this.geometry.directs[0] = this.transform.GetRight();
         this.geometry.directs[1] = this.transform.GetUp();
         this.geometry.directs[2] = this.transform.GetFront();
+        //console.log(this.geometry.directs[0]);
         this.geometry.halfLengthes =this.geometry. initLengthes .Multiply_Vec3(this.transform.Scale);
     }
     IsHit(other: CollisionPrimitive): boolean {
