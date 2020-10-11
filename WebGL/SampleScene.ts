@@ -17,6 +17,10 @@ import Matrix4x4 from "./Math/Matrix";
 import TextDrawComponent from "./Component/TextDrawComponent";
 import Transform from "./Transform";
 import Input from "./Tool/Input";
+import SceneChanger from "./Component/SceneChanger";
+import TransformAnimation from "./Component/TransformAnimation";
+import Easing from "./Tool/Easing";
+import SucideComponent from "./Component/SucideComponent";
 
 enum PrimitiveType{
   sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -110,7 +114,7 @@ export default class SampleScene extends Scene{
       this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
       
       this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","playCameraMaterial","texShader",0,false)) as ModelDrawComponent;
-     this.projectionPlane.transform.Scale=new Vector3(500,500,1);
+     this.projectionPlane.transform.Scale=new Vector3(0,0,1);
   
       this.cube.SetComponent(new SampleComponent());
       
@@ -129,7 +133,12 @@ export default class SampleScene extends Scene{
     }
     OnStart(){
       
-      Input.AddKeyDownEvent(this,"sampleSceneEvent",true);
+      Input.AddKeyDownEvent(this,"sampleSceneEvent",true);if(this.IsLoaded()){
+        
+        var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(500,500,1));
+        this.cube.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
+      
+      }
     }
     OnEnd(){
       
@@ -150,7 +159,15 @@ export default class SampleScene extends Scene{
 
       
           if(e.key=="Escape"){
-            this.sceneManager.ChangeScene("title");
+            var sceneChangeObject=this.gameObjectManager.GetGameObject("sceneChanger");
+            if(sceneChangeObject){
+              return;
+            }
+            sceneChangeObject=this.gameObjectManager.AddGameObject("sceneChanger");
+            sceneChangeObject.SetComponent(new SceneChanger("title",100,null));
+            var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(0,0,0));
+            sceneChangeObject.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
+            sceneChangeObject.SetComponent(new SucideComponent(100));
           }
           
     }

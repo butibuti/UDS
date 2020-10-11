@@ -16,6 +16,9 @@ import Transform from "./Transform";
 import LoadScene from "./LoadScene";
 import Input from "./Tool/Input";
 import TransformAnimation from "./Component/TransformAnimation";
+import SceneChanger from "./Component/SceneChanger";
+import Easing from "./Tool/Easing";
+import SucideComponent from "./Component/SucideComponent";
 
 
 
@@ -41,7 +44,6 @@ export default class TitleScene extends Scene{
     
 
     texts:GameObject;
-    anotherCube:GameObject;
 
     isLoad=false;
     projectionPlane:GameObject;
@@ -102,8 +104,7 @@ export default class TitleScene extends Scene{
 
 
       
-      this.texts=this.gameObjectManager.AddGameObject("cube");
-      this.anotherCube=this.gameObjectManager.AddGameObject("cube");
+      this.texts=this.gameObjectManager.AddGameObject("text");
 
       this.projectionPlane=this.gameObjectManager.AddGameObject("projectionPlane");
 
@@ -133,7 +134,7 @@ export default class TitleScene extends Scene{
 
       this.texts.SetComponent(new TextDrawComponent("Title", "font","fontShader",new Vector4(0.75,0.75,0.25,1),1,true,transform)) as ModelDrawComponent;
       this.texts.SetComponent(new TextDrawComponent("Press Any Key", "font","fontShader",new Vector4(0.0,0.0,0.0,1),1,true,pressAnyTransform)) as ModelDrawComponent;
-      this.texts.SetComponent(new TransformAnimation(60,pressTarget,pressAnyTransform));
+      this.texts.SetComponent(new TransformAnimation(60,true, pressTarget,pressAnyTransform));
       //this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,true)) as ModelDrawComponent;
       
       this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","titleCameraMaterial","texShader",0,false)) as ModelDrawComponent;
@@ -142,14 +143,13 @@ export default class TitleScene extends Scene{
     
       
       this.texts.transform.Position=new Vector3(0,0,0.5);
-      this.anotherCube.transform.Position=new Vector3(-1,-5,10)
       
       this.projectionPlane.transform.Position=new Vector3(0,0,-1);
       
     }
     OnUpdate(){
         // カウンタを元にラジアンを算出
-      var slide = (this.sceneManager.GetGameTime().AbsoluteFrame % 360) -180;
+        //console.log(this.projectionPlane.transform.Scale);
         
       //this.texts.transform.Position=(new Vector3( 0,slide/10,0));
       
@@ -158,14 +158,28 @@ export default class TitleScene extends Scene{
     }
     OnStart(){
       Input.AddKeyDownEvent(this,"titleSceneEvent",true);
+      if(this.IsLoaded()){
+        
+        var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(500,500,1));
+        this.texts.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
+        
+      }
     }
     OnEnd(){      
         Input.RemoveKeyDownEvent("titleSceneEvent");
+        this.gameObjectManager.GetGameObject("sceneChanger").Dead();
     }
     OnKeyDown(e:KeyboardEvent){
       if(e.key!="Escape"){
-        this.sceneManager.ChangeScene("load");
-
+        var sceneChangeObject=this.gameObjectManager.GetGameObject("sceneChanger");
+        if(sceneChangeObject){
+          return;
+        }
+        sceneChangeObject=this.gameObjectManager.AddGameObject("sceneChanger");
+        sceneChangeObject.SetComponent(new SceneChanger("load",100,null));
+        var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(0,0,0));
+        sceneChangeObject.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
+        sceneChangeObject.SetComponent(new SucideComponent(100));
       }
         
     }

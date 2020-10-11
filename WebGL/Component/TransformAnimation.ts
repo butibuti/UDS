@@ -15,15 +15,16 @@ export default class TransformAnimation extends Component{
     initScale:Vector3;
     scalePase:Vector3;
     linerPase:number;    
-
+    easingFunction:Function;
+    TimeUpdate:Function;
     currentTime:number=0;
     time:number;
     direction:number=1;
 
-    constructor(arg_time:number,arg_targetTransform:Transform, arg_transform?:Transform){
+    constructor(arg_time:number,arg_isLoop:boolean,arg_targetTransform:Transform, arg_transform?:Transform,arg_easingFunction?:Function){
         super();
 
-        console.log("transform");
+        
         this.time=arg_time;
         this.linerPase=1.0/arg_time;
         this.targetTransform=arg_targetTransform;
@@ -31,7 +32,17 @@ export default class TransformAnimation extends Component{
         if(arg_transform){
             this.transform=arg_transform;
         }
-        
+        if(arg_easingFunction){
+            this.easingFunction=arg_easingFunction;
+        }else{
+            this.easingFunction=Easing. EaseInOutBack;
+        }
+
+        if(arg_isLoop){
+            this.TimeUpdate=this.TimeUpdate_Loop;
+        }else{
+            this.TimeUpdate=this.TimeUpdate_NoLoop;
+        }
     }
 
     OnSet(){
@@ -46,7 +57,9 @@ export default class TransformAnimation extends Component{
         this.initScale=this.transform.Scale;
     }
 
-    Update(){
+
+    TimeUpdate_Loop(){
+
         if(this.currentTime>=this.time){
             this.currentTime=this.time;
             this.direction=-1;
@@ -54,12 +67,23 @@ export default class TransformAnimation extends Component{
             this.currentTime=0;
             this.direction=1;
         }
-
         this.currentTime+=this.direction;
+    }
+    TimeUpdate_NoLoop(){
 
+        if(this.currentTime>=this.time){
+            this.currentTime=this.time;
+            this.Remove();
+        }
+        this.currentTime+=this.direction;
+    }
+
+    Update(){
+
+        this.TimeUpdate();
 
         this.transform.Position=this.initPosition.Add(this.offset.Multiply(this.currentTime/this.time));
-        this.transform.Scale= this.initScale.Add(this.scalePase.Multiply(Easing.easeInOutBack( this.currentTime/this.time)));
+        this.transform.Scale= this.initScale.Add(this.scalePase.Multiply(this.easingFunction( this.currentTime/this.time)));
         //this.transform.Rotation= this.transform.Rotation
 
     }

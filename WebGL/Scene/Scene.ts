@@ -22,7 +22,7 @@ export default class Scene implements IScene{
     gameObjectManager:GameObjectManager;
     private isLoaded:boolean=false;
     private map_camera:Map<string, Camera>;
-    protected ary_camera:Array<Camera>;
+    private ary_camera:Array<Camera>;
     constructor(sceneManger:ISceneManager){
         this.renderer=new Renderer();
         this.map_camera=new Map();
@@ -107,10 +107,10 @@ export default class Scene implements IScene{
     }
     OnUpdate(): void {
     }
-    Start(): void {
-        this.OnStart();
+    Start(information?:any): void {
+        this.OnStart(information);
     }
-    OnStart(): void {
+    OnStart(information?:any): void {
     }
     End(): void {
         this.OnEnd();

@@ -9,7 +9,7 @@ export default interface ISceneManager{
     AddScene(arg_scene:IScene,key:string):IScene;
     GetScene(key:string):IScene;
     GetCurrentScene():IScene;
-    ChangeScene(key:string);
+    ChangeScene(key:string,information?:any);
     RemoveScene(key:string);
     GetGameTime():GameTime;
     GetResourceContainer():ResourceContainer;

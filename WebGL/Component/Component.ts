@@ -20,6 +20,7 @@ export default class Component{
 
     }
     Remove(){
+        this.isRemove=true;
         this.OnRemove();
         this.gameObject=null;
     }

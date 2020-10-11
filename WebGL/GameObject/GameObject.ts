@@ -52,7 +52,7 @@ export default class GameObject{
         this.manager=null;
     }
     Dead(){
-        this.isRemove=false;
+        this.isRemove=true;
     }
     GetRenderer():IRenderer{
         return this.manager.Scene.GetRenderer();

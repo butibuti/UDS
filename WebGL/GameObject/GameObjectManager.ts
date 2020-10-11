@@ -44,7 +44,7 @@ export default class GameObjectManager{
         this.map_gameObjects[arg_gameObjName].Dead();
     }
     UnRegistObject(arg_gameObjectName:string){
-       this.map_gameObjects.delete(arg_gameObjectName);
+       this.map_gameObjects[arg_gameObjectName]=null;
     }
     Update():void{
         
@@ -55,6 +55,7 @@ export default class GameObjectManager{
         this.gameObjects.filter(obj=>obj.IsRemove).forEach(obj=>obj.Remove());
 
         this.gameObjects=this.gameObjects.filter(obj=>!obj.IsRemove);
+        //console.log(this.gameObjects.length);
     }
     GetGameObject(arg_gameObjectName:string):GameObject{
 

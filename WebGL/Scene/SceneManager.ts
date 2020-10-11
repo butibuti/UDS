@@ -54,7 +54,7 @@ export default class  SceneManager  implements ISceneManager{
     GetCurrentScene(): IScene {
         return this.currentScene;
     }
-    ChangeScene(key: string) {
+    ChangeScene(key: string,information?:any) {
         if(this.currentScene){
             this.currentScene.SetCurrentScene(false);
         this.currentScene.End();

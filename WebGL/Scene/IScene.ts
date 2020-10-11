@@ -8,8 +8,8 @@ export default interface IScene{
     Update:Function;
     Draw():void;
     OnUpdate():void;
-    Start():void;
-    OnStart():void;
+    Start(information?:any):void;
+    OnStart(information?:any):void;
     End():void;
     OnEnd():void;
     Initialize():void;
