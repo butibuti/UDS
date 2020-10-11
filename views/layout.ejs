@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>UDS</title>
+    <title><%= title %></title>
     <meta charset="UTF-8" /> 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/UDS.css">
@@ -9,12 +9,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
      
     <script src="js/bootstrap.min.js"></script>
-    <script  src="source/main.js"></script>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">UDS</a>
+        <a class="navbar-brand" href="#"><%= title %></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -22,20 +21,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/">Home <span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Link</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Actions
+                Games
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="/game">UDS</a>
+                <a class="dropdown-item" href="/game">UDS</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="#">wait for more...</a>
               </div>
             </li>
             <li class="nav-item">
@@ -48,10 +47,7 @@
           </form>
         </div>
       </nav>
-    <div class="container-fluid  center ">
-    <canvas id="myCanvas" width=800 height=500 class="img-fluid"></canvas><br>
-    ここを本拠地とする！！！
-</div>
+      <%- body %>
     </div>
 <footer class=”footer”>© 2020 Ultimate Daruma Selfy</footer>
 </body>

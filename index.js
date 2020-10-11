@@ -1,12 +1,17 @@
-const express = require('express')
-const path = require('path')
-const cool = require('cool-ascii-faces') 
-const PORT = process.env.PORT || 5000
+const express = require('express');
+const path = require('path');
+const cool = require('cool-ascii-faces') ;
+const layouts = require("express-ejs-layouts");
+const pageController=require("./controllers/PagesController")
+const PORT = process.env.PORT || 5000;
 
-express()
-  .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .get('/cool', (req, res) => res.send(cool()))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+var app= express().use(express.static(path.join(__dirname, 'public')));
+app.use(layouts);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.get('/',pageController.home);
+app.get('/game',pageController.game);
+app.get('/cool', (req, res) => res.send(cool()));
+
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
