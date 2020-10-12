@@ -46,7 +46,6 @@ export default class SinWaveMover extends Component{
         
         if(this.isPush){
             if(this.soundframe<=0){
-                console.log("sound");
             this.upSe.Play_new();
             this.soundframe=soundDelay;
         }
