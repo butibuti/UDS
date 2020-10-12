@@ -126,7 +126,7 @@ export default class SampleScene extends Scene{
       this.cube.SetComponent(new SinWaveMover(3,3));
 
       
-      var obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(16,0,-1),new Vector3(0,0,0),new Vector3(2.8,2.8,2.8)));
+      var obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(16,0,-1),new Vector3(0,0,0),new Vector3(2.5,2.5,2.5)));
       obj.SetComponent(new ModelDrawComponent(true, "sphere","red","pointLight",1,false));
       obj.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),0));
       obj.SetComponent(new SampleComponent());
