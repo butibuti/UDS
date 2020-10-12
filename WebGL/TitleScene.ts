@@ -62,7 +62,7 @@ export default class TitleScene extends Scene{
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),false, new Vector4(1.0,1.0,1.0,1)),true,false,false,this.sceneManager.GetGraphicDevice()),"plane");
       
       
-      this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/Ending.mp3","sample");
+      this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/title_se3.wav","title");
       
       // テクスチャを生成
       
@@ -175,6 +175,7 @@ export default class TitleScene extends Scene{
         if(sceneChangeObject){
           return;
         }
+        this.sceneManager.GetResourceContainer().GetSound("title").Play();
         sceneChangeObject=this.gameObjectManager.AddGameObject("sceneChanger");
         sceneChangeObject.SetComponent(new SceneChanger("load",100,null));
         var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(0,0,0));

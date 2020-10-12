@@ -89,7 +89,7 @@ export default class SampleScene extends Scene{
       this.sceneManager.GetGraphicDevice().EnableStencil();
   
 
-      this.GetCamera("main").transform.Position=new Vector3(-15,-3,25);
+      this.GetCamera("main").transform.Position=new Vector3(-25,-10,35);
       
       
 
@@ -99,7 +99,7 @@ export default class SampleScene extends Scene{
 
 
       
-      this.cube=this.gameObjectManager.AddGameObject("cube",new Transform(new Vector3(-5,0,-1),new Vector3(10,10,10),new Vector3(1,1,1)));
+      this.cube=this.gameObjectManager.AddGameObject("cube",new Transform(new Vector3(-10,0,-1),new Vector3(10,10,10),new Vector3(1,1,1)));
       
       this.projectionPlane=this.gameObjectManager.AddGameObject("projectionCube");
       //this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
@@ -126,17 +126,21 @@ export default class SampleScene extends Scene{
       this.cube.SetComponent(new SinWaveMover(3,3));
 
       
-      var obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(3,0,-1),new Vector3(0,0,0)));
-      obj.SetComponent(new ModelDrawComponent(false, "sphere","caloryMaterial","texShader",1,false));
+      var obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(16,0,-1),new Vector3(0,0,0),new Vector3(2.8,2.8,2.8)));
+      obj.SetComponent(new ModelDrawComponent(true, "sphere","red","pointLight",1,false));
       obj.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),0));
+      obj.SetComponent(new SampleComponent());
       
-      var floor=this.gameObjectManager.AddGameObject("floor",new Transform(new Vector3(0,5,-2),new Vector3(90,0,0),new Vector3(10,10,10)));
-      //floor.transform.RollX_Local_Degrees(90);
-      floor.SetComponent(new  ModelDrawComponent(false, "plane","caloryMaterial","texShader",1,false))
-      //floor.SetComponent(new  SampleComponent());
+      obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(20,-5,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
+      obj.SetComponent(new ModelDrawComponent(true, "sphere","green","pointLight",1,false));
+      obj.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),0));
+      obj.SetComponent(new SampleComponent());
+      
+      var floor=this.gameObjectManager.AddGameObject("floor",new Transform(new Vector3(0,5,-2),new Vector3(90,0,0),new Vector3(100,100,100)));
+      floor.SetComponent(new  ModelDrawComponent(true, "floor","gray","pointLight",1,false));
 
       var camera=this.gameObjectManager.AddGameObject("cameraman",this.GetCamera("main").transform);
-      camera.SetComponent(new CameraChaser(0.02,this.cube.transform));
+      camera.SetComponent(new CameraChaser(0.03,this.cube.transform));
     }
     OnStart(){
       Input.AddKeyDownEvent(this,"sampleSceneEvent",true);

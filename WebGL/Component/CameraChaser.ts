@@ -21,18 +21,24 @@ export default class CameraChaser extends Component{
     }
 
     OnSet(){
-
+        this.offsetX=this.gameObject.transform.Position.x-this.targetTransform.Position.x;
+        this.offsetY=this.gameObject.transform.Position.y-this.targetTransform.Position.y;
     }
 
     Update(){
         //this.velocity.y = this.targetTransform.Position.y;
-        var xlength=this.targetTransform.Position.x-this.gameObject.transform.Position.x-10;
+        var xlength=this.targetTransform.Position.x-this.gameObject.transform.Position.x+this.offsetX;
+        
         this.velocity.x =xlength/Math.abs(xlength)* xlength*xlength*this.speed;
 
-        var y= this.gameObject.transform.Position.y- this.targetTransform.Position.y+3;
+        if(xlength*this.speed>1){
+            this.velocity.x =xlength/2;
+        }
 
-        if(y>4){
-            this.velocity.y =-1*(y)/Math.abs(y-4)* (y-4)*(y-4)*this.speed;
+        var y= this.gameObject.transform.Position.y- this.targetTransform.Position.y-this.offsetY;
+
+        if(y>1){
+            this.velocity.y =-1*(y)/Math.abs(y-1)* (y-1)*(y-1)*this.speed;
         }else if(y<-1){
             this.velocity.y =-1*(y+1)/Math.abs(y+1)* (y+1)*(y+1)*this.speed;
         }else{

@@ -122,11 +122,13 @@ export default class LoadScene extends Scene{
   
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry　( GeometryGenerater.CreateTorus(32,32,0.5,1),false,true,true,this.sceneManager.GetGraphicDevice()),"hsvTorus");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),true,true,true,this.sceneManager.GetGraphicDevice()),"cube");
-      this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateSphere(12,12,0.5,new Vector4(1.0,1.0,1.0,1)),true,true,true,this.sceneManager.GetGraphicDevice()),"sphere");
+      this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateSphere(12,12,0.5,new Vector4(0.0,0.0,0.0,1)),false,true,true,this.sceneManager.GetGraphicDevice()),"sphere");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),false, new Vector4(1.0,1.0,1.0,1)),true,false,false,this.sceneManager.GetGraphicDevice()),"plane");
+      this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),false, new Vector4(1.0,1.0,1.0,1)),false,true,true,this.sceneManager.GetGraphicDevice()),"floor");
       
       //this.sceneManger.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/Maguro/maguro.b3m",this.sceneManger.GetResourceContainer(),this.sceneManger.GetGraphicDevice()),"maguro");
-      this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/Ending.mp3","sample");
+      this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/kill2.wav","kill");
+      this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/up_se.wav","up");
       
       // テクスチャを生成
       var caloryTexture= ResourceCreater.CreateTexture ('image/calory.png',this.sceneManager.GetGraphicDevice());
@@ -137,7 +139,13 @@ export default class LoadScene extends Scene{
       material.AddExParam(4,3,new Vector3(5,5,10));
       
       
-      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.1, 0.1, 0.1, 1.0),this.sceneManager.GetGraphicDevice()),"nonTextureMaterial");
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(1.0, 0.5, 0.5, 1.0),this.sceneManager.GetGraphicDevice()),"red");
+      material.AddExParam(4,3,new Vector3(5,5,10));
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.5, 0.5, 0.5, 1.0),this.sceneManager.GetGraphicDevice()),"gray");
+      material.AddExParam(4,3,new Vector3(5,5,10));
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.5, 0.5, 1.0, 1.0),this.sceneManager.GetGraphicDevice()),"blue");
+      material.AddExParam(4,3,new Vector3(5,5,10));
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.5, 1.0, 0.5, 1.0),this.sceneManager.GetGraphicDevice()),"green");
       material.AddExParam(4,3,new Vector3(5,5,10));
       
       material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.1, 0.1, 0.1, 1.0),this.sceneManager.GetGraphicDevice()),"zoomEffect");

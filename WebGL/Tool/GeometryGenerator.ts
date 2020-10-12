@@ -63,14 +63,15 @@ export default class GeometryGenerater{
                 var tz = rr * rad * Math.sin(tr);
                 var rx = rr * Math.cos(tr);
                 var rz = rr * Math.sin(tr);
+                var tc;
                 if(color){
-                    var tc = color;
+                     tc = color;
                 }else{
-                    tc = ColorController.hsva(360 / row * i, 1, 1, 1);
+                    tc = ColorController.hsva(360 / row * i, 0.5, 0.5, 1.0);
                 }
                 pos.push(tx, ty, tz);
                 nor.push(rx, ry, rz);
-                col.push(tc[0], tc[1], tc[2], tc[3]);
+                col.push(tc.data[0], tc.data[1], tc.data[2], tc.data[3]);
                 st.push(1 - 1 / column * ii, 1 / row * i);
             }
         }
@@ -149,17 +150,25 @@ export default class GeometryGenerater{
         0.0,  0.0,  -1.0,
         0.0,  0.0,  -1.0,
     ];
-    if(arg_color)
-    col=[
-        arg_color.x,arg_color.y,arg_color.z,arg_color.w,
-        arg_color.x,arg_color.y,arg_color.z,arg_color.w,
-        arg_color.x,arg_color.y,arg_color.z,arg_color.w,
-        arg_color.x,arg_color.y,arg_color.z,arg_color.w,
-    ]
+    if(arg_color){
+
+        col=[
+            arg_color.x,arg_color.y,arg_color.z,arg_color.w,
+            arg_color.x,arg_color.y,arg_color.z,arg_color.w,
+            arg_color.x,arg_color.y,arg_color.z,arg_color.w,
+            arg_color.x,arg_color.y,arg_color.z,arg_color.w
+        ];
+    }else {
+        col=[1,1,1,1,
+            1,1,1,1,
+            1,1,1,1,
+            1,1,1,1
+        ]
+    }
     idx=[
         2, 3, 1,
         2, 1, 0,
-    ]
+    ];
     if(isReverse)
     uv=[
         0.0, 1.0,

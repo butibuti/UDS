@@ -28,7 +28,7 @@ export default class ModelDrawComponent extends Component{
         this.layer=layer;
         if(meshName)
         this.info.meshName=meshName;
-        this.info. geometryName=geometryName;
+        this.info.geometryName=geometryName;
         this.info.shaderName=shaderName;
         this.info.materialName=materialName;
         if(arg_transform)

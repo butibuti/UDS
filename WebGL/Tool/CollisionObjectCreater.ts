@@ -80,11 +80,12 @@ class CollisionPrimitive_Sphere implements CollisionPrimitive
     }
     GetMaxPointAndMinPoint(arg_outputMax: Vector3, arg_outputMin: Vector3): void {
         arg_outputMax.data=this.geometry. position .Add(new  Vector3(this.geometry. radius,this.geometry. radius,this.geometry. radius)).data;
+        //console.log(arg_outputMax);
 		arg_outputMin.data= this.geometry.position .Sub(new  Vector3(this.geometry. radius,this.geometry. radius,this.geometry. radius)).data;
     }
     Update(): void {
-        this.geometry. position = this.transform.Position;
-			
+        this.geometry.position = this.transform.Position;
+        this.geometry.radius=this.transform.Scale.x*this.geometry.initRadius;
     }
     IsHit(other: CollisionPrimitive): boolean {
         return other.IsHitSphere(this);
@@ -105,7 +106,7 @@ class CollisionPrimitive_Sphere implements CollisionPrimitive
 	constructor(arg_radius:number, arg_transform:Transform)
      {
         this.transform=arg_transform;
-        this.geometry=new Sphere(arg_radius,this.transform.Position );
+        this.geometry=new Sphere(arg_radius,this.transform.Position,this.transform.Scale.x );
 	}
 	};
 class CollisionPrimitive_Box_AABB implements CollisionPrimitive
