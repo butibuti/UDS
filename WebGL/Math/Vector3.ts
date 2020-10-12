@@ -97,9 +97,9 @@ export default class Vector3{
         // output.data[1]=this.data[1]*arg_matrix.data[1]+this.data[1]*arg_matrix.data[5]+this.data[1]*arg_matrix.data[9]+this.data[1]*arg_matrix.data[13];
         // output.data[2]=this.data[2]*arg_matrix.data[2]+this.data[2]*arg_matrix.data[6]+this.data[2]*arg_matrix.data[10]+this.data[2]*arg_matrix.data[14];
         
-        output.data[0]=this.data[0]*arg_matrix.data[0]+this.data[1]*arg_matrix.data[1]+this.data[2]*arg_matrix.data[2]+arg_matrix.data[3];
-        output.data[1]=this.data[0]*arg_matrix.data[4]+this.data[1]*arg_matrix.data[5]+this.data[2]*arg_matrix.data[6]+arg_matrix.data[7];
-        output.data[2]=this.data[0]*arg_matrix.data[8]+this.data[1]*arg_matrix.data[9]+this.data[2]*arg_matrix.data[10]+arg_matrix.data[11];
+        output.data[0]=this.data[0]*arg_matrix.data[0]+this.data[1]*arg_matrix.data[4]+this.data[2]*arg_matrix.data[8]+arg_matrix.data[12];
+        output.data[1]=this.data[0]*arg_matrix.data[1]+this.data[1]*arg_matrix.data[5]+this.data[2]*arg_matrix.data[9]+arg_matrix.data[13];
+        output.data[2]=this.data[0]*arg_matrix.data[2]+this.data[1]*arg_matrix.data[6]+this.data[2]*arg_matrix.data[10]+arg_matrix.data[14];
 
         return output;
     }

@@ -101,22 +101,22 @@ export default class Transform{
     }
         this.rotation=new Matrix4x4().Identity();
         if(rotation){
-            this.rotation.Rotate_b(MathHelper.ToRadian( rotation.z),Vector3.zAxis).Rotate_b(MathHelper.ToRadian( rotation.y),Vector3.yAxis).Rotate_b(MathHelper.ToRadian( rotation.x),Vector3.zAxis);
+            this.rotation.Rotate_b(MathHelper.ToRadian( rotation.z),Vector3.zAxis).Multiply_b(new Matrix4x4().Identity().Rotate_b(MathHelper.ToRadian( rotation.y),Vector3.yAxis)).Multiply_b(new Matrix4x4().Identity().Rotate_b(MathHelper.ToRadian( rotation.x),Vector3.xAxis));
         }
         this.generateFunc=this.ScaleRotationTranslate;
     }
 
     GetFront():Vector3 {
-        return Vector3.zAxis.Multiply_Matrix ( this.Rotation.Transpose()).Normalize_b();
+        return Vector3.zAxis.Multiply_Matrix ( this.Rotation).Normalize_b();
     }
 
     GetRight():Vector3 {
-        return Vector3.xAxis .Multiply_Matrix ( this.Rotation.Transpose()).Normalize_b();
+        return Vector3.xAxis .Multiply_Matrix ( this.Rotation).Normalize_b();
 
     }
 
     GetUp():Vector3 {
-        return Vector3.yAxis .Multiply_Matrix ( this.Rotation.Transpose()).Normalize_b();
+        return Vector3.yAxis .Multiply_Matrix ( this.Rotation).Normalize_b();
     }
 
     ScaleRotationTranslate(){
@@ -184,6 +184,33 @@ export default class Transform{
     }
     TranslateZ(arg_z:number):void{
         this.position.data[2]+=arg_z;
+
+        if( this.matrix){
+            
+            this.matrix.data[14]=this.position.z;
+        }
+
+    }
+
+    SetPositionX(arg_x:number):void{
+        this.position.data[0]=arg_x;
+
+        if( this.matrix){
+            
+            this.matrix.data[12]=this.position.x;
+        }
+
+    }
+    SetPositionY(arg_y:number):void{
+        this.position.data[1]=arg_y;
+        if( this.matrix){
+            
+            this.matrix.data[13]=arg_y;
+        }
+
+    }
+    SetPositionZ(arg_z:number):void{
+        this.position.data[2]=arg_z;
 
         if( this.matrix){
             

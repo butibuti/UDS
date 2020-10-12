@@ -21,6 +21,9 @@ import SceneChanger from "./Component/SceneChanger";
 import TransformAnimation from "./Component/TransformAnimation";
 import Easing from "./Tool/Easing";
 import SucideComponent from "./Component/SucideComponent";
+import SinWaveMover from "./Component/SinWaveMover";
+import Component from "./Component/Component";
+import CameraChaser from "./Component/CameraChaser";
 
 enum PrimitiveType{
   sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -47,7 +50,7 @@ export default class SampleScene extends Scene{
     
 
     cube:GameObject;
-    anotherCube:GameObject;
+    
 
 
     projectionPlane:GameObject;
@@ -86,7 +89,7 @@ export default class SampleScene extends Scene{
       this.sceneManager.GetGraphicDevice().EnableStencil();
   
 
-      this.GetCamera("main").transform.Position=new Vector3(0,-3,10);
+      this.GetCamera("main").transform.Position=new Vector3(-15,-3,25);
       
       
 
@@ -96,44 +99,48 @@ export default class SampleScene extends Scene{
 
 
       
-      this.cube=this.gameObjectManager.AddGameObject("cube",new Transform(new Vector3(0,0,-1),new Vector3(10,10,10),new Vector3(1,1,1)));
+      this.cube=this.gameObjectManager.AddGameObject("cube",new Transform(new Vector3(-5,0,-1),new Vector3(10,10,10),new Vector3(1,1,1)));
       
-      
-      this.anotherCube=this.gameObjectManager.AddGameObject("cube",new Transform(new Vector3(3,1,0),new Vector3(0,0,0),new Vector3(3,1,1)));
-
       this.projectionPlane=this.gameObjectManager.AddGameObject("projectionCube");
-
-    //this.torus.SetComponent(new ModelDrawComponent("hsvTorus","caloryMaterial","pointLight",1)) as ModelDrawComponent;
-  
       //this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
      
       
 
       
       this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
-      this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
+      //this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
+      {
+
+        this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","playCameraMaterial","texShader",0,false)) as ModelDrawComponent;
+        this.projectionPlane.transform.Scale=new Vector3(0,0,1);
+    
+      }
+     
       
-      this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","playCameraMaterial","texShader",0,false)) as ModelDrawComponent;
-     this.projectionPlane.transform.Scale=new Vector3(0,0,1);
-  
-      this.cube.SetComponent(new SampleComponent());
       
-      
-      this.anotherCube.transform.BaseTransform=this.cube.transform;
+      //this.anotherCube.transform.BaseTransform=this.cube.transform;
       
       this.projectionPlane.transform.Position=new Vector3(0,0,-1);
       
       this.cube.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,new Vector3(1.0,1.0,1.0),0));
-      this.anotherCube.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,new Vector3(1.0,1.0,1.0),0));
+      this.cube.SetComponent(new SinWaveMover(3,3));
 
+      
       var obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(3,0,-1),new Vector3(0,0,0)));
       obj.SetComponent(new ModelDrawComponent(false, "sphere","caloryMaterial","texShader",1,false));
       obj.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),0));
+      
+      var floor=this.gameObjectManager.AddGameObject("floor",new Transform(new Vector3(0,5,-2),new Vector3(90,0,0),new Vector3(10,10,10)));
+      //floor.transform.RollX_Local_Degrees(90);
+      floor.SetComponent(new  ModelDrawComponent(false, "plane","caloryMaterial","texShader",1,false))
+      //floor.SetComponent(new  SampleComponent());
 
+      var camera=this.gameObjectManager.AddGameObject("cameraman",this.GetCamera("main").transform);
+      camera.SetComponent(new CameraChaser(0.02,this.cube.transform));
     }
     OnStart(){
-      
-      Input.AddKeyDownEvent(this,"sampleSceneEvent",true);if(this.IsLoaded()){
+      Input.AddKeyDownEvent(this,"sampleSceneEvent",true);
+      if(this.IsLoaded()){
         
         var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(500,500,1));
         this.cube.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));

@@ -54,15 +54,16 @@ export default class Input{
     }
     static AddKeyUpEvent(arg_obj,arg_eventName:string,isUseEvent?:boolean){
         var event=this.keyUpEvents[arg_eventName];
-        if(!event){
-            event={obj:arg_obj ,handleEvent: OnKeyUp};
-            this.keyUpEvents[arg_eventName]=event;
+        if(event){
+            return;
         }
-        
+        console.log("AddKey");
+        event={obj:arg_obj ,handleEvent: OnKeyUp};
+        this.keyUpEvents[arg_eventName]=event;
         if(isUseEvent)
-        this.canvas.addEventListener("keyup", event,isUseEvent);
+        document.addEventListener("keyup", event,isUseEvent);
         else{
-            this.canvas.addEventListener("keyup",event,false);
+            document.addEventListener("keyup",event,false);
         }
     }
     static AddKeyDownEvent(arg_obj,arg_eventName:string,isUseEvent?:boolean){

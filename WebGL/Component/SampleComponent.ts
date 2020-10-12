@@ -13,8 +13,7 @@ export default class SampleComponent extends Component{
 
     Update(){
         
-        this.gameObject.transform.RollY_Local_Degrees(2);
-        this.gameObject.transform.RollX_World_Degrees(1);
+        this.gameObject.transform.RollX_Local_Degrees(2);
     }
     OnKeyDown(e:KeyboardEvent){
         
