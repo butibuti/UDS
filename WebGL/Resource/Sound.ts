@@ -1,4 +1,6 @@
-export default class Sound{
+import ISound from "./ISound";
+
+export default class Sound implements ISound{
     
     private audioElement:HTMLAudioElement;
 
@@ -10,6 +12,11 @@ export default class Sound{
 
     Play(){
         this.audioElement.play();
+    }
+    Play_new(){
+        var audioElement=document.createElement('audio');
+        audioElement.src=this.audioElement.src;
+        audioElement.preload="auto";audioElement.play();
     }
     Pause(){
         this.audioElement.pause();

@@ -2,6 +2,7 @@ export default interface ISound{
 
     
     Play();
+    Play_new();
     Pause();
     Mute();
     SetVolume(arg_volume:number);

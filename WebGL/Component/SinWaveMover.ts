@@ -5,6 +5,8 @@ import Input from "../Tool/Input";
 import MathHelper from "../Tool/MathHelper";
 import Component from "./Component";
 
+const soundDelay:number=5;
+
 export default class SinWaveMover extends Component{
 
     startY: number;
@@ -14,7 +16,7 @@ export default class SinWaveMover extends Component{
     isPush:boolean;
     velocity:Vector3;
     speed:number;
-
+    soundframe:number;
     upSe:ISound;
     deadSe:ISound;
     constructor(arg_waveScale:number,arg_movePase:number){
@@ -24,6 +26,7 @@ export default class SinWaveMover extends Component{
         this.movePase=arg_movePase;
         this.isPush=false;
         this.speed=0.1;
+        this.soundframe=0;
     }
 
     OnSet(){
@@ -42,7 +45,11 @@ export default class SinWaveMover extends Component{
 
         
         if(this.isPush){
-            this.upSe.Play();
+            if(this.soundframe<=0){
+                console.log("sound");
+            this.upSe.Play_new();
+            this.soundframe=soundDelay;
+        }
             this.pushT+=this.movePase;
             this.gameObject.transform.TranslateX(this.movePase*0.05);
             var sinPos=-Math.sin( MathHelper.ToRadian(this.pushT))*this.waveScale+this.startY;
@@ -56,7 +63,7 @@ export default class SinWaveMover extends Component{
             //console.log(this.velocity.Multiply(this.speed));
 
         }
-        
+        this.soundframe--;
         if(this.gameObject.transform.Position.y<=-20){
             this.ToStart();
         }else if(this.gameObject.transform.Position.y>4.5){
