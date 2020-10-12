@@ -11,7 +11,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.get('/',pageController.home);
-app.get('/game',pageController.game);
-app.get('/cool', (req, res) => res.send(cool()));
+app.get('/game',pageController.game("UDS"));
+app.get('/cool',pageController.cool(cool));
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
