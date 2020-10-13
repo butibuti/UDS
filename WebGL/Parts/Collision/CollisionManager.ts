@@ -6,7 +6,7 @@ import CollisionLayer from "./Octree";
 class Layer{
     octree:CollisionLayer;
     constructor(){
-        this.octree=new CollisionLayer(6,new Vector3(-30,-30,-30),new Vector3(30,30,30))
+        this.octree=new CollisionLayer(6,new Vector3(-10,-30,-30),new Vector3(80,30,30))
     }
 
     Regist(arg_registObj: CollisionObject): ID {
