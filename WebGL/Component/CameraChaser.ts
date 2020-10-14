@@ -37,10 +37,10 @@ export default class CameraChaser extends Component{
 
         var y= this.gameObject.transform.Position.y- this.targetTransform.Position.y-this.offsetY;
 
-        if(y>1){
-            this.velocity.y =-1*(y)/Math.abs(y-1)* (y-1)*(y-1)*this.speed;
-        }else if(y<-1){
-            this.velocity.y =-1*(y+1)/Math.abs(y+1)* (y+1)*(y+1)*this.speed;
+        if(y>10){
+            this.velocity.y =-1*(y)/Math.abs(y-10)* (y-10)*(y-10)*this.speed;
+        }else if(y<-10){
+            this.velocity.y =-1*(y+1)/Math.abs(y+10)* (y+10)*(y+10)*this.speed;
         }else{
             this.velocity.y=0;
         }
