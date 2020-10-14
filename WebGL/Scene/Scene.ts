@@ -38,6 +38,12 @@ export default class Scene implements IScene{
     SetCurrentScene(arg_iscurrent: boolean) {
         this.isCurrent=arg_iscurrent;
     }
+    
+    GetGameManager():GameObjectManager{
+        return this.gameObjectManager;
+    }
+    
+
     UseCollisionManager(){
         this.collisionManager=new CollisionManager();
         this.Update=this.Update_WithCollision;

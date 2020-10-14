@@ -1,7 +1,6 @@
 import Scene from "./Scene/Scene";
 import ISceneManager from "./Scene/ISceneManager";
 import ResourceCreater from "./Tool/ResourceCreater";
-import GeometryGenerater from "./Tool/GeometryGenerator";
 import Quaternion from "./Math/Quat";
 import Vector4 from "./Math/Vector4";
 import Vector3 from "./Math/Vector3";
@@ -9,12 +8,8 @@ import PointLight from "./Light/PointLight";
 import ModelDrawComponent from "./Component/ModelDrawComponent";
 import GameObject from "./GameObject/GameObject";
 import FrameBufferTexture from "./Resource/FrameBufferTexture";
-import Vector2 from "./Math/Vector2";
-import SampleComponent from "./Component/SampleComponent";
 
 import CollisionComponent from "./Component/CollisionComponent";
-import Matrix4x4 from "./Math/Matrix";
-import TextDrawComponent from "./Component/TextDrawComponent";
 import Transform from "./Transform";
 import Input from "./Tool/Input";
 import SceneChanger from "./Component/SceneChanger";
@@ -22,9 +17,9 @@ import TransformAnimation from "./Component/TransformAnimation";
 import Easing from "./Tool/Easing";
 import SucideComponent from "./Component/SucideComponent";
 import SinWaveMover from "./Component/SinWaveMover";
-import Component from "./Component/Component";
 import CameraChaser from "./Component/CameraChaser";
 import ObstacleComponent from "./SinWaveGame/ObstacleComponent";
+import Stage from "./SinWaveGame/Stage";
 
 enum PrimitiveType{
   sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -49,13 +44,11 @@ export default class SampleScene extends Scene{
     sQuaternion = new Quaternion().Identity();
     zoomData=new float();
     
-
-    player:GameObject;
+    stage:Stage;
     
 
 
     projectionPlane:GameObject;
-    zoomDirection=1.0;
     LoadingUpdate(){
       
     }
@@ -83,6 +76,7 @@ export default class SampleScene extends Scene{
       this.AddCamera(0 ,1,"main",false,this.sceneManager.GetResourceContainer().GetTexture("playCamera") as FrameBufferTexture);
   // 頂点シェーダとフラグメントシェーダの生成
     
+      
       var light=new PointLight(this.sceneManager.GetGraphicDevice());
       light.transform.Position=new Vector3(-5,-5,10);
       //this.renderer.SetLight(light,0);
@@ -100,15 +94,11 @@ export default class SampleScene extends Scene{
 
 
       
-      this.player=this.gameObjectManager.AddGameObject("cube",new Transform(new Vector3(-15,0,-1),new Vector3(10,10,10),new Vector3(1,1,1)));
-      
       this.projectionPlane=this.gameObjectManager.AddGameObject("projectionCube");
       //this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
      
       
 
-      
-      this.player.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
       //this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
       {
 
@@ -126,46 +116,22 @@ export default class SampleScene extends Scene{
       
       this.projectionPlane.transform.Position=new Vector3(0,0,-1);
       
-      this.player.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,new Vector3(1.0,1.0,1.0),0));
-      this.player.SetComponent(new SinWaveMover(3,3));
-
       
-       var obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(14,0,-1),new Vector3(0,0,0),new Vector3(2.5,2.5,2.5)));
-      
-       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),"red"));
+       this.stage=new Stage(this);
       
       
-       obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(20,-5,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
-      
-       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),"red"));
-       
-      
-       obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(40,-13,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
-      
-       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),"red"));
-       
-      
-      
-       obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(40,-1,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
-      
-       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),"red"));
-       
-      
-      
-      var camera=this.gameObjectManager.AddGameObject("cameraman",this.GetCamera("main").transform);
-      camera.SetComponent(new CameraChaser(0.03,this.player.transform));
     }
     OnStart(){
       Input.AddKeyDownEvent(this,"sampleSceneEvent",true);
       if(this.IsLoaded()){
         
         var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(500,500,1));
-        this.player.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
-      
+        this.projectionPlane.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
+        
+      this.stage.Reset();
       }
     }
     OnEnd(){
-      
       Input.RemoveKeyDownEvent("sampleSceneEvent");
     }
     OnUpdate(){

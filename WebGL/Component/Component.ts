@@ -40,4 +40,8 @@ export default class Component{
     Hit(arg_gameObject:GameObject){
         
     }
+
+    GetComponentName():string{
+        return "Component";
+    }
 }

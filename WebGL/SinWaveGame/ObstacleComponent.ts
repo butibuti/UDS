@@ -5,6 +5,9 @@ import Vector3 from "../Math/Vector3";
 import Component from "../Component/Component";
 import ModelDrawComponent from "../Component/ModelDrawComponent";
 import CollisionComponent from "../Component/CollisionComponent";
+import GameObjectIDManager from "../Parts/GameObjectIDManager";
+import GameObject from "../GameObject/GameObject";
+import Stage from "./Stage";
 
 enum PrimitiveType{
     sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -15,13 +18,16 @@ export default class ObstacleComponent extends Component{
     type:PrimitiveType;
     size:Vector3;
     materialName:string="green";
-    constructor(arg_type:PrimitiveType,arg_size:Vector3,arg_materialName?:string){
+    stage:Stage;
+    constructor(arg_type:PrimitiveType,arg_size:Vector3,arg_stage:Stage, arg_materialName?:string){
         super();
         this.type=arg_type;
         this.size=arg_size;
         this.materialName=arg_materialName;
+        this.stage=arg_stage;
     }
     OnSet(){
+        this.gameObject.objectID=GameObjectIDManager.GetID("obstacle");
         switch(this.type){
             case PrimitiveType.sphere:
                 this.gameObject.SetComponent(new ModelDrawComponent(true, "sphere",this.materialName,"pointLight",1,false));
@@ -48,5 +54,11 @@ export default class ObstacleComponent extends Component{
 
     Update(){
         
+    }
+    Hit(arg_gameObject:GameObject){
+        if(arg_gameObject.objectID!=GameObjectIDManager.GetID("player")){
+            return;
+        }
+        this.stage.Failed();
     }
 }

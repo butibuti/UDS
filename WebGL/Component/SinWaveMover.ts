@@ -1,5 +1,6 @@
 import GameObject from "../GameObject/GameObject";
 import Vector3 from "../Math/Vector3";
+import GameObjectIDManager from "../Parts/GameObjectIDManager";
 import ISound from "../Resource/ISound";
 import Input from "../Tool/Input";
 import MathHelper from "../Tool/MathHelper";
@@ -58,7 +59,9 @@ export default class SinWaveMover extends Component{
             this.gameObject.SetComponent(new ModelDrawComponent(false,"plane","circleMaterial","texShader",1,true,null,this.ary_subLineTransforms[i]));
         }
     }
-
+    GetComponentName():string{
+        return "SinWaveMover";
+    }
     Update(){
 
         
@@ -77,7 +80,6 @@ export default class SinWaveMover extends Component{
         this.gameObject.transform.SetPositionY(sinPos);
         var offX=this.gameObject.transform.Position.x;
         for(var i=0;i<this.sublLineCount;i++){
-         
             this.ary_subLineTransforms[i].SetPosition.x=offX+this.movePase*0.05*this.subLinePase*i;
             this.ary_subLineTransforms[i].SetPosition.y=-MathHelper.GetSinPos(this.t+this.subLinePase*this.movePase*i)*this.waveScale*this.direction+this.startY;
         }
@@ -99,11 +101,17 @@ export default class SinWaveMover extends Component{
             this.startY=this.gameObject.transform.Position.y;
             if(this.t>=90&&this.t<270){
 
-                console.log("up");
+                if(this.direction==1)
+                this.direction=1;else{
+                    this.direction=-1;
+                }
+                
+            }else {
+                if(this.direction==-1)
                 this.direction=1;
-            }else{
-                console.log("down");
-                this.direction=-1;
+                else{
+                    this.direction=-1;
+                }
             }
             this.t=0;
             this.waveScale= this.initWaveScale;
@@ -113,22 +121,19 @@ export default class SinWaveMover extends Component{
     OnKeyUp(e:KeyboardEvent){
 
         if(e.key=="q"){
-            this.ToStart();
+            this.ToStart(new Vector3(-15,0,-1));
         }
         this.isPush=false;
     }
 
-    ToStart(){
+    ToStart(arg_startPoint:Vector3){
 
         this.isPush=false;
         this.t=0;
-        this.gameObject.transform.Position=new Vector3(-6,0,-1);
+        console.log(arg_startPoint);
+        this.gameObject.transform.Position=arg_startPoint.Clone();
         this.startY=this.gameObject.transform.Position.y;
-        this.deadSe.Play();
         return;
     }
     
-    Hit(arg_gameObject:GameObject){
-        this.ToStart();
-    }
 }

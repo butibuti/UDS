@@ -3,14 +3,13 @@ import Component from "../Component/Component";
 import ModelDrawComponent from "../Component/ModelDrawComponent";
 import GameObject from "../GameObject/GameObject";
 import Vector3 from "../Math/Vector3";
-import Vector4 from "../Math/Vector4";
 import GameObjectIDManager from "../Parts/GameObjectIDManager";
 import Stage from "./Stage";
 
 enum PrimitiveType{
     sphere=0,box_AABB=1,box_OBB=2,point=3,
 }
-export default class CoinComponent extends Component{
+export default class IkaRing extends Component{
 
     drawComponent:ModelDrawComponent;
     stage:Stage;
@@ -19,7 +18,7 @@ export default class CoinComponent extends Component{
         this.stage=arg_stage;
     }
     OnSet(){
-        this.drawComponent=new ModelDrawComponent(true, "sphere","yellow","pointLight",1,false);
+        this.drawComponent=new ModelDrawComponent(true, "sphere","white","pointLight",1,false);
         this.gameObject.SetComponent(this.drawComponent);
         this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),0));
     }
@@ -33,8 +32,8 @@ export default class CoinComponent extends Component{
         if(arg_gameObject.objectID!=GameObjectIDManager.GetID("player")){
             return;
         }
-        this.stage.GetCoin();
         this.drawComponent.UnRegistDraw();
+        this.stage.GetRing();
     }
 
     ReSet(){

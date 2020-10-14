@@ -1,3 +1,5 @@
+import GameObjectManager from "../GameObject/GameObjectManager";
+import Camera from "../Graphic/Camera";
 import CollisionManager from "../Parts/Collision/CollisionManager";
 import IRenderer from "../Parts/IRenderer";
 import ISceneManager from "./ISceneManager";
@@ -17,6 +19,8 @@ export default interface IScene{
     GetRenderer():IRenderer;
     GetCollisionManager():CollisionManager;
     GetSceneManager():ISceneManager;
+    GetGameManager():GameObjectManager;
+    GetCamera(arg_cameraName:string):Camera;
     LoadingUpdate():void;
     OnLoadingUpdate():void;
     IsLoaded ():boolean;

@@ -143,13 +143,15 @@ export default class LoadScene extends Scene{
       
       
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(1.0, 0.5, 0.5, 1.0),this.sceneManager.GetGraphicDevice()),"red");
-      material.AddExParam(4,3,new Vector3(5,5,10));
+      
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.5, 0.5, 0.5, 1.0),this.sceneManager.GetGraphicDevice()),"gray");
-      material.AddExParam(4,3,new Vector3(5,5,10));
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.8, 0.8, 0.8, 1.0),this.sceneManager.GetGraphicDevice()),"white");
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.9, 0.8, 0.3, 1.0),this.sceneManager.GetGraphicDevice()),"yellow");
+      
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.5, 0.5, 1.0, 1.0),this.sceneManager.GetGraphicDevice()),"blue");
-      material.AddExParam(4,3,new Vector3(5,5,10));
+      
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.5, 1.0, 0.5, 1.0),this.sceneManager.GetGraphicDevice()),"green");
-      material.AddExParam(4,3,new Vector3(5,5,10));
+      
       
       material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.1, 0.1, 0.1, 1.0),this.sceneManager.GetGraphicDevice()),"zoomEffect");
       

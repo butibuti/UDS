@@ -1,6 +1,7 @@
 import GameObject from "./GameObject"
 import Transform from "../Transform";
 import IScene from "../Scene/IScene";
+import Component from "../Component/Component";
 
 export default class GameObjectManager{
     private gameObjects:Array<GameObject>;
@@ -18,7 +19,7 @@ export default class GameObjectManager{
         this.map_gameObjects=new Map();
         this.scene=arg_scene;
     }
-    AddGameObject(arg_name:string,arg_transform?:Transform):GameObject{
+    AddGameObject(arg_name:string,arg_transform?:Transform,arg_idName?:string,arg_ary_componets?:Array<Component>):GameObject{
         var newObj:GameObject;
         if(this.map_gameObjects[arg_name]){
         var num=1;
@@ -29,11 +30,23 @@ export default class GameObjectManager{
         }
         arg_name=name;
     }
+        if(!arg_idName){
+            arg_idName="none";
+        }
         if(arg_transform){
-            newObj=new GameObject(this,arg_name,arg_transform);
+            if(arg_ary_componets)
+            newObj=new GameObject(this,arg_name,arg_transform,arg_idName,arg_ary_componets);
+            else{
+                newObj=new GameObject(this,arg_name,arg_transform,arg_idName);
+            }
 
         }else{
-            newObj=new GameObject(this,arg_name,new Transform());
+            if(arg_ary_componets)
+            newObj=new GameObject(this,arg_name,new Transform(),arg_idName, arg_ary_componets);
+            else{
+                
+            newObj=new GameObject(this,arg_name,new Transform(),arg_idName);
+            }
         }
         this.map_gameObjects[arg_name]=newObj;
         this.newGameObjects.push(newObj);

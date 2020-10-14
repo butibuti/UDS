@@ -5,6 +5,8 @@ import IRenderer from "../Parts/IRenderer";
 import IScene from "../Scene/IScene"
 import GameTime from "../Parts/GameTime";
 import CollisionManager from "../Parts/Collision/CollisionManager";
+import ID from "../Parts/ID";
+import GameObjectIDManager from "../Parts/GameObjectIDManager";
 export default class GameObject{
     transform :Transform;
     private isRemove:boolean;
@@ -12,6 +14,7 @@ export default class GameObject{
     private newComponents:Array<Component>;
     private name:string;
     private manager:GameObjectManager;
+    objectID:ID;
     get IsRemove():boolean{
         return this.isRemove;
     }
@@ -31,13 +34,21 @@ export default class GameObject{
         return this.Manager.Scene.GetSceneManager().GetGameTime();
     }
 
-    constructor(arg_manager:GameObjectManager,arg_name:string,arg_transform:Transform){
+    constructor(arg_manager:GameObjectManager,arg_name:string,arg_transform:Transform,arg_idName:string,arg_ary_components?:Array<Component>){
         this.transform=arg_transform;
-        this.components=new Array();
+        
         this.newComponents=new Array();
         this.isRemove=false;
         this.name=arg_name;
         this.manager=arg_manager;
+        
+        if(arg_ary_components){
+            this.components=arg_ary_components;
+        }else
+        this.components=new Array();
+
+        this.objectID=GameObjectIDManager.GetID(arg_idName);
+        this.components.forEach(component=>component.Set(this));
     }
     Remove(){
 
@@ -77,6 +88,10 @@ export default class GameObject{
         arg_component.Set(this);
         this.newComponents.push(arg_component);
         return arg_component;
+    }
+    GetComponent(arg_serchName:string, arg_count:number ):Component{
+        
+        return this.components.filter(component=>component.GetComponentName()==arg_serchName)[arg_count];
     }
     Hit(arg_object:GameObject){
         

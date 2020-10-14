@@ -49,9 +49,20 @@ export default class ModelDrawComponent extends Component{
         this.model=this.gameObject.Manager.Scene.GetSceneManager().GetModelCreater().CreateModel(this.info.lighting,this.info.billBoard,this.info.geometryName,this.info.materialName,this.info.shaderName,this.transform);
         
         }
-        this.modelID= this.gameObject.GetRenderer().Regist(this.model,this.layer);
+        this.RegistDraw();
     }
     OnRemove(){
-        this.gameObject.GetRenderer().UnRegist(this.modelID,this.layer);
+        this.UnRegistDraw();
+    }
+    RegistDraw(){
+        if(!this.modelID)
+        this.modelID= this.gameObject.GetRenderer().Regist(this.model,this.layer);
+    }
+    UnRegistDraw(){
+        if(this.modelID){
+
+            this.gameObject.GetRenderer().UnRegist(this.modelID,this.layer);
+            this.modelID=null;
+        }
     }
 }
