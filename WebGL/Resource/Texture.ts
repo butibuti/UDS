@@ -25,6 +25,7 @@ export default class Texture implements ITexture{
         this.graphicDevice.CreateTexture(this.path,this);
     }
     Attach(slot:number){
+        
         this.graphicDevice.context.activeTexture(this.graphicDevice.context.TEXTURE0);
         this.graphicDevice.context.bindTexture(this.graphicDevice.context.TEXTURE_2D,this.data);
         this.graphicDevice.context.uniform1i(this.graphicDevice.shader.GetTextureSlot(slot),slot);

@@ -133,9 +133,12 @@ export default class LoadScene extends Scene{
       // テクスチャを生成
       var caloryTexture= ResourceCreater.CreateTexture ('image/calory.png',this.sceneManager.GetGraphicDevice());
       this.sceneManager.GetResourceContainer().AddTexture(caloryTexture,"calory");
+      this.sceneManager.GetResourceContainer().AddTextureFromFile("image/circle32.png",this.sceneManager.GetGraphicDevice());
       
       
       var material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial (new Vector4(0.1,0.1,0.1,1.0),this.sceneManager.GetGraphicDevice(),[this.sceneManager.GetResourceContainer().GetTexture("calory")]),"caloryMaterial");
+      material.AddExParam(4,3,new Vector3(5,5,10));
+      material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial (new Vector4(0.1,0.1,0.1,1.0),this.sceneManager.GetGraphicDevice(),[this.sceneManager.GetResourceContainer().GetTexture("image/circle32.png")]),"circleMaterial");
       material.AddExParam(4,3,new Vector3(5,5,10));
       
       

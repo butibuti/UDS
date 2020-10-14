@@ -24,6 +24,7 @@ import SucideComponent from "./Component/SucideComponent";
 import SinWaveMover from "./Component/SinWaveMover";
 import Component from "./Component/Component";
 import CameraChaser from "./Component/CameraChaser";
+import ObstacleComponent from "./SinWaveGame/ObstacleComponent";
 
 enum PrimitiveType{
   sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -117,6 +118,9 @@ export default class SampleScene extends Scene{
       }
      
       
+      var floor=this.gameObjectManager.AddGameObject("floor",new Transform(new Vector3(0,5,-2),new Vector3(90,0,0),new Vector3(100,100,5)));
+      //floor.SetComponent(new  ModelDrawComponent(true, "floor","gray","pointLight",1,false));
+
       
       //this.anotherCube.transform.BaseTransform=this.cube.transform;
       
@@ -126,29 +130,28 @@ export default class SampleScene extends Scene{
       this.player.SetComponent(new SinWaveMover(3,3));
 
       
-      var obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(14,0,-1),new Vector3(0,0,0),new Vector3(2.5,2.5,2.5)));
-      obj.SetComponent(new ModelDrawComponent(true, "sphere","red","pointLight",1,false));
-      obj.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),0));
+       var obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(14,0,-1),new Vector3(0,0,0),new Vector3(2.5,2.5,2.5)));
+      
+       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),"red"));
       
       
-      obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(20,-5,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
-      obj.SetComponent(new ModelDrawComponent(true, "sphere","green","pointLight",1,false));
-      obj.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),0));
+       obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(20,-5,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
+      
+       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),"red"));
+       
+      
+       obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(40,-13,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
+      
+       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),"red"));
+       
       
       
-      obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(40,-13,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
-      obj.SetComponent(new ModelDrawComponent(true, "sphere","green","pointLight",1,false));
-      obj.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),0));
+       obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(40,-1,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
+      
+       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),"red"));
+       
       
       
-      obj=this.gameObjectManager.AddGameObject("sphere",new Transform(new Vector3(40,-1,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
-      obj.SetComponent(new ModelDrawComponent(true, "sphere","green","pointLight",1,false));
-      obj.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),0));
-      
-      
-      var floor=this.gameObjectManager.AddGameObject("floor",new Transform(new Vector3(0,5,-2),new Vector3(90,0,0),new Vector3(100,100,100)));
-      floor.SetComponent(new  ModelDrawComponent(true, "floor","gray","pointLight",1,false));
-
       var camera=this.gameObjectManager.AddGameObject("cameraman",this.GetCamera("main").transform);
       camera.SetComponent(new CameraChaser(0.03,this.player.transform));
     }
