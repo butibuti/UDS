@@ -71,7 +71,7 @@ export default class SinWaveMover extends Component{
         this.t+=this.movePase;
         this.t= this.t%360;
 
-        this.gameObject.transform.TranslateX(this.movePase*0.05);
+        this.gameObject.transform.TranslateX(this.movePase*0.1);
 
 
 
@@ -80,7 +80,7 @@ export default class SinWaveMover extends Component{
         this.gameObject.transform.SetPositionY(sinPos);
         var offX=this.gameObject.transform.Position.x;
         for(var i=0;i<this.sublLineCount;i++){
-            this.ary_subLineTransforms[i].SetPosition.x=offX+this.movePase*0.05*this.subLinePase*i;
+            this.ary_subLineTransforms[i].SetPosition.x=offX+this.movePase*0.1*this.subLinePase*i;
             this.ary_subLineTransforms[i].SetPosition.y=-MathHelper.GetSinPos(this.t+this.subLinePase*this.movePase*i)*this.waveScale*this.direction+this.startY;
         }
 
@@ -130,7 +130,6 @@ export default class SinWaveMover extends Component{
 
         this.isPush=false;
         this.t=0;
-        console.log(arg_startPoint);
         this.gameObject.transform.Position=arg_startPoint.Clone();
         this.startY=this.gameObject.transform.Position.y;
         return;

@@ -36,19 +36,19 @@ export default class Stage{
         this.startPos=new Vector3(-15,0,-1);
 
         
-      this.player=this.playScene.GetGameManager().AddGameObject("cube",new Transform(this.startPos.Clone(),new Vector3(10,10,10),new Vector3(1,1,1)),"player",[new SinWaveMover(3,3)]);
+      this.player=this.playScene.GetGameManager().AddGameObject("cube",new Transform(this.startPos.Clone(),new Vector3(10,10,10),new Vector3(1,1,1)),"player",[new SinWaveMover(3,5)]);
       
       this.player.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
       
       this.player.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,new Vector3(1.0,1.0,1.0),0));
       
-      var obj=this.playScene.GetGameManager().AddGameObject("sphere",new Transform(new Vector3(14,0,-1),new Vector3(0,0,0),new Vector3(2.5,2.5,2.5)));
+      var obj=this.playScene.GetGameManager().AddGameObject("sphere",new Transform(new Vector3(14,0,-1),new Vector3(0,0,0),new Vector3(1,1,1)));
       
       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),this,"red"));
      
 
      
-      obj=this.playScene.GetGameManager().AddGameObject("sphere",new Transform(new Vector3(20,-5,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
+      obj=this.playScene.GetGameManager().AddGameObject("sphere",new Transform(new Vector3(20,-5,-1),new Vector3(0,0,0),new Vector3(1,1,1)));
      
       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),this,"red"));
       
@@ -59,13 +59,13 @@ export default class Stage{
       this.ary_checkPont.push(new CheckPoint(new Transform(new Vector3(50,0,-1))));
 
 
-      obj=this.playScene.GetGameManager().AddGameObject("sphere",new Transform(new Vector3(40,-13,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
+      obj=this.playScene.GetGameManager().AddGameObject("sphere",new Transform(new Vector3(40,-13,-1),new Vector3(0,0,0),new Vector3(1,1,1)));
      
       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),this,"green"));
       
      
      
-      obj=this.playScene.GetGameManager().AddGameObject("sphere",new Transform(new Vector3(40,-1,-1),new Vector3(0,0,0),new Vector3(6,6,6)));
+      obj=this.playScene.GetGameManager().AddGameObject("sphere",new Transform(new Vector3(40,-1,-1),new Vector3(0,0,0),new Vector3(2,2,2)));
      
       obj.SetComponent(new ObstacleComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),this,"red"));
       
