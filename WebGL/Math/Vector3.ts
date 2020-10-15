@@ -1,4 +1,5 @@
 import Matrix4x4 from "./Matrix";
+import Vector2 from "./Vector2";
 
 export default class Vector3{
     static xAxis:Vector3 =new Vector3(1,0,0);
@@ -45,6 +46,23 @@ export default class Vector3{
         this.data[0]=this.data[0]+arg_other.data[0];
         this.data[1]=this.data[1]+arg_other.data[1];
         this.data[2]=this.data[2]+arg_other.data[2];
+        return this;
+    }
+    AddX_b(value:number):Vector3{
+        this.data[0]+=value;
+        return this;
+    }
+    AddY(value:number):Vector3{
+        var output=this.Clone();
+        output.data[1]+=value;
+        return output;
+    }
+    AddY_b(value:number):Vector3{
+        this.data[1]+=value;
+        return this;
+    }
+    AddZ_b(value:number):Vector3{
+        this.data[2]+=value;
         return this;
     }
     Sub(arg_other:Vector3):Vector3{

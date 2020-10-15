@@ -7,7 +7,7 @@ import Component from "./Component";
 export default class CameraChaser extends Component{
 
     minY:number;
-    offsetY:number;
+    offsetZ:number;
     offsetX:number;
     targetTransform:Transform;
     speed:number;
@@ -22,27 +22,35 @@ export default class CameraChaser extends Component{
 
     OnSet(){
         this.offsetX=this.gameObject.transform.Position.x-this.targetTransform.Position.x;
-        this.offsetY=this.gameObject.transform.Position.y-this.targetTransform.Position.y;
+        this.offsetZ=this.gameObject.transform.Position.y-this.targetTransform.Position.y;
     }
 
     Update(){
         //this.velocity.y = this.targetTransform.Position.y;
-        var xlength=this.targetTransform.Position.x-this.gameObject.transform.Position.x+this.offsetX;
+        var xlength=this.gameObject.transform.Position.x-this.targetTransform.Position.x+this.offsetX;
         
-        this.velocity.x =xlength/Math.abs(xlength)* xlength*xlength*this.speed;
+        //this.velocity.x =xlength/Math.abs(xlength)* xlength*xlength*this.speed;
 
         if(xlength*this.speed>1){
             this.velocity.x =xlength/2;
+        
+        }else
+        if(xlength>17){
+            this.velocity.x =-1*(xlength-17)/Math.abs(xlength-17)* (xlength-17)*(xlength-17)*this.speed;
+        }else if(xlength<3){
+            this.velocity.x =-1*(xlength-3)/Math.abs(xlength+3)* (xlength+3)*(xlength+3)*this.speed;
+        }else{
+            this.velocity.x=0;
         }
 
-        var y= this.gameObject.transform.Position.y- this.targetTransform.Position.y-this.offsetY;
+        var z= this.gameObject.transform.Position.z- this.targetTransform.Position.z+this.offsetZ;
 
-        if(y>10){
-            this.velocity.y =-1*(y)/Math.abs(y-10)* (y-10)*(y-10)*this.speed;
-        }else if(y<-10){
-            this.velocity.y =-1*(y+1)/Math.abs(y+10)* (y+10)*(y+10)*this.speed;
+        if(z>-0.5){
+            this.velocity.z =-1*(z)/Math.abs(z+0.5)* (z+0.5)*(z+0.5)*this.speed;
+        }else if(z<-3.5){
+            this.velocity.z =-1*(z)/Math.abs(z+3.5)* (z+3.5)*(z+3.5)*this.speed;
         }else{
-            this.velocity.y=0;
+            this.velocity.z=0;
         }
 
 

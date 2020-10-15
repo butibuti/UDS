@@ -18,8 +18,8 @@ import Easing from "./Tool/Easing";
 import SucideComponent from "./Component/SucideComponent";
 import SinWaveMover from "./Component/SinWaveMover";
 import CameraChaser from "./Component/CameraChaser";
-import ObstacleComponent from "./SinWaveGame/ObstacleComponent";
-import Stage from "./SinWaveGame/Stage";
+import ObstacleComponent from "./CrossyLoad_Copy/ObstacleComponent";
+import Stage from "./CrossyLoad_Copy/Stage";
 
 enum PrimitiveType{
   sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -63,7 +63,8 @@ export default class SampleScene extends Scene{
       
       
       var material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial (new Vector4(0.1,0.1,0.1,1.0),this.sceneManager.GetGraphicDevice(),[this.sceneManager.GetResourceContainer().GetTexture("playCamera")]),"playCameraMaterial");
-      material.AddExParam(4,1,this.zoomData);
+     
+      
 
       
 
@@ -84,7 +85,7 @@ export default class SampleScene extends Scene{
       this.sceneManager.GetGraphicDevice().EnableStencil();
   
 
-      this.GetCamera("main").transform.Position=new Vector3(0,0,80);
+      this.GetCamera("main").transform.Position=new Vector3(5,-20,20);
       
       
 
@@ -108,8 +109,8 @@ export default class SampleScene extends Scene{
       }
      
       
-      var floor=this.gameObjectManager.AddGameObject("floor",new Transform(new Vector3(0,5,-2),new Vector3(90,0,0),new Vector3(100,100,5)));
-      //floor.SetComponent(new  ModelDrawComponent(true, "floor","gray","pointLight",1,false));
+      var floor=this.gameObjectManager.AddGameObject("floor",new Transform(new Vector3(0,0,0),new Vector3(90,0,0),new Vector3(10,10,5)));
+      floor.SetComponent(new  ModelDrawComponent(false, "plane","caloryMaterial","texShader",1,false));
 
       
       //this.anotherCube.transform.BaseTransform=this.cube.transform;
@@ -118,7 +119,7 @@ export default class SampleScene extends Scene{
       
       
        this.stage=new Stage(this);
-      
+      this.stage.Reset();
       
     }
     OnStart(){
@@ -128,11 +129,12 @@ export default class SampleScene extends Scene{
         var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(500,500,1));
         this.projectionPlane.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
         
-      this.stage.Reset();
+      this.stage.Start();
       }
     }
     OnEnd(){
       Input.RemoveKeyDownEvent("sampleSceneEvent");
+      this.stage.Reset();
     }
     OnUpdate(){
         // カウンタを元にラジアンを算出

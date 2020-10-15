@@ -1,4 +1,5 @@
 
+import Quaternion from "./Quat";
 import Vector3 from"./Vector3";
 
 export default class Matrix4x4{
@@ -389,6 +390,66 @@ export default class Matrix4x4{
 
 		return this;
 	}
+
+	ToQuaternion():Quaternion {
+		
+		var elem=new Array(4); 
+		elem[ 0 ] = this.data[0] - this.data[5] - this.data[10] + 1.0;
+		elem[ 1 ] = -this.data[0] + this.data[5] - this.data[10] + 1.0;
+		elem[ 2 ] = -this.data[0] - this.data[5] + this.data[10] + 1.0;
+		elem[ 3 ] = this.data[0] + this.data[5] + this.data[10] + 1.0;
+	
+		var biggestIndex = 0;
+		for ( var i = 1; i < 4; i++ ) {
+			if ( elem[i] > elem[biggestIndex] )
+				biggestIndex = i;
+		}
+	
+		
+		var outQuat=new Quaternion();
+		var v = Math.sqrt( elem[biggestIndex] ) * 0.5;
+		outQuat.data [biggestIndex] = v;
+		var mult = 0.25 / v;
+	
+		switch ( biggestIndex ) {
+		case 0: // x
+			outQuat.data[1] = (this.data[1] +this.data[4]) * mult;
+			outQuat.data[2] = (this.data[2] +this.data[8]) * mult;
+			outQuat.data[3] = (this.data[9] - this.data[6]) * mult;
+			break;
+		case 1: // y
+			outQuat.data[0] = (this.data[1] +this.data[4]) * mult;
+			outQuat.data[2] = (this.data[9] + this.data[6]) * mult;
+			outQuat.data[3] = (this.data[2] - this.data[8]) * mult;
+			break;
+		case 2: // z
+			outQuat.data[0] = (this.data[2] +this.data[8]) * mult;
+			outQuat.data[1] = (this.data[9] + this.data[6]) * mult;
+			outQuat.data[3] = (this.data[4] - this.data[1]) * mult;
+		break;
+		case 3: // w
+			outQuat.data[0] = (this.data[9] -this.data[6]) * mult;
+			outQuat.data[1] = (this.data[2] - this.data[8]) * mult;
+			outQuat.data[2] = (this.data[4] - this.data[1]) * mult;
+			break;
+		}
+	
+		return outQuat;
+	}
+	
+	///////////////////////////////////////////////
+	// 回転行列→クォータニオン変換
+	//
+	// qx, qy, qz, qw : クォータニオン成分（出力）
+	// m1[3] : 回転行列成分 m11 - m13
+	// m2[3] : 回転行列成分 m21 - m23
+	// m3[3] : 回転行列成分 m31 - m33
+	//
+	// ※注意：
+	// 行列成分はDirectX形式（行方向が軸の向き）です
+	// OpenGL形式（列方向が軸の向き）の場合は
+	// 転置した値を入れて下さい。
+	
 }
 
 

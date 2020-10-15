@@ -50,10 +50,10 @@ export default class TransformAnimation extends Component{
         if(!this.transform){
             this.transform=this.gameObject.transform;
         }
-        this.offset=this.targetTransform.Position.Sub(this.transform.Position);
+        this.offset=this.targetTransform.Position.Sub(this.transform.LocalPosition);
         this.scalePase=this.targetTransform.Scale.Sub(this.transform.Scale);
     
-        this.initPosition=this.transform.Position;
+        this.initPosition=this.transform.LocalPosition;
         this.initScale=this.transform.Scale;
     }
 
@@ -81,7 +81,6 @@ export default class TransformAnimation extends Component{
     Update(){
 
         this.TimeUpdate();
-
         this.transform.Position=this.initPosition.Add(this.offset.Multiply(this.currentTime/this.time));
         this.transform.Scale= this.initScale.Add(this.scalePase.Multiply(this.easingFunction( this.currentTime/this.time)));
         //this.transform.Rotation= this.transform.Rotation

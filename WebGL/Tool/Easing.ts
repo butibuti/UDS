@@ -121,4 +121,7 @@ export default class Easing{
           : x < 0.5 ? Math.pow(2, 20 * x - 10) / 2
           : (2 - Math.pow(2, -20 * x + 10)) / 2;
     }
+    static Parabola(x:number):number{
+        return -(x-0.5)*(x-0.5)*4+1;
+    }
 }
