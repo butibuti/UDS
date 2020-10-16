@@ -37,11 +37,11 @@ export default class ObstacleComponent extends Component{
                 
             break;
             case PrimitiveType.box_AABB:
-                this.gameObject.SetComponent(new ModelDrawComponent(true, "cube","blue","pointLight",1,false));
+                this.gameObject.SetComponent(new ModelDrawComponent(true, "nonTexcube","blue","pointLight",1,false));
                 this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.box_AABB,this.size,0));
               break;
             case PrimitiveType.box_OBB:
-                this.gameObject.SetComponent(new ModelDrawComponent(true, "cube","blue","pointLight",1,false));
+                this.gameObject.SetComponent(new ModelDrawComponent(true, "nonTexcube","blue","pointLight",1,false));
                 this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,this.size,0));
             break;
         }
@@ -55,10 +55,9 @@ export default class ObstacleComponent extends Component{
     Update(){
         
     }
-    Hit(arg_gameObject:GameObject){
+    OnCollision(arg_gameObject:GameObject){
         if(arg_gameObject.objectID!=GameObjectIDManager.GetID("player")){
             return;
         }
-        this.stage.Failed();
     }
 }

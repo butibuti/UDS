@@ -30,7 +30,7 @@ export default class CoinComponent extends Component{
         this.gameObject.transform.RollY_Local_Degrees(2);
 
     }
-    Hit(arg_gameObject:GameObject){
+    OnCollision(arg_gameObject:GameObject){
         if(arg_gameObject.objectID!=GameObjectIDManager.GetID("player")||this.isGet){
             return;
         }

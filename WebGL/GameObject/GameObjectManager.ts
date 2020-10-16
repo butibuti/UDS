@@ -34,8 +34,11 @@ export default class GameObjectManager{
             arg_idName="none";
         }
         if(arg_transform){
-            if(arg_ary_componets)
-            newObj=new GameObject(this,arg_name,arg_transform,arg_idName,arg_ary_componets);
+            if(arg_ary_componets){
+
+                newObj=new GameObject(this,arg_name,arg_transform,arg_idName,arg_ary_componets);
+                
+            }
             else{
                 newObj=new GameObject(this,arg_name,arg_transform,arg_idName);
             }

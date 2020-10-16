@@ -50,6 +50,7 @@ export default class Stage extends Component{
     }
     OnSet(){
         
+        console.log("stage");
         this.playerComponent=new PlayerComponent(15,this);
         this.player=this.playScene.GetGameManager().AddGameObject("cube",new Transform(this.startPos.Clone(),new Vector3(0,0,0),new Vector3(1,1,1)),"player",[this.playerComponent]);
       
@@ -73,7 +74,12 @@ export default class Stage extends Component{
         var floor=this.playScene.GetGameManager().AddGameObject("floor",new Transform(new Vector3(0,0,0),new Vector3(90,0,0),new Vector3(10,10,5)));
         floor.SetComponent(new  ModelDrawComponent(false, "plane","caloryMaterial","texShader",1,false));
         floor.transform.BaseTransform=this.gameObject.transform;
-      
+        for(var i=0;i<5;i++){
+            var obstacleTrans=new Transform(new Vector3(3-i,-0.5,-4));
+            obstacleTrans.BaseTransform=this.gameObject.transform;
+            var obstacleComponent=new ObstacleComponent(PrimitiveType.box_OBB,new Vector3(1,1,1),this,"green");
+            this.playScene.GetGameManager().AddGameObject("obstacle",obstacleTrans,"obstatcle",[obstacleComponent]);
+        }
 }
     OnRemove(){
         this.playScene=null;

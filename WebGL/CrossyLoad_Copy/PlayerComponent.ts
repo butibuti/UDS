@@ -52,7 +52,7 @@ export default class PlayerComponent extends Component{
     OnSet(){
 
         this.startY=this.gameObject.transform.Position.y;
-
+        
 
         this.deadSe=this.gameObject.Manager.Scene.GetSceneManager().GetResourceContainer().GetSound("kill");
         this.upSe=this.gameObject.Manager.Scene.GetSceneManager().GetResourceContainer().GetSound("up");
@@ -94,29 +94,43 @@ export default class PlayerComponent extends Component{
 
         if(this.keyboardEvent&& !this.poppingComponent.IsMove()){
             var target:Transform;
+
             switch(this.keyboardEvent.key){
                 case "w":
-                    target=this.ary_targets[0];
+                    target =this.ary_targets[0];
+                    if(!this.ary_sensor[0].CanMove()){
+                        target.Position=this.gameObject.transform.Position;
+                    }else
                     target.Position=this.ary_sensor[0].GetPosition();
+                    
                     this.stage.GoFront(this.gameObject.transform.LocalPosition.z);
                 break;
                 case "s":
                     target =this.ary_targets[1];
+                    if(!this.ary_sensor[1].CanMove()){
+                        target.Position=this.gameObject.transform.Position;
+                    }else
                     target.Position=this.ary_sensor[1].GetPosition();
                     
                 break;
                 case "d":
                     target =this.ary_targets[2];
+                    if(!this.ary_sensor[2].CanMove()){
+                        target.Position=this.gameObject.transform.Position;
+                    }else
                     target.Position=this.ary_sensor[2].GetPosition();
                     
                 break;
                 case "a":
                     target =this.ary_targets[3];
+                    if(!this.ary_sensor[3].CanMove()){
+                        target.Position=this.gameObject.transform.Position;
+                    }else
                     target.Position=this.ary_sensor[3].GetPosition();
                     
                 break;
             }
-            if(this.keyboardEvent.key=="w"||this.keyboardEvent.key=="s"||this.keyboardEvent.key=="a"||this.keyboardEvent.key=="d"){
+            if(( this.keyboardEvent.key=="w"||this.keyboardEvent.key=="s"||this.keyboardEvent.key=="a"||this.keyboardEvent.key=="d")){
                 
                 this.poppingComponent.SetTarget(this.movePase,target);
             }

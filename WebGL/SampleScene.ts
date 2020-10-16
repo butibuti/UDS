@@ -116,12 +116,12 @@ export default class SampleScene extends Scene{
       
       this.projectionPlane.transform.Position=new Vector3(0,0,-1);
       
-      
        this.stage=new Stage(this);
 
       this.gameObjectManager.AddGameObject("stage",new Transform(new Vector3(0,0,0),new Vector3(0,0,0)),"stage",[this.stage]);
     
-      this.stage.Reset();}
+      //this.stage.Reset();
+    }
     OnStart(){
       Input.AddKeyDownEvent(this,"sampleSceneEvent",true);
       if(this.IsLoaded()){

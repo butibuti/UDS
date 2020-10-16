@@ -14,6 +14,10 @@ export default class GameObject{
     private newComponents:Array<Component>;
     private name:string;
     private manager:GameObjectManager;
+    private ary_currentHitObjects:Array<GameObject>;
+    private ary_befHitObjects:Array<GameObject>;
+    private isComplexHit: boolean=false;
+    Collision:Function;
     objectID:ID;
     get IsRemove():boolean{
         return this.isRemove;
@@ -30,6 +34,19 @@ export default class GameObject{
 
     }
 
+    get ComplexHit():boolean{
+        return this.isComplexHit;
+    }
+    set ComplexHit(other:boolean){
+        this.isComplexHit=other;
+
+        if(this.isComplexHit){
+            this.Collision=this.Collision_Complex;
+        }else{
+            this.Collision=this.Collision_Simple;
+        }
+    }
+
     get GameTime():GameTime{
         return this.Manager.Scene.GetSceneManager().GetGameTime();
     }
@@ -37,11 +54,11 @@ export default class GameObject{
     constructor(arg_manager:GameObjectManager,arg_name:string,arg_transform:Transform,arg_idName:string,arg_ary_components?:Array<Component>){
         this.transform=arg_transform;
         
+        this.Collision=this.Collision_Simple;
         this.newComponents=new Array();
         this.isRemove=false;
         this.name=arg_name;
         this.manager=arg_manager;
-        
         if(arg_ary_components){
             this.components=arg_ary_components;
         }else
@@ -49,6 +66,9 @@ export default class GameObject{
 
         this.objectID=GameObjectIDManager.GetID(arg_idName);
         this.components.forEach(component=>component.Set(this));
+
+        this.ary_currentHitObjects=new Array();
+        this.ary_befHitObjects=new Array();
     }
     Remove(){
 
@@ -72,6 +92,7 @@ export default class GameObject{
         return this.manager.Scene.GetCollisionManager();
     }
     Update():void{
+        this.Collision();
         this.components=this.components.concat(this.newComponents);
         this.newComponents=new Array();
         
@@ -95,8 +116,28 @@ export default class GameObject{
     }
     Hit(arg_object:GameObject){
         
-        console.log("collision:"+this.name+","+arg_object.name);
-        this.components.forEach(component=>component.Hit(arg_object));
+        this.ary_currentHitObjects.push(arg_object);
         
+    }
+    Collision_Simple(){
+        this.ary_currentHitObjects.forEach(obj=>{this.components.forEach(component=>component.OnCollision(obj))});
+        this.ary_currentHitObjects.length=0;
+    }
+    Collision_Complex(){
+        
+        this.ary_currentHitObjects.forEach(obj=>{
+            if(this.ary_befHitObjects.includes(obj))
+             this.components.forEach(component=>component.OnCollision(obj));
+             else{
+                this.components.forEach(component=>component.OnCollisionEnter(obj));
+             }
+        });
+        this.ary_befHitObjects.forEach(obj=>{
+            if(!this.ary_currentHitObjects.includes(obj))
+             this.components.forEach(component=>component.OnCollisionRelease(obj));
+             
+        });
+        this.ary_befHitObjects=this.ary_currentHitObjects;
+        this.ary_currentHitObjects=new Array();
     }
 }

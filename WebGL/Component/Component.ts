@@ -37,7 +37,13 @@ export default class Component{
     Update(){
 
     }
-    Hit(arg_gameObject:GameObject){
+    OnCollision(arg_gameObject:GameObject){
+        
+    }
+    OnCollisionEnter(arg_gameObject:GameObject){
+        
+    }
+    OnCollisionRelease(arg_gameObject:GameObject){
         
     }
 

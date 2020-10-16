@@ -92,15 +92,17 @@ export default class PoppingAnimation extends Component{
     }
     TimeUpdate_NoLoop(){
 
-        if(this.currentTime>=this.time){
-            this.currentTime=this.time+1;
+        if(this.currentTime>this.time){
+
+        }else if(this.currentTime==this.time){
+            
             this.playerCompoent.OnMoveEnd();
-        }else
+        }
         this.currentTime+=this.direction;
     }
 
     IsMove():boolean{
-        if(this.currentTime>this.time){
+        if(this.currentTime>this.time+1){
             return false;
         }else{
             return true;
