@@ -73,8 +73,10 @@ export default class SampleScene extends Scene{
 
     OnInitialize(){
       this.renderer.AddLayer();
+      this.renderer.AddLayer();
       this.UseCollisionManager();
       this.AddCamera(0 ,1,"main",false,this.sceneManager.GetResourceContainer().GetTexture("playCamera") as FrameBufferTexture);
+      this.AddCamera(1 ,2,"UI",true,this.sceneManager.GetResourceContainer().GetTexture("playCamera") as FrameBufferTexture);
   // 頂点シェーダとフラグメントシェーダの生成
     
       
@@ -93,7 +95,7 @@ export default class SampleScene extends Scene{
       this.GetCamera("main").clearColor=new Vector4(0.3,0.3,0.3,1.0);
 
 
-
+      this.GetCamera("UI").isClear=false;
       
       this.projectionPlane=this.gameObjectManager.AddGameObject("projectionCube");
       //this.cube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
@@ -109,9 +111,6 @@ export default class SampleScene extends Scene{
       }
      
       
-      var floor=this.gameObjectManager.AddGameObject("floor",new Transform(new Vector3(0,0,0),new Vector3(90,0,0),new Vector3(10,10,5)));
-      floor.SetComponent(new  ModelDrawComponent(false, "plane","caloryMaterial","texShader",1,false));
-
       
       //this.anotherCube.transform.BaseTransform=this.cube.transform;
       
@@ -119,9 +118,10 @@ export default class SampleScene extends Scene{
       
       
        this.stage=new Stage(this);
-      this.stage.Reset();
-      
-    }
+
+      this.gameObjectManager.AddGameObject("stage",new Transform(new Vector3(0,0,0),new Vector3(0,0,0)),"stage",[this.stage]);
+    
+      this.stage.Reset();}
     OnStart(){
       Input.AddKeyDownEvent(this,"sampleSceneEvent",true);
       if(this.IsLoaded()){
@@ -129,12 +129,11 @@ export default class SampleScene extends Scene{
         var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(500,500,1));
         this.projectionPlane.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
         
-      this.stage.Start();
+      this.stage.ToStart();
       }
     }
     OnEnd(){
       Input.RemoveKeyDownEvent("sampleSceneEvent");
-      this.stage.Reset();
     }
     OnUpdate(){
         // カウンタを元にラジアンを算出

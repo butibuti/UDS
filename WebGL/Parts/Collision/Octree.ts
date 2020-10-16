@@ -82,7 +82,7 @@ export default class CollisionLayer
 		}
 		RegistCollisionObj(arg_collisionObj:CollisionObject ):ID{
 
-			var id =new ID( this.vec_shp_collisionObjs.length-1);
+			var id =new ID( this.vec_shp_collisionObjs.length);
 
 			this.vec_shp_collisionObjs.push(arg_collisionObj);
 		
@@ -94,7 +94,6 @@ export default class CollisionLayer
 			if (index >= this.vec_shp_collisionObjs.length) {
 				return;
 			}
-			
 			this.vec_shp_collisionObjs[index].Remove();
 			this.vec_shp_collisionObjs.splice(index,1);
 			this.vec_index.splice(index,1);
@@ -102,7 +101,7 @@ export default class CollisionLayer
 			
 			
 		
-			for (var i=index-1 ;i<this.vec_index.length;i++) {
+			for (var i=index ;i<this.vec_index.length;i++) {
 				this.vec_index[i].num--;
 			}
 		}

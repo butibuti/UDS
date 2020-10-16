@@ -66,8 +66,8 @@ export default class TextModel implements IModel{
         
         
         
-        this.geometry.Draw();
         this.geometry.ChangeVBO(this.uvData,1);
+        this.geometry.Draw();
         
         
         this.materials.Attach();
@@ -93,8 +93,8 @@ export default class TextModel implements IModel{
         
         
         
-        this.geometry.Draw();
         this.geometry.ChangeVBO(this.uvData,1);
+        this.geometry.Draw();
         this.materials.Attach();
         this.graphicDevice.context.drawElements(this.graphicDevice.context.TRIANGLES,this.indexSize , this.graphicDevice.context.UNSIGNED_SHORT, 0);
           

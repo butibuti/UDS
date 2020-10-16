@@ -71,7 +71,7 @@ export default class PoppingAnimation extends Component{
         this.offset=this.targetTransform.Position.Sub(this.transform.Position);
         this.scalePase=this.targetTransform.Scale.Sub(this.transform.Scale);
     
-        this.initPosition=this.transform.Position;
+        this.initPosition=this.transform.LocalPosition;
         this.initScale=this.transform.Scale;
         this.rotateQuat=this.transform.Rotation.ToQuaternion();
         this.targetRotateQuat=this.targetTransform.Rotation.ToQuaternion();

@@ -2,6 +2,7 @@
 import Quaternion from "./Quat";
 import Vector3 from"./Vector3";
 
+var elem=new Array(4); 
 export default class Matrix4x4{
 	data:Float32Array;
 	constructor(){
@@ -393,7 +394,6 @@ export default class Matrix4x4{
 
 	ToQuaternion():Quaternion {
 		
-		var elem=new Array(4); 
 		elem[ 0 ] = this.data[0] - this.data[5] - this.data[10] + 1.0;
 		elem[ 1 ] = -this.data[0] + this.data[5] - this.data[10] + 1.0;
 		elem[ 2 ] = -this.data[0] - this.data[5] + this.data[10] + 1.0;

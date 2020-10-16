@@ -66,6 +66,8 @@ export default class ModelCreater{
         }
 
         var geometryPath="Text:"+text.length;
+
+
         var geometry=this.resourceContainer.GetGeometry(geometryPath);
 
         if(geometry==null){

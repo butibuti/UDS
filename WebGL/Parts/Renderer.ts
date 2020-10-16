@@ -24,16 +24,19 @@ class Layer{
         if(this.ary_lights.length>0){
             arg_registObj.SetLight(this.ary_lights[0]);
         }
+        var id=new ID(this.ary_IModels.length);
         this.ary_IModels.push(arg_registObj);
-        var id=new ID(this.ary_IModels.length-1);
         this.ary_IDs.push(id);
         return id;
     }
     UnRegist(arg_ID: ID) {
+        var index=arg_ID.num;
+        if (index > this.ary_IDs.length) {
+            return;
+        }
         this.ary_IModels.splice(arg_ID.num,1);
         this.ary_IDs.splice(arg_ID.num,1);
-
-        for(var i=arg_ID.num-1;i<this.ary_IDs.length;i++){
+        for(var i=arg_ID.num;i<this.ary_IDs.length;i++){
             this.ary_IDs[i].num--;
         }
     }
@@ -63,6 +66,7 @@ export default class Renderer implements IRenderer{
         return this.layers[layer].Regist(arg_registObj);
     }
     UnRegist(arg_ID: ID, layer: number) {
+        
         if(this.layers.length<= layer){
             layer=0;
         }

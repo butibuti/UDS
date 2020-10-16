@@ -14,6 +14,7 @@ export default class CoinComponent extends Component{
 
     drawComponent:ModelDrawComponent;
     stage:Stage;
+    isGet:boolean=false;
     constructor(arg_stage:Stage){
         super();
         this.stage=arg_stage;
@@ -21,7 +22,7 @@ export default class CoinComponent extends Component{
     OnSet(){
         this.drawComponent=new ModelDrawComponent(true, "sphere","yellow","pointLight",1,false);
         this.gameObject.SetComponent(this.drawComponent);
-        this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.5,0.5,0.5),0));
+        this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.3,0.3,0.3),0));
     }
     Update(){
 
@@ -30,14 +31,16 @@ export default class CoinComponent extends Component{
 
     }
     Hit(arg_gameObject:GameObject){
-        if(arg_gameObject.objectID!=GameObjectIDManager.GetID("player")){
+        if(arg_gameObject.objectID!=GameObjectIDManager.GetID("player")||this.isGet){
             return;
         }
         this.stage.GetCoin();
-        this.drawComponent.UnRegistDraw();
+        this.gameObject.Dead();
+        this.isGet=true;
     }
 
     ReSet(){
         this.drawComponent.RegistDraw();
+        this.isGet=false;
     }
 }

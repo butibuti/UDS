@@ -65,6 +65,9 @@ export default class GraphicDevice{
         this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT);
       
     }
+    ClearDepth():void{
+        this.context.clear(this.context.DEPTH_BUFFER_BIT);
+    }
     ClearStencil(){
         this.context.clear(this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT|this.context.STENCIL_BUFFER_BIT);
       

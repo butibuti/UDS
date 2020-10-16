@@ -9,6 +9,7 @@ import Component from "../Component/Component";
 import ModelDrawComponent from "../Component/ModelDrawComponent";
 import TransformAnimation from "../Component/TransformAnimation";
 import PoppingAnimation from "../Component/PoppingAnimation";
+import Stage from "./Stage";
 
 const soundDelay:number=5;
 
@@ -32,12 +33,15 @@ export default class PlayerComponent extends Component{
     minimumTransform:Transform;
     maximumTransform:Transform;
 
-    constructor(arg_movePase:number){
+    ary_targets:Array<Transform>;
+
+    stage:Stage;
+    constructor(arg_movePase:number,arg_stage:Stage){
         super();
         this.movePase=arg_movePase;
         this.isPush=false;
         this.soundframe=0;
-
+        this.stage=arg_stage;
     }
 
     OnSet(){
@@ -59,6 +63,12 @@ export default class PlayerComponent extends Component{
         this.scaleComponent=new TransformAnimation(30,true,this.minimumTransform,this.modelTransform);
         this.gameObject.SetComponent(this.scaleComponent);
     
+        this.ary_targets=new Array(4);
+
+        this.ary_targets[0]=new Transform(this.gameObject.transform.Position.Add_b( new Vector3(0,0,-1)));
+        this.ary_targets[1]=new Transform(this.gameObject.transform.Position.Add_b( new Vector3(0,0,1)),new Vector3(0,180,0));
+        this.ary_targets[2]=new Transform(this.gameObject.transform.Position.Add_b( new Vector3(1,0,0)),new Vector3(0,-90,0));
+        this.ary_targets[3]=new Transform(this.gameObject.transform.Position.Add_b( new Vector3(-1,0,0)),new Vector3(0,90,0));
     }
     GetComponentName():string{
         return "PlayerComponent";
@@ -74,19 +84,23 @@ export default class PlayerComponent extends Component{
             var target:Transform;
             switch(this.e.key){
                 case "w":
-                    target=new Transform(this.gameObject.transform.Position.Add_b( new Vector3(0,0,-1)));
-                    
+                    target=this.ary_targets[0];
+                    target.Position=this.gameObject.transform.Position.Add_b( new Vector3(0,0,-1));
+                    this.stage.GoFront(this.gameObject.transform.LocalPosition.z);
                 break;
                 case "s":
-                    target =new Transform(this.gameObject.transform.Position.Add_b( new Vector3(0,0,1)),new Vector3(0,180,0));
+                    target =this.ary_targets[1];
+                    target.Position=this.gameObject.transform.Position.Add_b( new Vector3(0,0,1));
                     
                 break;
                 case "d":
-                    target =new Transform(this.gameObject.transform.Position.Add_b( new Vector3(1,0,0)),new Vector3(0,-90,0));
+                    target =this.ary_targets[2];
+                    target.Position=this.gameObject.transform.Position.Add_b( new Vector3(1,0,0));
                     
                 break;
                 case "a":
-                    target =new Transform(this.gameObject.transform.Position.Add_b( new Vector3(-1,0,0)),new Vector3(0,90,0));
+                    target =this.ary_targets[3];
+                    target.Position=this.gameObject.transform.Position.Add_b( new Vector3(-1,0,0));
                     
                 break;
             }

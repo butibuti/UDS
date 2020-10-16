@@ -11,6 +11,8 @@ export default class Camera{
     projectionMatrix:Matrix4x4;
     clearColor:Vector4;
     targetFrame:FrameBufferTexture=null;
+    isClear:boolean=true;
+
     constructor(arg_device:GraphicDevice,layer:number,isPararell:boolean,frameBuffer?:FrameBufferTexture){
         this.device=arg_device;
         this.transform=new Transform();
@@ -40,10 +42,14 @@ export default class Camera{
         if(this.targetFrame){
             this.device.context.viewport(0, 0, this.targetFrame.width,  this.targetFrame.height);
 		    this.device.context.bindFramebuffer(this.device.context.FRAMEBUFFER,this.targetFrame.frameBuffer);
+            if(this.isClear)
             this.device.clearFunc();
+            
         }else{
+            
             this.device.context.viewport(0, 0,this.device.GetSize().x ,  this.device.GetSize().y);
 		    this.device.context.bindFramebuffer(this.device.context.FRAMEBUFFER,null);
+            if(this.isClear)
             this.device.clearFunc();
         
         }

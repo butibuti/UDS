@@ -46,9 +46,27 @@ export default class TextDrawComponent extends Component{
         
         this.model=this.gameObject.Manager.Scene.GetSceneManager().GetModelCreater().CreateModelFromText(this.info.billBoard,this.info.color, this.text,this.info.fontTextureName, this.info.shaderName,this.transform);
        
+        this.RegistDraw();
+    }
+    SetText(arg_text:string){
+        this.text=arg_text;
+
+        this.UnRegistDraw();
+        this.model=this.gameObject.Manager.Scene.GetSceneManager().GetModelCreater().CreateModelFromText(this.info.billBoard,this.info.color, this.text,this.info.fontTextureName, this.info.shaderName,this.transform);
+        this.RegistDraw();
+    }
+    RegistDraw(){
+        if(!this.modelID)
         this.modelID= this.gameObject.GetRenderer().Regist(this.model,this.layer);
     }
+    UnRegistDraw(){
+        if(this.modelID){
+
+            this.gameObject.GetRenderer().UnRegist(this.modelID,this.layer);
+            this.modelID=null;
+        }
+    }
     OnRemove(){
-        this.gameObject.GetRenderer().UnRegist(this.modelID,this.layer);
+        this.UnRegistDraw();
     }
 }
