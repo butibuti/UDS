@@ -10,6 +10,7 @@ import ModelDrawComponent from "../Component/ModelDrawComponent";
 import TransformAnimation from "../Component/TransformAnimation";
 import PoppingAnimation from "../Component/PoppingAnimation";
 import Stage from "./Stage";
+import Sensor from "./Sensor";
 
 const soundDelay:number=5;
 
@@ -24,7 +25,7 @@ export default class PlayerComponent extends Component{
 
     direction:number=1;
     isMove=false;
-    e:KeyboardEvent=null;
+    keyboardEvent:KeyboardEvent=null;
 
     poppingComponent:PoppingAnimation;
     modelTransform:Transform;
@@ -36,12 +37,16 @@ export default class PlayerComponent extends Component{
     ary_targets:Array<Transform>;
 
     stage:Stage;
+
+    ary_sensor:Array<Sensor>;
+
     constructor(arg_movePase:number,arg_stage:Stage){
         super();
         this.movePase=arg_movePase;
         this.isPush=false;
         this.soundframe=0;
         this.stage=arg_stage;
+        this.ary_sensor=new Array();
     }
 
     OnSet(){
@@ -52,7 +57,7 @@ export default class PlayerComponent extends Component{
         this.deadSe=this.gameObject.Manager.Scene.GetSceneManager().GetResourceContainer().GetSound("kill");
         this.upSe=this.gameObject.Manager.Scene.GetSceneManager().GetResourceContainer().GetSound("up");
         
-        this.poppingComponent=new PoppingAnimation(this.movePase,false);
+        this.poppingComponent=new PoppingAnimation(this, this.movePase,false);
 
         this.modelTransform=new Transform();
         this.modelTransform.BaseTransform=this.gameObject.transform;
@@ -69,6 +74,13 @@ export default class PlayerComponent extends Component{
         this.ary_targets[1]=new Transform(this.gameObject.transform.Position.Add_b( new Vector3(0,0,1)),new Vector3(0,180,0));
         this.ary_targets[2]=new Transform(this.gameObject.transform.Position.Add_b( new Vector3(1,0,0)),new Vector3(0,-90,0));
         this.ary_targets[3]=new Transform(this.gameObject.transform.Position.Add_b( new Vector3(-1,0,0)),new Vector3(0,90,0));
+        
+        this.ary_sensor[0]=new Sensor(this.gameObject,new Vector3(0,0,-1));
+        this.ary_sensor[1]=new Sensor(this.gameObject,new Vector3(0,0,1));
+        this.ary_sensor[2]=new Sensor(this.gameObject,new Vector3(1,0,0));
+        this.ary_sensor[3]=new Sensor(this.gameObject,new Vector3(-1,0,0));
+
+        this.ary_sensor.forEach(sensor=>{var obj= this.gameObject.Manager.AddGameObject("sensor",new Transform(),null,[sensor]); obj.transform.BaseTransform=this.stage.gameObject.transform});
     }
     GetComponentName():string{
         return "PlayerComponent";
@@ -80,37 +92,37 @@ export default class PlayerComponent extends Component{
             
         }
 
-        if(this.e&& !this.poppingComponent.IsMove()){
+        if(this.keyboardEvent&& !this.poppingComponent.IsMove()){
             var target:Transform;
-            switch(this.e.key){
+            switch(this.keyboardEvent.key){
                 case "w":
                     target=this.ary_targets[0];
-                    target.Position=this.gameObject.transform.Position.Add_b( new Vector3(0,0,-1));
+                    target.Position=this.ary_sensor[0].GetPosition();
                     this.stage.GoFront(this.gameObject.transform.LocalPosition.z);
                 break;
                 case "s":
                     target =this.ary_targets[1];
-                    target.Position=this.gameObject.transform.Position.Add_b( new Vector3(0,0,1));
+                    target.Position=this.ary_sensor[1].GetPosition();
                     
                 break;
                 case "d":
                     target =this.ary_targets[2];
-                    target.Position=this.gameObject.transform.Position.Add_b( new Vector3(1,0,0));
+                    target.Position=this.ary_sensor[2].GetPosition();
                     
                 break;
                 case "a":
                     target =this.ary_targets[3];
-                    target.Position=this.gameObject.transform.Position.Add_b( new Vector3(-1,0,0));
+                    target.Position=this.ary_sensor[3].GetPosition();
                     
                 break;
             }
-            if(this.e.key=="w"||this.e.key=="s"||this.e.key=="a"||this.e.key=="d"){
+            if(this.keyboardEvent.key=="w"||this.keyboardEvent.key=="s"||this.keyboardEvent.key=="a"||this.keyboardEvent.key=="d"){
                 
                 this.poppingComponent.SetTarget(this.movePase,target);
             }
             
         this.upSe.Play_new();
-            this.e=null;
+            this.keyboardEvent=null;
         }
         
 
@@ -120,12 +132,17 @@ export default class PlayerComponent extends Component{
         }
 
     }
+
+    OnMoveEnd(){
+        this.ary_sensor.forEach(sensor=>sensor.SetPosition(this.gameObject.transform.LocalPosition));
+    }
+
     OnKeyDown(e:KeyboardEvent){
 
         if(e.key=="q"){
             return;
         }
-        if(this.e!=null){
+        if(this.keyboardEvent!=null){
             return;
         }
         if(this.isPush){
@@ -145,7 +162,7 @@ export default class PlayerComponent extends Component{
         if(e.key=="q"){
             this.ToStart();
         }
-        if(this.e!=null){
+        if(this.keyboardEvent!=null){
             return;
         }
 
@@ -156,7 +173,7 @@ export default class PlayerComponent extends Component{
         this.scaleComponent=new TransformAnimation(10,false,this.maximumTransform,this.modelTransform);
 
         this.gameObject.SetComponent(this.scaleComponent);
-        this.e=e;
+        this.keyboardEvent=e;
         this.isPush=false;
     }
 

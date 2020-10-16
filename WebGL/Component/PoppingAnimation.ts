@@ -1,3 +1,4 @@
+import PlayerComponent from "../CrossyLoad_Copy/PlayerComponent";
 import Quaternion from "../Math/Quat";
 import Vector3 from "../Math/Vector3";
 import Easing from "../Tool/Easing";
@@ -20,11 +21,12 @@ export default class PoppingAnimation extends Component{
     private currentTime:number=0;
     private time:number;
     private direction:number=1;
+    private playerCompoent:PlayerComponent;
 
-    constructor(arg_time:number,arg_isLoop:boolean,arg_targetTransform?:Transform, arg_transform?:Transform,arg_easingFunction?:Function){
+    constructor(arg_moveObject:PlayerComponent, arg_time:number,arg_isLoop:boolean,arg_targetTransform?:Transform, arg_transform?:Transform,arg_easingFunction?:Function){
         super();
 
-        
+        this.playerCompoent=arg_moveObject;
         this.time=arg_time;
         this.linerPase=1.0/arg_time;
         if(arg_targetTransform)
@@ -91,13 +93,14 @@ export default class PoppingAnimation extends Component{
     TimeUpdate_NoLoop(){
 
         if(this.currentTime>=this.time){
-            this.currentTime=this.time;
+            this.currentTime=this.time+1;
+            this.playerCompoent.OnMoveEnd();
         }else
         this.currentTime+=this.direction;
     }
 
     IsMove():boolean{
-        if(this.currentTime>=this.time){
+        if(this.currentTime>this.time){
             return false;
         }else{
             return true;
@@ -108,6 +111,9 @@ export default class PoppingAnimation extends Component{
 
         this.TimeUpdate();
         var t=this.easingFunction( this.currentTime/this.time);
+        if(t>1){
+            return;
+        }
         this.transform.Position=this.initPosition.Add(this.offset.Multiply(t).AddY(-Easing.Parabola(t)));
         this.transform.Scale= this.initScale.Add(this.scalePase.Multiply(t));
         //this.transform.Rotation= this.transform.Rotation
