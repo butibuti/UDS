@@ -6,12 +6,15 @@ import SinWaveMover from "../Component/SinWaveMover";
 import GameObject from "../GameObject/GameObject";
 import Vector2 from "../Math/Vector2";
 import Vector3 from "../Math/Vector3";
+import GameObjectIDManager from "../Parts/GameObjectIDManager";
 import ISound from "../Resource/ISound";
 import IScene from "../Scene/IScene";
+import Input from "../Tool/Input";
 import Transform from "../Transform";
 import CheckPoint from "./CheckPoint";
 import CoinComponent from "./CoinComponent";
 import CrossyUI from "./CrossyUI";
+import DamageObstacleComponent from "./DamageObStacle";
 
 import ObstacleComponent from "./ObstacleComponent";
 import PlayerComponent from "./PlayerComponent";
@@ -21,8 +24,6 @@ enum PrimitiveType{
   }
 export default class Stage extends Component{
 
-    ary_obstacle:Array< ObstacleComponent>;
-    ary_coin:Array<CoinComponent>;
 
     playScene:IScene;
 
@@ -37,59 +38,44 @@ export default class Stage extends Component{
 
     arrival:number=0;
 
+    fadeCount:number;
+
+    isFailed:boolean;
+
     constructor(arg_scene:IScene){
         super();
         this.playScene=arg_scene;
-        this.ary_obstacle=new Array();
-        this.ary_coin=new Array();
         this.startPos=new Vector3(0,-0.5,0);
 
 
         this.coinse=this.playScene.GetSceneManager().GetResourceContainer().GetSound("title");
-    
+        this.fadeCount=30;
     }
     OnSet(){
         
-        console.log("stage");
         this.playerComponent=new PlayerComponent(15,this);
         this.player=this.playScene.GetGameManager().AddGameObject("cube",new Transform(this.startPos.Clone(),new Vector3(0,0,0),new Vector3(1,1,1)),"player",[this.playerComponent]);
       
-        this.player.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,new Vector3(1.0,1.0,1.0),0));
+        this.player.SetComponent(new CollisionComponent(PrimitiveType.box_AABB,new Vector3(1.0,1.0,1.0),0));
         this.player.transform.BaseTransform=this.gameObject.transform;
       
         this.ui=new CrossyUI();
         this.playScene.GetGameManager().AddGameObject("ui",new Transform(),"ui",[this.ui]);
       
 
-        for(var i=0;i<3;i++){
-
-            var coin=new CoinComponent(this);
-            var coinTrans=new Transform(new Vector3(0,-0.5,-5+i));
-            coinTrans.BaseTransform=this.gameObject.transform;
-            this.playScene.GetGameManager().AddGameObject("coin",coinTrans,"coin",[coin]);
-            this.ary_coin.push(coin);
-        }
         var camera=this.playScene.GetGameManager().AddGameObject("cameraman",this.playScene.GetCamera("main").transform);
         camera.SetComponent(new CameraChaser(0.01,this.player.transform));
+        
         var floor=this.playScene.GetGameManager().AddGameObject("floor",new Transform(new Vector3(0,0,0),new Vector3(90,0,0),new Vector3(10,10,5)));
         floor.SetComponent(new  ModelDrawComponent(false, "plane","caloryMaterial","texShader",1,false));
         floor.transform.BaseTransform=this.gameObject.transform;
-        for(var i=0;i<5;i++){
-            var obstacleTrans=new Transform(new Vector3(3-i,-0.5,-4));
-            obstacleTrans.BaseTransform=this.gameObject.transform;
-            var obstacleComponent=new ObstacleComponent(PrimitiveType.box_OBB,new Vector3(1,1,1),this,"green");
-            this.playScene.GetGameManager().AddGameObject("obstacle",obstacleTrans,"obstatcle",[obstacleComponent]);
-        }
+        this.Create();
 }
     OnRemove(){
         this.playScene=null;
     }
 
 
-    AddObstacle(obstacle:ObstacleComponent){
-        this.ary_obstacle.push(obstacle);
-        obstacle.stage=this;
-    }
 
     GetRing(){
         
@@ -109,21 +95,70 @@ export default class Stage extends Component{
         }
 
     }
+    Create(){
+        for(var i=0;i<3;i++){
+
+            var coin=new CoinComponent(this);
+            var coinTrans=new Transform(new Vector3(0,-0.5,-5+i));
+            coinTrans.BaseTransform=this.gameObject.transform;
+            
+            this.playScene.GetGameManager().AddGameObject("coin",coinTrans,"coin",[coin]);
+            
+        }
+        for(var i=0;i<5;i++){
+            var obstacleTrans=new Transform(new Vector3(3-i,-0.5,-4));
+            obstacleTrans.BaseTransform=this.gameObject.transform;
+            
+            var obstacleComponent=new ObstacleComponent(PrimitiveType.box_AABB,new Vector3(1,1,1),this,"green");
+            this.playScene.GetGameManager().AddGameObject("obstacle",obstacleTrans,"obstacle",[obstacleComponent]);
+        }
+        for(var i=0;i<5;i++){
+            var obstacleTrans=new Transform(new Vector3(3-i,-0.5,-6));
+            obstacleTrans.BaseTransform=this.gameObject.transform;
+            
+            var damageObstacleComponent=new DamageObstacleComponent(this,"green");
+            this.playScene.GetGameManager().AddGameObject("damageObstacle",obstacleTrans,"damageObstacle",[damageObstacleComponent]);
+        }
+        
+    }
+    Destroy(){
+        this.gameObject.Manager.GetGameObjects(GameObjectIDManager.GetID("coin")).forEach(coin=>coin.Dead());
+        
+        this.gameObject.Manager.GetGameObjects(GameObjectIDManager.GetID("obstacle")).forEach(obs=>obs.Dead());
+        this.gameObject.Manager.GetGameObjects(GameObjectIDManager.GetID("damageObstacle")).forEach(obs=>obs.Dead());
+    }
 
     Update(){
         this.gameObject.transform.TranslateZ(0.01);
+
+
     }
 
     Failed(){
-        
+        this.ui.ShowRetry();
+        Input.AddKeyDownEvent(this,"stage_retry",true);
      }
      ToStart(){
          this.playerComponent.ToStart();
      }
 
     Reset(){
+        this.gameObject.transform.SetPositionZ(0);
         this.playerComponent.Reset();
+        this.coin=0;
+        this.arrival=0;
+        this.Destroy();
+        this.Create();
+        this.ui.SetCoinNum(this.coin);
+        this.ui.SetArrival(this.arrival);
+
     }
 
 
+    OnKeyDown(e:KeyboardEvent){
+
+        Input.RemoveKeyDownEvent("stage_retry");
+        this.ui.HideRetry();
+        this.Reset();
+    }
 }

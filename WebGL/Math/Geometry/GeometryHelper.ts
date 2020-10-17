@@ -270,14 +270,11 @@ export default class GeometryHelper{
         return true;
     }
     static   GetBox_OBBContainAABBLength(arg_box:Box_OBB) :Vector3{
-        var xAxis =new  Vector3(1, 0, 0);
-        var yAxis =new Vector3(0, 1, 0);
-        var zAxis =new Vector3(0, 0, 1);
         var Be1 = arg_box.GetDirect(0) .Multiply( arg_box.Length(0));
         var Be2 = arg_box.GetDirect(1) .Multiply( arg_box.Length(1));
         var Be3 = arg_box.GetDirect(2) .Multiply( arg_box.Length(2));
 
-        return new Vector3(GeometryHelper.LengthSeparatedAxis(xAxis, Be1, Be2, Be3), GeometryHelper.LengthSeparatedAxis(yAxis, Be1, Be2, Be3), GeometryHelper.LengthSeparatedAxis(zAxis, Be1, Be2, Be3));
+        return new Vector3(GeometryHelper.LengthSeparatedAxis(Vector3.xAxis, Be1, Be2, Be3), GeometryHelper.LengthSeparatedAxis(Vector3.yAxis, Be1, Be2, Be3), GeometryHelper.LengthSeparatedAxis(Vector3.zAxis, Be1, Be2, Be3));
     }
 
     static   IsHitBox_OBB(arg_box:Box_OBB,  arg_otherBox:Box_OBB):boolean {

@@ -81,6 +81,7 @@ export default class PlayerComponent extends Component{
         this.ary_sensor[3]=new Sensor(this.gameObject,new Vector3(-1,0,0));
 
         this.ary_sensor.forEach(sensor=>{var obj= this.gameObject.Manager.AddGameObject("sensor",new Transform(),null,[sensor]); obj.transform.BaseTransform=this.stage.gameObject.transform});
+        this.gameObject.ComplexHit=true;
     }
     GetComponentName():string{
         return "PlayerComponent";
@@ -202,6 +203,25 @@ export default class PlayerComponent extends Component{
         
         Input.RemoveKeyUpEvent("playerEvent");
         Input.RemoveKeyDownEvent("playerEvent");
+        
+        this.gameObject.transform.Position=new Vector3(0,-0.5,0);
+        this.OnMoveEnd();
+        var target =this.ary_targets[0];
+        target.Position=new Vector3(0,-0.5,0);
+        this.poppingComponent.SetTarget(this.movePase,target);
     }
     
+    DeadAnimation(){
+
+    }
+
+    OnCollisionEnter(arg_gameObject:GameObject){
+        
+        if(arg_gameObject.objectID==GameObjectIDManager.GetID("damageObstacle")){
+            this.DeadAnimation();
+            this.stage.Failed();
+            return;
+        }
+        
+    }
 }

@@ -2,6 +2,7 @@ import GameObject from "./GameObject"
 import Transform from "../Transform";
 import IScene from "../Scene/IScene";
 import Component from "../Component/Component";
+import ID from "../Parts/ID";
 
 export default class GameObjectManager{
     private gameObjects:Array<GameObject>;
@@ -78,10 +79,17 @@ export default class GameObjectManager{
         return this.map_gameObjects[arg_gameObjectName]
 
     }
+    GetGameObjects(arg_serchTag: ID):Array<GameObject>{
+        var out=this.gameObjects.filter(obj=>{return obj.objectID.Equal(arg_serchTag)});
+        
+        return out;
+    }
     RegistObj(obj:GameObject){
         this.map_gameObjects[obj.Name]=obj;
     }
-
+    LogObjectCount(){
+        console.log("gameObjectCounts:"+ this.gameObjects.length);
+    }
     Release(){
         this.map_gameObjects.clear();
         this.newGameObjects.forEach(obj=>obj.Release());

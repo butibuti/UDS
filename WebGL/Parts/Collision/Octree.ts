@@ -61,7 +61,6 @@ export default class CollisionLayer
 	
 			this.unit =this. width .Div ((1 <<this. maxLevel));
 
-			console.log(this.unit);
 
 			this.ary_cells = new Array<OctCell>(this.maxCellNum);
 	
@@ -112,7 +111,6 @@ export default class CollisionLayer
 		Update(){
 
 			this.RegistOctree();
-			
 		}
 		RegistOctree() {
 			for (var itr = 0; itr <this.vec_shp_collisionObjs.length; itr++) {

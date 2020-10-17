@@ -120,7 +120,6 @@ export default class SampleScene extends Scene{
 
       this.gameObjectManager.AddGameObject("stage",new Transform(new Vector3(0,0,0),new Vector3(0,0,0)),"stage",[this.stage]);
     
-      //this.stage.Reset();
     }
     OnStart(){
       Input.AddKeyDownEvent(this,"sampleSceneEvent",true);
@@ -134,6 +133,7 @@ export default class SampleScene extends Scene{
     }
     OnEnd(){
       Input.RemoveKeyDownEvent("sampleSceneEvent");
+      this.stage.Reset();
     }
     OnUpdate(){
         // カウンタを元にラジアンを算出

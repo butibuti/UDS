@@ -21,7 +21,7 @@ export default class TransformAnimation extends Component{
     time:number;
     direction:number=1;
 
-    constructor(arg_time:number,arg_isLoop:boolean,arg_targetTransform:Transform, arg_transform?:Transform,arg_easingFunction?:Function){
+    constructor(arg_time:number,arg_isLoop:boolean,arg_targetTransform:Transform, arg_transform?:Transform,arg_easingFunction?:Function,arg_isRemain?:boolean){
         super();
 
         
@@ -41,6 +41,9 @@ export default class TransformAnimation extends Component{
         if(arg_isLoop){
             this.TimeUpdate=this.TimeUpdate_Loop;
         }else{
+            if(arg_isRemain){
+                this.TimeUpdate=this.TimeUpdate_NoLoop_NoSucide;
+            }else
             this.TimeUpdate=this.TimeUpdate_NoLoop;
         }
     }
@@ -57,6 +60,16 @@ export default class TransformAnimation extends Component{
         this.initScale=this.transform.Scale;
     }
 
+    ChangeTarget(arg_targetTransform:Transform){
+
+        this.targetTransform=arg_targetTransform;
+        this.offset=this.targetTransform.Position.Sub(this.transform.LocalPosition);
+        this.scalePase=this.targetTransform.Scale.Sub(this.transform.Scale);
+    
+        this.initPosition=this.transform.LocalPosition;
+        this.initScale=this.transform.Scale;
+        this.currentTime=0;
+    }
 
     TimeUpdate_Loop(){
 
@@ -74,6 +87,13 @@ export default class TransformAnimation extends Component{
         if(this.currentTime>=this.time){
             this.currentTime=this.time;
             this.Remove();
+        }
+        this.currentTime+=this.direction;
+    }
+    TimeUpdate_NoLoop_NoSucide(){
+
+        if(this.currentTime>=this.time){
+            this.currentTime=this.time;
         }
         this.currentTime+=this.direction;
     }
