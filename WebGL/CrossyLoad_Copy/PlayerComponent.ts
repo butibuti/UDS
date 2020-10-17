@@ -40,6 +40,8 @@ export default class PlayerComponent extends Component{
 
     ary_sensor:Array<Sensor>;
 
+    canControll: boolean=true;
+
     constructor(arg_movePase:number,arg_stage:Stage){
         super();
         this.movePase=arg_movePase;
@@ -88,7 +90,9 @@ export default class PlayerComponent extends Component{
     }
     Update(){
 
-        
+        if(!this.canControll){
+            return;
+        }
         if(this.isPush){
             
         }
@@ -152,8 +156,14 @@ export default class PlayerComponent extends Component{
         this.ary_sensor.forEach(sensor=>sensor.SetPosition(this.gameObject.transform.LocalPosition));
     }
 
+    SetCanControll(arg_canControll:boolean){
+        this.canControll=arg_canControll;
+    }
     OnKeyDown(e:KeyboardEvent){
 
+        if(!this.canControll){
+            return;
+        }
         if(e.key=="q"){
             return;
         }
@@ -174,6 +184,9 @@ export default class PlayerComponent extends Component{
     }
     OnKeyUp(e:KeyboardEvent){
 
+        if(!this.canControll){
+            return;
+        }
         if(e.key=="q"){
             this.ToStart();
         }

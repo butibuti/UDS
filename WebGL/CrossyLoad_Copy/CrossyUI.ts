@@ -19,6 +19,9 @@ export default class CrossyUI extends Component{
     retryTransform_Show:Transform;
     retryTransform_Hide:Transform;
 
+    logoTransform_Show:Transform;
+    logoTransform_Hide:Transform;
+
     constructor(){
         super();
     }
@@ -40,11 +43,21 @@ export default class CrossyUI extends Component{
         this.retryTransform_Hide=new Transform(new Vector3( 0,300,-1),new Vector3(0,0,0),new Vector3(40,40,40));
         this.retryTransform_Show=new Transform(new Vector3( 0,200,-1),new Vector3(0,0,0),new Vector3(40,40,40));
 
-        this.retryAnim=new TransformAnimation(20,false,this.retryTransform_Hide ,retryTrans,Easing.EaseOutCirc,true);
+        this.retryAnim=new TransformAnimation(40,false,this.retryTransform_Hide ,retryTrans,Easing.EaseInOutQuint,true);
 
         this.gameObject.SetComponent(this.retry); 
         this.gameObject.SetComponent(this.retryAnim);
         this.retry.UnRegistDraw();
+
+        this.logo=new ModelDrawComponent(false, "plane","caloryMaterial","texShader",2,false,null,new Transform(new Vector3(-1100,0,-0.5),new Vector3(0,0,180),new Vector3(600,600,600)));
+
+        this.gameObject.SetComponent(this.logo);
+
+        this.logoTransform_Show=new Transform(new Vector3(0,0,-0.5),new Vector3(0,0,180),new Vector3(600,600,600));
+        this.logoTransform_Hide=new Transform(new Vector3(1100,0,-0.5),new Vector3(0,0,180),new Vector3(600,600,600));
+
+
+
     }
     SetCoinNum(arg_coin:number){
         this.coinText.SetText(arg_coin+"");
@@ -62,8 +75,15 @@ export default class CrossyUI extends Component{
     }
     HideIn(){
 
+        var logoAnim =new TransformAnimation(30,false,this.logoTransform_Show,this.logo.transform,Easing.EaseInOutCirc);
+        this.gameObject.SetComponent(logoAnim);
     }
     HideOut(){
 
+        var logoAnim =new TransformAnimation(30,false,this.logoTransform_Hide,this.logo.transform,Easing.EaseInOutCirc);
+        this.gameObject.SetComponent(logoAnim);
+    }
+    Reset(){
+        this.logo.transform.Position=new Vector3(-1100,0,-0.5);
     }
 }

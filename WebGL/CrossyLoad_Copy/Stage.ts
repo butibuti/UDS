@@ -38,7 +38,9 @@ export default class Stage extends Component{
 
     arrival:number=0;
 
-    fadeCount:number;
+    fadeCount:number=-1;
+
+    startWait=30;
 
     isFailed:boolean;
 
@@ -49,7 +51,7 @@ export default class Stage extends Component{
 
 
         this.coinse=this.playScene.GetSceneManager().GetResourceContainer().GetSound("title");
-        this.fadeCount=30;
+        
     }
     OnSet(){
         
@@ -131,12 +133,28 @@ export default class Stage extends Component{
     Update(){
         this.gameObject.transform.TranslateZ(0.01);
 
-
+        if(this.fadeCount==0){
+            this.Reset();
+            this.ui.HideOut();
+            this.fadeCount=-1;this.startWait=30;
+        }else
+        if(this.fadeCount>0){
+            this.fadeCount--;
+        }
+        if(this.startWait<=0){
+            this.playerComponent.SetCanControll(true);
+        }else{
+            this.startWait--;
+        }
     }
 
-    Failed(){
+    Failed(){if(this.fadeCount>0){
+        return;
+    }
         this.ui.ShowRetry();
         Input.AddKeyDownEvent(this,"stage_retry",true);
+        this.playerComponent.SetCanControll(false);
+        this.startWait=30;
      }
      ToStart(){
          this.playerComponent.ToStart();
@@ -156,9 +174,13 @@ export default class Stage extends Component{
 
 
     OnKeyDown(e:KeyboardEvent){
-
+        if(this.fadeCount>0){
+            return;
+        }
         Input.RemoveKeyDownEvent("stage_retry");
         this.ui.HideRetry();
-        this.Reset();
+        this.ui.Reset();
+        this.ui.HideIn();
+        this.fadeCount=60;
     }
 }
