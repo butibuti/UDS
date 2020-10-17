@@ -94,7 +94,7 @@ export default class PoppingAnimation extends Component{
 
         if(this.currentTime>this.time){
 
-        }else if(this.currentTime==this.time){
+        }else if(this.currentTime==this.time-1){
             
             this.playerCompoent.OnMoveEnd();
         }
