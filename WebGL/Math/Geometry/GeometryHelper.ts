@@ -162,53 +162,53 @@ export default class GeometryHelper{
     }
 
     static   IsHitBox_AABB( arg_box:Box_AABB,   arg_otherBox:Box_AABB):boolean {
-        var xAxis =new Vector3(1, 0, 0), Ae1 = xAxis .Multiply( arg_box.Length(0));
-        var yAxis =new Vector3(0, 1, 0), Ae2 = yAxis .Multiply( arg_box.Length(1));
-        var zAxis =new Vector3(0, 0, 1), Ae3 = zAxis .Multiply( arg_box.Length(2));
-        var Be1 = xAxis .Multiply( arg_otherBox.Length(0));
-        var Be2 = yAxis .Multiply( arg_otherBox.Length(1));
-        var Be3 = zAxis .Multiply( arg_otherBox.Length(2));
+        var Ae1 = Vector3.xAxis .Multiply( arg_box.Length(0));
+        var Ae2 = Vector3.yAxis .Multiply( arg_box.Length(1));
+        var Ae3 = Vector3.zAxis .Multiply( arg_box.Length(2));
+        var Be1 = Vector3.xAxis .Multiply( arg_otherBox.Length(0));
+        var Be2 = Vector3.yAxis .Multiply( arg_otherBox.Length(1));
+        var Be3 = Vector3.zAxis .Multiply( arg_otherBox.Length(2));
         var Interval = arg_box.position.Sub( arg_otherBox.position);
 
         // 分離軸 : Ae1
         var rA = Ae1.Length();
-        var rB = GeometryHelper.LengthSeparatedAxis(xAxis, Be1, Be2, Be3);
-        var L = abs(Interval.Dot(xAxis));
+        var rB = GeometryHelper.LengthSeparatedAxis(Vector3.xAxis, Be1, Be2, Be3);
+        var L = abs(Interval.Dot(Vector3.xAxis));
         if (L > rA + rB)
             return false; // 衝突していない
 
          // 分離軸 : Ae2
         rA = Ae2.Length();
-        rB = GeometryHelper.LengthSeparatedAxis(yAxis, Be1, Be2, Be3);
-        L = abs(Interval.Dot(yAxis));
+        rB = GeometryHelper.LengthSeparatedAxis(Vector3.yAxis, Be1, Be2, Be3);
+        L = abs(Interval.Dot(Vector3.yAxis));
         if (L > rA + rB)
             return false;
 
         // 分離軸 : Ae3
         rA = Ae3.Length();
-        rB = GeometryHelper.LengthSeparatedAxis(zAxis, Be1, Be2, Be3);
-        L = abs(Interval.Dot(zAxis));
+        rB = GeometryHelper.LengthSeparatedAxis(Vector3.zAxis, Be1, Be2, Be3);
+        L = abs(Interval.Dot(Vector3.zAxis));
         if (L > rA + rB)
             return false;
 
         // 分離軸 : Be1
-        rA = GeometryHelper.LengthSeparatedAxis(xAxis, Ae1, Ae2, Ae3);
+        rA = GeometryHelper.LengthSeparatedAxis(Vector3.xAxis, Ae1, Ae2, Ae3);
         rB = Be1.Length();
-        L = abs(Interval.Dot(xAxis));
+        L = abs(Interval.Dot(Vector3.xAxis));
         if (L > rA + rB)
             return false;
 
         // 分離軸 : Be2
-        rA = GeometryHelper.LengthSeparatedAxis(yAxis, Ae1, Ae2, Ae3);
+        rA = GeometryHelper.LengthSeparatedAxis(Vector3.yAxis, Ae1, Ae2, Ae3);
         rB = Be2.Length();
-        L = abs(Interval.Dot(yAxis));
+        L = abs(Interval.Dot(Vector3.yAxis));
         if (L > rA + rB)
             return false;
 
         // 分離軸 : Be3
-        rA = GeometryHelper.LengthSeparatedAxis(zAxis, Ae1, Ae2, Ae3);
+        rA = GeometryHelper.LengthSeparatedAxis(Vector3.zAxis, Ae1, Ae2, Ae3);
         rB = Be3.Length();
-        L = abs(Interval.Dot(zAxis));
+        L = abs(Interval.Dot(Vector3.zAxis));
         if (L > rA + rB)
             return false;
 
@@ -216,9 +216,9 @@ export default class GeometryHelper{
     }
 
     static IsHitBox_OBBBox_AABB( arg_box:Box_AABB, arg_otherBox :Box_OBB) :boolean{
-        var xAxis =new Vector3(1, 0, 0), Ae1 = xAxis .Multiply( arg_box.Length(0));
-        var yAxis =new Vector3(0, 1, 0), Ae2 = yAxis .Multiply( arg_box.Length(1));
-        var zAxis =new Vector3(0, 0, 1), Ae3 = zAxis .Multiply( arg_box.Length(2));
+        var  Ae1 = Vector3.xAxis .Multiply( arg_box.Length(0));
+        var  Ae2 = Vector3.yAxis .Multiply( arg_box.Length(1));
+        var  Ae3 = Vector3.zAxis .Multiply( arg_box.Length(2));
         var NBe1 = arg_otherBox.GetDirect(0), Be1 = NBe1 .Multiply( arg_otherBox.Length(0));
         var NBe2 = arg_otherBox.GetDirect(1), Be2 = NBe2 .Multiply( arg_otherBox.Length(1));
         var NBe3 = arg_otherBox.GetDirect(2), Be3 = NBe3 .Multiply( arg_otherBox.Length(2));
@@ -226,22 +226,22 @@ export default class GeometryHelper{
 
         // 分離軸 : Ae1
         var rA = Ae1.Length();
-        var rB = GeometryHelper. LengthSeparatedAxis(xAxis, Be1, Be2, Be3);
-        var L = abs(Interval.Dot(xAxis));
+        var rB = GeometryHelper. LengthSeparatedAxis(Vector3.xAxis, Be1, Be2, Be3);
+        var L = abs(Interval.Dot(Vector3.xAxis));
         if (L > rA + rB)
             return false; // 衝突していない
 
          // 分離軸 : Ae2
         rA = Ae2.Length();
-        rB = GeometryHelper.LengthSeparatedAxis(yAxis, Be1, Be2,Be3);
-        L = abs(Interval.Dot(yAxis));
+        rB = GeometryHelper.LengthSeparatedAxis(Vector3.yAxis, Be1, Be2,Be3);
+        L = abs(Interval.Dot(Vector3.yAxis));
         if (L > rA + rB)
             return false;
 
         // 分離軸 : Ae3
         rA = Ae3.Length();
-        rB =GeometryHelper. LengthSeparatedAxis(zAxis, Be1, Be2, Be3);
-        L = abs(Interval.Dot(zAxis));
+        rB =GeometryHelper. LengthSeparatedAxis(Vector3.zAxis, Be1, Be2, Be3);
+        L = abs(Interval.Dot(Vector3.zAxis));
         if (L > rA + rB)
             return false;
 

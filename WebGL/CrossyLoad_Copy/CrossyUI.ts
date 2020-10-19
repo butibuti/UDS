@@ -27,9 +27,9 @@ export default class CrossyUI extends Component{
     }
 
     OnSet(){
-        var coinTrans=new Transform(new Vector3(300,-200,-1),new Vector3(0,0,0),new Vector3(50,50,50));
+        var coinTrans=new Transform(new Vector3(400,-400,-1),new Vector3(0,0,0),new Vector3(50,50,50));
         this.coinText=new TextDrawComponent("0","font","fontShader",new Vector4(0.9,0.9,0.25,1),2,false,coinTrans);
-        var arrivalTrans=new Transform(new Vector3(-300,-200,-1),new Vector3(0,0,0),new Vector3(50,50,50));
+        var arrivalTrans=new Transform(new Vector3(-400,-400,-1),new Vector3(0,0,0),new Vector3(50,50,50));
         this.arrivalText=new TextDrawComponent("0","font","fontShader",new Vector4(0.1,0.1,0.1,1),2,false,arrivalTrans);
         this.gameObject.SetComponent(this.coinText);
 
@@ -49,7 +49,7 @@ export default class CrossyUI extends Component{
         this.gameObject.SetComponent(this.retryAnim);
         this.retry.UnRegistDraw();
 
-        this.logo=new ModelDrawComponent(false, "plane","caloryMaterial","texShader",2,false,null,new Transform(new Vector3(-1100,0,-0.5),new Vector3(0,0,180),new Vector3(600,600,600)));
+        this.logo=new ModelDrawComponent(false, "plane","caloryMaterial","texShader",2,false,null,new Transform(new Vector3(-1110,0,-0.5),new Vector3(0,0,180),new Vector3(600,600,600)));
 
         this.gameObject.SetComponent(this.logo);
 
@@ -84,6 +84,6 @@ export default class CrossyUI extends Component{
         this.gameObject.SetComponent(logoAnim);
     }
     Reset(){
-        this.logo.transform.Position=new Vector3(-1100,0,-0.5);
+        this.logo.transform.Position=new Vector3(-1110,0,-0.5);
     }
 }

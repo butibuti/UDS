@@ -5,8 +5,11 @@ import CollisionLayer from "./Octree";
 
 class Layer{
     octree:CollisionLayer;
+    
+    list_objStack=new Array<CollisionObject >();
+    vec_collisionObjects=new Array<CollisionObject >();
     constructor(){
-        this.octree=new CollisionLayer(6,new Vector3(-10,-30,-30),new Vector3(80,30,30))
+        this.octree=new CollisionLayer(6,new Vector3(-20,-20,-20),new Vector3(20,20,20))
     }
 
     Regist(arg_registObj: CollisionObject): ID {
@@ -19,16 +22,15 @@ class Layer{
     }
     Check(){
         this.octree.Update();
-        
-        var  list_objStack=new Array<CollisionObject >();
-        var  vec_collisionObjects=new Array<CollisionObject >();
+        this.vec_collisionObjects.length=0;
+        this.list_objStack.length=0;
 		
-        this.octree.CreateCollisionObjectList(0, vec_collisionObjects, list_objStack);
+        this.octree.CreateCollisionObjectList(0, this.vec_collisionObjects, this.list_objStack);
         
-        //console.log(vec_collisionObjects);
-        for(var i=0;i<vec_collisionObjects.length;i+=2){
+        var length=this.vec_collisionObjects.length;
+        for(var i=0;i<length;i+=2){
          
-                vec_collisionObjects[i].HitCheck(vec_collisionObjects[i+1]);
+            this.vec_collisionObjects[i].HitCheck(this.vec_collisionObjects[i+1]);
                 
         }
         

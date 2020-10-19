@@ -28,7 +28,7 @@ import OctCell from "./OctCell";
 			return out;
 		}
 	};
-
+	var minPoint=new Vector3(0,0,0), maxPoint=new Vector3(0,0,0);
 export default class CollisionLayer 
 	{
 		vec_shp_collisionObjs:Array<CollisionObject>;
@@ -113,8 +113,9 @@ export default class CollisionLayer
 			this.RegistOctree();
 		}
 		RegistOctree() {
-			for (var itr = 0; itr <this.vec_shp_collisionObjs.length; itr++) {
-				var minPoint=new Vector3(0,0,0), maxPoint=new Vector3(0,0,0);
+			var size=this.vec_shp_collisionObjs.length;
+			for (var itr = 0; itr <size; itr++) {
+				
 				this.vec_shp_collisionObjs[itr].collisionPrimitive.GetMaxPointAndMinPoint(maxPoint, minPoint);
 				var cellNum = this.GetMortonSpace(minPoint, maxPoint);
 

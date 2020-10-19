@@ -9,16 +9,12 @@ import ModelDrawComponent from "./Component/ModelDrawComponent";
 import GameObject from "./GameObject/GameObject";
 import FrameBufferTexture from "./Resource/FrameBufferTexture";
 
-import CollisionComponent from "./Component/CollisionComponent";
 import Transform from "./Transform";
 import Input from "./Tool/Input";
 import SceneChanger from "./Component/SceneChanger";
 import TransformAnimation from "./Component/TransformAnimation";
 import Easing from "./Tool/Easing";
 import SucideComponent from "./Component/SucideComponent";
-import SinWaveMover from "./Component/SinWaveMover";
-import CameraChaser from "./Component/CameraChaser";
-import ObstacleComponent from "./CrossyLoad_Copy/ObstacleComponent";
 import Stage from "./CrossyLoad_Copy/Stage";
 
 enum PrimitiveType{
@@ -106,7 +102,7 @@ export default class SampleScene extends Scene{
       {
 
         this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","playCameraMaterial","texShader",0,false)) as ModelDrawComponent;
-        this.projectionPlane.transform.Scale=new Vector3(0,0,1);
+        this.projectionPlane.transform.Scale=new Vector3(0,0,0);
     
       }
      
@@ -114,7 +110,7 @@ export default class SampleScene extends Scene{
       
       //this.anotherCube.transform.BaseTransform=this.cube.transform;
       
-      this.projectionPlane.transform.Position=new Vector3(0,0,-1);
+      this.projectionPlane.transform.Position=new Vector3(0,0,0);
       
        this.stage=new Stage(this);
 
@@ -125,7 +121,7 @@ export default class SampleScene extends Scene{
       Input.AddKeyDownEvent(this,"sampleSceneEvent",true);
       if(this.IsLoaded()){
         
-        var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(500,500,1));
+        var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(300,300,0));
         this.projectionPlane.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
         
       this.stage.ToStart();
@@ -156,7 +152,7 @@ export default class SampleScene extends Scene{
             }
             sceneChangeObject=this.gameObjectManager.AddGameObject("sceneChanger");
             sceneChangeObject.SetComponent(new SceneChanger("title",100,null));
-            var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(0,0,0));
+            var trans=new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0,0,0));
             sceneChangeObject.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
             sceneChangeObject.SetComponent(new SucideComponent(100));
           }

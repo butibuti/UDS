@@ -18,6 +18,8 @@ onload = function(){
 //audioElement.volume=0.0;
 
   canvas.setAttribute('tabindex', "");
+  canvas.width=600 ;
+  canvas.height=600 ;
   Input.canvas=canvas;  
 
   var resourceContainer=new ResourceContainer();

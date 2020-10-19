@@ -138,7 +138,7 @@ export default class TitleScene extends Scene{
       //this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,true)) as ModelDrawComponent;
       
       this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","titleCameraMaterial","texShader",0,false)) as ModelDrawComponent;
-      this.projectionPlane.transform.Scale=new Vector3(500,500,1);
+      this.projectionPlane.transform.Scale=new Vector3(300,300,1);
   
     
       

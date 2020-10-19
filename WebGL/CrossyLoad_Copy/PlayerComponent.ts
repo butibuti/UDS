@@ -109,6 +109,8 @@ export default class PlayerComponent extends Component{
                     target.Position=this.ary_sensor[0].GetPosition();
                     
                     this.stage.GoFront(this.gameObject.transform.LocalPosition.z);
+                    
+                this.poppingComponent.SetTarget(this.movePase,target);
                 break;
                 case "s":
                     target =this.ary_targets[1];
@@ -117,27 +119,32 @@ export default class PlayerComponent extends Component{
                     }else
                     target.Position=this.ary_sensor[1].GetPosition();
                     
-                break;
-                case "d":
-                    target =this.ary_targets[2];
-                    if(!this.ary_sensor[2].CanMove()){
-                        target.Position=this.gameObject.transform.Position;
-                    }else
-                    target.Position=this.ary_sensor[2].GetPosition();
-                    
+                this.poppingComponent.SetTarget(this.movePase,target);
                 break;
                 case "a":
+                    if(this.gameObject.transform.Position.x<=-4){
+                        break;
+                    }
                     target =this.ary_targets[3];
                     if(!this.ary_sensor[3].CanMove()){
                         target.Position=this.gameObject.transform.Position;
                     }else
                     target.Position=this.ary_sensor[3].GetPosition();
                     
-                break;
-            }
-            if(( this.keyboardEvent.key=="w"||this.keyboardEvent.key=="s"||this.keyboardEvent.key=="a"||this.keyboardEvent.key=="d")){
-                
                 this.poppingComponent.SetTarget(this.movePase,target);
+                break;
+                case "d":
+                    if(this.gameObject.transform.Position.x>=4){
+                        break;
+                    }
+                    target =this.ary_targets[2];
+                    if(!this.ary_sensor[2].CanMove()){
+                        target.Position=this.gameObject.transform.Position;
+                    }else
+                    target.Position=this.ary_sensor[2].GetPosition();
+                    
+                this.poppingComponent.SetTarget(this.movePase,target);
+                break;
             }
             
         this.upSe.Play_new();
@@ -162,6 +169,7 @@ export default class PlayerComponent extends Component{
     OnKeyDown(e:KeyboardEvent){
 
         if(!this.canControll){
+            console.log("canControll!");
             return;
         }
         if(e.key=="q"){

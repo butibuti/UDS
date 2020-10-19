@@ -10,6 +10,7 @@ import GameObjectIDManager from "../Parts/GameObjectIDManager";
 import ISound from "../Resource/ISound";
 import IScene from "../Scene/IScene";
 import Input from "../Tool/Input";
+import RandomHelper from "../Tool/RandomHelper";
 import Transform from "../Transform";
 import CheckPoint from "./CheckPoint";
 import CoinComponent from "./CoinComponent";
@@ -18,6 +19,10 @@ import DamageObstacleComponent from "./DamageObStacle";
 
 import ObstacleComponent from "./ObstacleComponent";
 import PlayerComponent from "./PlayerComponent";
+import StageParts from "./StageParts";
+import StageParts_Road from "./StageParts_Road";
+import StageParts_Safe from "./StageParts_Safe";
+import StageParts_Rail from "./StageParts_Rail";
 
 enum PrimitiveType{
     sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -44,6 +49,10 @@ export default class Stage extends Component{
 
     isFailed:boolean;
 
+    ary_stagePrts:Array<StageParts>;
+
+    stageStock=3;
+
     constructor(arg_scene:IScene){
         super();
         this.playScene=arg_scene;
@@ -51,7 +60,7 @@ export default class Stage extends Component{
 
 
         this.coinse=this.playScene.GetSceneManager().GetResourceContainer().GetSound("title");
-        
+        this.ary_stagePrts=new Array();
     }
     OnSet(){
         
@@ -68,9 +77,9 @@ export default class Stage extends Component{
         var camera=this.playScene.GetGameManager().AddGameObject("cameraman",this.playScene.GetCamera("main").transform);
         camera.SetComponent(new CameraChaser(0.01,this.player.transform));
         
-        var floor=this.playScene.GetGameManager().AddGameObject("floor",new Transform(new Vector3(0,0,0),new Vector3(90,0,0),new Vector3(10,10,5)));
-        floor.SetComponent(new  ModelDrawComponent(false, "plane","caloryMaterial","texShader",1,false));
-        floor.transform.BaseTransform=this.gameObject.transform;
+        // var floor=this.playScene.GetGameManager().AddGameObject("floor",new Transform(new Vector3(0,0,0),new Vector3(90,0,0),new Vector3(10,10,5)));
+        // floor.SetComponent(new  ModelDrawComponent(false, "plane","caloryMaterial","texShader",1,false));
+        // floor.transform.BaseTransform=this.gameObject.transform;
         this.Create();
 }
     OnRemove(){
@@ -94,8 +103,10 @@ export default class Stage extends Component{
         if(this.arrival< arg_z){
             this.arrival=arg_z;
             this.ui.SetArrival(this.arrival);
+            if(this.arrival>this.stageStock){
+                this.StageAdd();
+            }
         }
-
     }
     Create(){
         for(var i=0;i<3;i++){
@@ -108,26 +119,54 @@ export default class Stage extends Component{
             
         }
         for(var i=0;i<5;i++){
-            var obstacleTrans=new Transform(new Vector3(3-i,-0.5,-4));
-            obstacleTrans.BaseTransform=this.gameObject.transform;
+            var safeTransform=new Transform(new Vector3(0,0,-i));
+            safeTransform.BaseTransform=this.gameObject.transform;
             
-            var obstacleComponent=new ObstacleComponent(PrimitiveType.box_AABB,new Vector3(1,1,1),this,"green");
-            this.playScene.GetGameManager().AddGameObject("obstacle",obstacleTrans,"obstacle",[obstacleComponent]);
+            //var damageObstacleComponent=new DamageObstacleComponent(this,"green");
+            var safe=new StageParts_Safe(this,"");
+            this.ary_stagePrts.push(safe);
+            this.playScene.GetGameManager().AddGameObject("safeArea",safeTransform,"safeArea",[safe]);
+        
         }
         for(var i=0;i<5;i++){
-            var obstacleTrans=new Transform(new Vector3(3-i,-0.5,-6));
-            obstacleTrans.BaseTransform=this.gameObject.transform;
+            var roadTransform=new Transform(new Vector3(0,0,-5-i));
+            roadTransform.BaseTransform=this.gameObject.transform;
             
-            var damageObstacleComponent=new DamageObstacleComponent(this,"green");
-            this.playScene.GetGameManager().AddGameObject("damageObstacle",obstacleTrans,"damageObstacle",[damageObstacleComponent]);
+            //var damageObstacleComponent=new DamageObstacleComponent(this,"green");
+            var road=new StageParts_Road(this,"",new Vector3(1,1,1),RandomHelper.GetRandomInt(1,2));
+            this.ary_stagePrts.push(road);
+            this.playScene.GetGameManager().AddGameObject("road",roadTransform,"road",[road]);
+        }
+        for(var i=0;i<1;i++){
+            var railTransform=new Transform(new Vector3(0,0,-10-i));
+            railTransform.BaseTransform=this.gameObject.transform;
+            
+            //var damageObstacleComponent=new DamageObstacleComponent(this,"green");
+            var rail=new StageParts_Rail(this,"",new Vector3(1,1,1));
+            this.ary_stagePrts.push(rail);
+            this.playScene.GetGameManager().AddGameObject("rail",railTransform,"rail",[rail]);
         }
         
     }
     Destroy(){
         this.gameObject.Manager.GetGameObjects(GameObjectIDManager.GetID("coin")).forEach(coin=>coin.Dead());
+        this.ary_stagePrts.forEach(parts=>parts.Destroy());
+
+        this.ary_stagePrts.length=0;
+    }
+    StageAdd(){
+
+        var railTransform=new Transform(new Vector3(0,0,-(this.arrival+7)));
+        railTransform.BaseTransform=this.gameObject.transform;
         
-        this.gameObject.Manager.GetGameObjects(GameObjectIDManager.GetID("obstacle")).forEach(obs=>obs.Dead());
-        this.gameObject.Manager.GetGameObjects(GameObjectIDManager.GetID("damageObstacle")).forEach(obs=>obs.Dead());
+        //var damageObstacleComponent=new DamageObstacleComponent(this,"green");
+        var rail=new StageParts_Rail(this,"",new Vector3(1,1,1));
+        this.ary_stagePrts.push(rail);
+        this.playScene.GetGameManager().AddGameObject("rail",railTransform,"rail",[rail]);
+
+        this.ary_stagePrts[0].Destroy();
+        this.ary_stagePrts.splice(0,1);
+        //this.gameObject.Manager.LogObjectCount();
     }
 
     Update(){
@@ -143,12 +182,13 @@ export default class Stage extends Component{
         }
         if(this.startWait<=0){
             this.playerComponent.SetCanControll(true);
-        }else{
+        }else if(this.fadeCount>0){
             this.startWait--;
         }
     }
 
-    Failed(){if(this.fadeCount>0){
+    Failed(){
+        if(this.fadeCount>0){
         return;
     }
         this.ui.ShowRetry();
@@ -163,6 +203,7 @@ export default class Stage extends Component{
     Reset(){
         this.gameObject.transform.SetPositionZ(0);
         this.playerComponent.Reset();
+        this.player.Update();
         this.coin=0;
         this.arrival=0;
         this.Destroy();
