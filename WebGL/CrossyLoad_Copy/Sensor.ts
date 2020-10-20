@@ -33,7 +33,7 @@ export default class Sensor extends Component{
     }
     GetPosition():Vector3{
         
-        return this.gameObject.transform.Position;
+        return this.gameObject.transform.LocalPosition;
         
     }
     CanMove():boolean{

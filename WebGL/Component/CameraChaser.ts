@@ -48,7 +48,6 @@ export default class CameraChaser extends Component{
         const zMin=-4.0;
         const zMax=-4.5;
         if(z>zMin){
-            console.log("zMOve");
             this.velocity.z =-1* (z-zMin)*(z-zMin)*this.speed;
         }
         else if(z<zMax){
@@ -57,7 +56,6 @@ export default class CameraChaser extends Component{
         else{
              this.velocity.z=0;
          }
-console.log(z);
 
         this.gameObject.transform.SetPosition.Add_b((this.velocity));
     }
