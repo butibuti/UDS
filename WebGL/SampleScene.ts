@@ -83,7 +83,7 @@ export default class SampleScene extends Scene{
       this.sceneManager.GetGraphicDevice().EnableStencil();
   
 
-      this.GetCamera("main").transform.Position=new Vector3(5,-20,20);
+      this.GetCamera("main").transform.Position=new Vector3(2,-8,6);
       
       
 

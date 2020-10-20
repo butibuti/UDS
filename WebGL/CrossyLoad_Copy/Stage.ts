@@ -27,6 +27,9 @@ import StageParts_Rail from "./StageParts_Rail";
 enum PrimitiveType{
     sphere=0,box_AABB=1,box_OBB=2,point=3,
   }
+
+  const stageRange=[ [1,1,2,2,2,3],[1,1,1,2,2,2],[1,1,2,3,3,4]];
+  const stageArrayLength=512;
 export default class Stage extends Component{
 
 
@@ -53,19 +56,34 @@ export default class Stage extends Component{
 
     stageStock=3;
 
+    stageArray:Int16Array;
+
     constructor(arg_scene:IScene){
         super();
         this.playScene=arg_scene;
-        this.startPos=new Vector3(0,-0.5,0);
+        this.startPos=new Vector3(0,-0.5,1);
 
 
         this.coinse=this.playScene.GetSceneManager().GetResourceContainer().GetSound("title");
         this.ary_stagePrts=new Array();
+
+        this.stageArray=new Int16Array(stageArrayLength);
+        this.StageArrayCreate();
+    }
+    StageArrayCreate(){
+
+        for(var i=0;i<stageArrayLength;){
+            var stage=RandomHelper.GetRandomInt(0,2);
+            var range=stageRange[stage][ RandomHelper.GetRandomInt(1,5)];
+            for(var j=0;j<range;j++,i++){
+                this.stageArray[i]=stage;
+            }
+        }
     }
     OnSet(){
         
         this.playerComponent=new PlayerComponent(15,this);
-        this.player=this.playScene.GetGameManager().AddGameObject("cube",new Transform(this.startPos.Clone(),new Vector3(0,0,0),new Vector3(1,1,1)),"player",[this.playerComponent]);
+        this.player=this.playScene.GetGameManager().AddGameObject("player",new Transform(this.startPos.Clone(),new Vector3(0,0,0),new Vector3(1,1,1)),"player",[this.playerComponent]);
       
         this.player.SetComponent(new CollisionComponent(PrimitiveType.box_AABB,new Vector3(1.0,1.0,1.0),0));
         this.player.transform.BaseTransform=this.gameObject.transform;
@@ -76,7 +94,7 @@ export default class Stage extends Component{
 
         var camera=this.playScene.GetGameManager().AddGameObject("cameraman",this.playScene.GetCamera("main").transform);
         camera.SetComponent(new CameraChaser(0.01,this.player.transform));
-        
+        camera.transform.BaseTransform=this.gameObject.transform;
         // var floor=this.playScene.GetGameManager().AddGameObject("floor",new Transform(new Vector3(0,0,0),new Vector3(90,0,0),new Vector3(10,10,5)));
         // floor.SetComponent(new  ModelDrawComponent(false, "plane","caloryMaterial","texShader",1,false));
         // floor.transform.BaseTransform=this.gameObject.transform;
@@ -102,13 +120,21 @@ export default class Stage extends Component{
         arg_z=Math.trunc(-arg_z);
         if(this.arrival< arg_z){
             this.arrival=arg_z;
+            //this.gameObject.transform.TranslateZ(1.0);
             this.ui.SetArrival(this.arrival);
             if(this.arrival>this.stageStock){
-                this.StageAdd();
+                this.StageAdd(this.arrival+7);
+                this.StageDestroy();
             }
         }
     }
     Create(){
+
+
+        for(var i=0;i<11;i++){
+            this.StageAdd(i);
+        }
+
         for(var i=0;i<3;i++){
 
             var coin=new CoinComponent(this);
@@ -118,35 +144,6 @@ export default class Stage extends Component{
             this.playScene.GetGameManager().AddGameObject("coin",coinTrans,"coin",[coin]);
             
         }
-        for(var i=0;i<5;i++){
-            var safeTransform=new Transform(new Vector3(0,0,-i));
-            safeTransform.BaseTransform=this.gameObject.transform;
-            
-            //var damageObstacleComponent=new DamageObstacleComponent(this,"green");
-            var safe=new StageParts_Safe(this,"");
-            this.ary_stagePrts.push(safe);
-            this.playScene.GetGameManager().AddGameObject("safeArea",safeTransform,"safeArea",[safe]);
-        
-        }
-        for(var i=0;i<5;i++){
-            var roadTransform=new Transform(new Vector3(0,0,-5-i));
-            roadTransform.BaseTransform=this.gameObject.transform;
-            
-            //var damageObstacleComponent=new DamageObstacleComponent(this,"green");
-            var road=new StageParts_Road(this,"",new Vector3(1,1,1),RandomHelper.GetRandomInt(1,2));
-            this.ary_stagePrts.push(road);
-            this.playScene.GetGameManager().AddGameObject("road",roadTransform,"road",[road]);
-        }
-        for(var i=0;i<1;i++){
-            var railTransform=new Transform(new Vector3(0,0,-10-i));
-            railTransform.BaseTransform=this.gameObject.transform;
-            
-            //var damageObstacleComponent=new DamageObstacleComponent(this,"green");
-            var rail=new StageParts_Rail(this,"",new Vector3(1,1,1));
-            this.ary_stagePrts.push(rail);
-            this.playScene.GetGameManager().AddGameObject("rail",railTransform,"rail",[rail]);
-        }
-        
     }
     Destroy(){
         this.gameObject.Manager.GetGameObjects(GameObjectIDManager.GetID("coin")).forEach(coin=>coin.Dead());
@@ -154,23 +151,44 @@ export default class Stage extends Component{
 
         this.ary_stagePrts.length=0;
     }
-    StageAdd(){
+    StageAdd(arg_addpos:number){
 
-        var railTransform=new Transform(new Vector3(0,0,-(this.arrival+7)));
-        railTransform.BaseTransform=this.gameObject.transform;
+        var addStageTransform=new Transform(new Vector3(0,0,-(arg_addpos)));
+        addStageTransform.BaseTransform=this.gameObject.transform;
         
-        //var damageObstacleComponent=new DamageObstacleComponent(this,"green");
-        var rail=new StageParts_Rail(this,"",new Vector3(1,1,1));
-        this.ary_stagePrts.push(rail);
-        this.playScene.GetGameManager().AddGameObject("rail",railTransform,"rail",[rail]);
+        var stageNum=this.stageArray[arg_addpos%stageArrayLength];
+
+        switch(stageNum){
+            case 0:
+                var safe=new StageParts_Safe(this,"");
+                this.ary_stagePrts.push(safe);
+                this.playScene.GetGameManager().AddGameObject("safeArea",addStageTransform,"safeArea",[safe]);
+            
+            break;
+            case 1:
+                var road=new StageParts_Road(this,"",new Vector3(1,1,1),RandomHelper.GetRandomInt(1,2));
+                this.ary_stagePrts.push(road);
+                this.playScene.GetGameManager().AddGameObject("road",addStageTransform,"road",[road]);
+            
+            break;
+            
+            case 2:
+                var rail=new StageParts_Rail(this,"",new Vector3(1,1,1));
+                this.ary_stagePrts.push(rail);
+                this.playScene.GetGameManager().AddGameObject("rail",addStageTransform,"rail",[rail]);
+            
+            break;
+        }
+        
+    }
+    StageDestroy(){
 
         this.ary_stagePrts[0].Destroy();
         this.ary_stagePrts.splice(0,1);
-        //this.gameObject.Manager.LogObjectCount();
     }
 
     Update(){
-        this.gameObject.transform.TranslateZ(0.01);
+        //this.gameObject.transform.TranslateZ(0.01);
 
         if(this.fadeCount==0){
             this.Reset();
@@ -201,6 +219,7 @@ export default class Stage extends Component{
      }
 
     Reset(){
+        this.StageArrayCreate();
         this.gameObject.transform.SetPositionZ(0);
         this.playerComponent.Reset();
         this.player.Update();
@@ -210,7 +229,7 @@ export default class Stage extends Component{
         this.Create();
         this.ui.SetCoinNum(this.coin);
         this.ui.SetArrival(this.arrival);
-
+        this.playScene.GetCamera("main").transform.Position=new Vector3(2,-8,6);
     }
 
 

@@ -29,6 +29,10 @@ export default class StageParts_Road extends StageParts{
         modelTransform.BaseTransform=this.gameObject.transform;
         this.gameObject.SetComponent(new ModelDrawComponent(false, "cube_position","blue","ambient",1,false,null,modelTransform));
 
+        var direction=RandomHelper.GetRandomInt(0,1);
+        if(direction<1){
+            direction=-1;
+        }
         var time=RandomHelper.GetRandomInt(3,6);
         for(var i=0;i<this.carCount;i++){
             var carTrans= new Transform();
@@ -37,7 +41,8 @@ export default class StageParts_Road extends StageParts{
 
 
 
-            var trip=new RoundTrip(new Vector3(6,-0.5,0),new Vector3(-6,-0.5,0),50*time,50*RandomHelper.GetRandomInt(0,time-1),true);
+
+            var trip=new RoundTrip(new Vector3(6*direction,-0.5,0),new Vector3(-6*direction,-0.5,0),50*time,50*RandomHelper.GetRandomInt(0,time-1),true);
             this.ary_cars.push(this.gameObject.Manager.AddGameObject("car",carTrans,"car",[damage,trip]));
         }
         

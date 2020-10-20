@@ -225,10 +225,10 @@ export default class PlayerComponent extends Component{
         Input.RemoveKeyUpEvent("playerEvent");
         Input.RemoveKeyDownEvent("playerEvent");
         
-        this.gameObject.transform.Position=new Vector3(0,-0.5,0);
+        this.gameObject.transform.Position=new Vector3(0,-0.5,1);
         this.OnMoveEnd();
         var target =this.ary_targets[0];
-        target.Position=new Vector3(0,-0.5,0);
+        target.Position=new Vector3(0,-0.5,1);
         this.poppingComponent.SetTarget(this.movePase,target);
     }
     

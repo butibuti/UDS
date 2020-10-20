@@ -35,8 +35,8 @@ export default class CameraChaser extends Component{
             this.velocity.x =xlength/2;
         
         }else
-        if(xlength>17){
-            this.velocity.x =-1*(xlength-17)/Math.abs(xlength-17)* (xlength-17)*(xlength-17)*this.speed;
+        if(xlength>3){
+            this.velocity.x =-1*(xlength-3)/Math.abs(xlength-3)* (xlength-3)*(xlength-3)*this.speed;
         }else if(xlength<3){
             this.velocity.x =-1*(xlength-3)/Math.abs(xlength+3)* (xlength+3)*(xlength+3)*this.speed;
         }else{
@@ -45,14 +45,19 @@ export default class CameraChaser extends Component{
 
         var z= this.gameObject.transform.Position.z- this.targetTransform.Position.z+this.offsetZ;
 
-        if(z>-0.5){
-            this.velocity.z =-1*(z)/Math.abs(z+0.5)* (z+0.5)*(z+0.5)*this.speed;
-        }else if(z<-3.5){
-            this.velocity.z =-1*(z)/Math.abs(z+3.5)* (z+3.5)*(z+3.5)*this.speed;
-        }else{
-            this.velocity.z=0;
+        const zMin=-4.0;
+        const zMax=-4.5;
+        if(z>zMin){
+            console.log("zMOve");
+            this.velocity.z =-1* (z-zMin)*(z-zMin)*this.speed;
         }
-
+        else if(z<zMax){
+            this.velocity.z = (z-zMax)*(z-zMax)*this.speed*1.5;
+        }
+        else{
+             this.velocity.z=0;
+         }
+console.log(z);
 
         this.gameObject.transform.SetPosition.Add_b((this.velocity));
     }
