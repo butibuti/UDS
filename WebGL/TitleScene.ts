@@ -157,7 +157,7 @@ export default class TitleScene extends Scene{
       Input.AddKeyDownEvent(this,"titleSceneEvent",true);
       if(this.IsLoaded()){
         
-        var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(500,500,1));
+        var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(300,300,1));
         this.texts.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
         
       }

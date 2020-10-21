@@ -4,6 +4,11 @@ import MathHelper from "../Tool/MathHelper";
 import Transform from "../Transform";
 import Component from "./Component";
 
+const zMin=-2.5;
+const zMax=-2.25;
+const xMin=1.0;
+const xMax=2.0;
+
 export default class CameraChaser extends Component{
 
     minY:number;
@@ -29,29 +34,30 @@ export default class CameraChaser extends Component{
         //this.velocity.y = this.targetTransform.Position.y;
         var xlength=this.gameObject.transform.Position.x-this.targetTransform.Position.x+this.offsetX;
         
-        //this.velocity.x =xlength/Math.abs(xlength)* xlength*xlength*this.speed;
+
 
         if(xlength*this.speed>1){
             this.velocity.x =xlength/2;
         
         }else
-        if(xlength>3){
-            this.velocity.x =-1*(xlength-3)/Math.abs(xlength-3)* (xlength-3)*(xlength-3)*this.speed;
-        }else if(xlength<3){
-            this.velocity.x =-1*(xlength-3)/Math.abs(xlength+3)* (xlength+3)*(xlength+3)*this.speed;
+        if(xlength>xMax){
+            this.velocity.x =-1* (xlength-xMax)*(xlength-xMax)*this.speed;
+        }else
+        if(xlength<xMin)
+        {
+            this.velocity.x =(xlength-xMin)*(xlength-xMin)*this.speed;
         }else{
             this.velocity.x=0;
         }
 
         var z= this.gameObject.transform.Position.z- this.targetTransform.Position.z+this.offsetZ;
 
-        const zMin=-4.0;
-        const zMax=-4.5;
-        if(z>zMin){
-            this.velocity.z =-1* (z-zMin)*(z-zMin)*this.speed;
+        //console.log(z);
+        if(z>zMax){
+            this.velocity.z =-1* (z-zMax)*(z-zMax)*this.speed;
         }
-        else if(z<zMax){
-            this.velocity.z = (z-zMax)*(z-zMax)*this.speed*1.5;
+        else if(z<zMin){
+            this.velocity.z = (z-zMin)*(z-zMin)*this.speed*2;
         }
         else{
              this.velocity.z=0;

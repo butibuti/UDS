@@ -31,7 +31,9 @@ enum PrimitiveType{
   const stageRange=[ [1,1,2,2,2,3],[1,1,1,2,2,2],[1,1,2,3,3,4]];
   const stageArrayLength=512;
 
-  const ary_cars=["crab","turtle"]
+  const ary_cars=["crab","turtle","turtle","utubo"]
+  const ary_carSizes=[new Vector3(1,1,1),new Vector3(1,1,1),new Vector3(1,1,1),new Vector3(5,1,1)]
+  const ary_carRotate=[new Vector3(0,90,0),new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0,180,0)]
 
 export default class Stage extends Component{
 
@@ -57,7 +59,7 @@ export default class Stage extends Component{
 
     ary_stagePrts:Array<StageParts>;
 
-    stageStock=3;
+    stageStock=1;
 
     stageArray:Int16Array;
 
@@ -96,12 +98,9 @@ export default class Stage extends Component{
       
 
         var camera=this.playScene.GetGameManager().AddGameObject("cameraman",this.playScene.GetCamera("main").transform);
-        camera.SetComponent(new CameraChaser(0.01,this.player.transform));
+        camera.SetComponent(new CameraChaser(0.02,this.player.transform));
         camera.transform.BaseTransform=this.gameObject.transform;
-        // var floor=this.playScene.GetGameManager().AddGameObject("floor",new Transform(new Vector3(0,0,0),new Vector3(90,0,0),new Vector3(10,10,5)));
-        // floor.SetComponent(new  ModelDrawComponent(false, "plane","caloryMaterial","texShader",1,false));
-        // floor.transform.BaseTransform=this.gameObject.transform;
-        this.Create();
+         this.Create();
 }
     OnRemove(){
         this.playScene=null;
@@ -126,7 +125,7 @@ export default class Stage extends Component{
             //this.gameObject.transform.TranslateZ(1.0);
             this.ui.SetArrival(this.arrival);
             if(this.arrival>this.stageStock){
-                this.StageAdd(this.arrival+7);
+                this.StageAdd(this.arrival+9);
                 this.StageDestroy();
             }
         }
@@ -161,23 +160,27 @@ export default class Stage extends Component{
         addStageTransform.BaseTransform=this.gameObject.transform;
         
         var stageNum=this.stageArray[arg_addpos%stageArrayLength];
-
+        var baseMaterialNameEx="";
+        if(arg_addpos%2!=0){
+            baseMaterialNameEx="_d"
+        }
         switch(stageNum){
             case 0:
-                var safe=new StageParts_Safe(this);
+                var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx);
                 this.ary_stagePrts.push(safe);
                 this.playScene.GetGameManager().AddGameObject("safeArea",addStageTransform,"safeArea",[safe]);
             
             break;
             case 1:
-                var road=new StageParts_Road(this,ary_cars[RandomHelper.GetRandomInt(0,1)],new Vector3(1,1,1),RandomHelper.GetRandomInt(1,2));
+                var carNum=RandomHelper.GetRandomInt(0,3);
+                var road=new StageParts_Road(this,"road"+baseMaterialNameEx,ary_cars[carNum],ary_carSizes[carNum].Clone(),ary_carRotate[carNum],RandomHelper.GetRandomInt(1,2));
                 this.ary_stagePrts.push(road);
                 this.playScene.GetGameManager().AddGameObject("road",addStageTransform,"road",[road]);
             
             break;
             
             case 2:
-                var rail=new StageParts_Rail(this,"utubo",new Vector3(1,1,1));
+                var rail=new StageParts_Rail(this,"rail"+baseMaterialNameEx,"fishes",new Vector3(1,1,1));
                 this.ary_stagePrts.push(rail);
                 this.playScene.GetGameManager().AddGameObject("rail",addStageTransform,"rail",[rail]);
             
@@ -190,8 +193,12 @@ export default class Stage extends Component{
 
             var addStageTransform=new Transform(new Vector3(0,0,arg_safeCount-i));
             addStageTransform.BaseTransform=this.gameObject.transform;
-              
-            var safe=new StageParts_Safe(this);
+            var baseMaterialNameEx="";
+        if((i+1)%2!=0){
+            baseMaterialNameEx="_d"
+        }
+            var carCount=arg_safeCount-i==this.startPos.z
+            var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx,carCount);
             this.ary_stagePrts.push(safe);
             this.playScene.GetGameManager().AddGameObject("safeArea",addStageTransform,"safeArea",[safe]);
             
@@ -245,7 +252,7 @@ export default class Stage extends Component{
         this.Create();
         this.ui.SetCoinNum(this.coin);
         this.ui.SetArrival(this.arrival);
-        this.playScene.GetCamera("main").transform.Position=new Vector3(2,-8,6);
+        this.playScene.GetCamera("main").transform.Position=new Vector3(1,-6,4);
     }
 
 

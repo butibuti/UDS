@@ -10,6 +10,6 @@ varying   vec3 vPosition;
 void main(void){
     vPosition   = (mMatrix * vec4(position, 1.0)).xyz;
     vUv = uv;
-    vNormal=normal;
+    vNormal=normalize( ( vec4(normal, 1.0)*mMatrix ).xyz);
     gl_Position   = mvpMatrix * vec4(position, 1.0);
  }

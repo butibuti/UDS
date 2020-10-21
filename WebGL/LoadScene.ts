@@ -135,6 +135,7 @@ export default class LoadScene extends Scene{
       this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/sango.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"sango");
       this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/turtle.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"turtle");
       this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/utubo.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"utubo");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/fishes.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"fishes");
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/kill2.wav","kill");
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/up_se.wav","up");
       
@@ -157,6 +158,12 @@ export default class LoadScene extends Scene{
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.9, 0.8, 0.3, 1.0),this.sceneManager.GetGraphicDevice()),"yellow");
       
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.5, 0.5, 1.0, 1.0),this.sceneManager.GetGraphicDevice()),"blue");
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.4, 0.6, 0.9, 1.0),this.sceneManager.GetGraphicDevice()),"road");
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.36, 0.54, 0.81, 1.0),this.sceneManager.GetGraphicDevice()),"road_d");
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.8, 0.8, 0.7, 1.0),this.sceneManager.GetGraphicDevice()),"safe");
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.72, 0.72, 0.63, 1.0),this.sceneManager.GetGraphicDevice()),"safe_d");
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.6, 0.5, 0.6, 1.0),this.sceneManager.GetGraphicDevice()),"rail");
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.54, 0.45, 0.54, 1.0),this.sceneManager.GetGraphicDevice()),"rail_d");
       
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.5, 1.0, 0.5, 1.0),this.sceneManager.GetGraphicDevice()),"green");
       
