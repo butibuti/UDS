@@ -26,10 +26,10 @@ export default class StageParts_Safe extends StageParts{
         super();
 
         if(isStart){
-            ary_positions.splice(0,1);
+            ary_positions[0]=1;
         }
 
-        this.carCount=RandomHelper.GetRandomInt(0,3);
+        this.carCount=RandomHelper.GetRandomInt(3,4);
         
         this.ary_obstacles=new Array(this.carCount);
         this.stage=arg_stage;

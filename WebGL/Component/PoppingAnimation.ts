@@ -126,7 +126,7 @@ export default class PoppingAnimation extends Component{
         if(t>1){
             return;
         }
-        this.transform.Position=this.initPosition.Add(this.offset.Multiply(t).AddY(-Easing.Parabola(t)));
+        this.transform.Position=this.initPosition.Add(this.offset.Multiply(t).AddY(-Easing.Parabola(t)*0.8));
         this.transform.Scale= this.initScale.Add(this.scalePase.Multiply(t));
         //this.transform.Rotation= this.transform.Rotation
         this.transform.Rotation=this.rotateQuat.SphereLerp(this.targetRotateQuat,t).ToMatrix4x4();

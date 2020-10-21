@@ -1,6 +1,8 @@
 import ModelDrawComponent from "../Component/ModelDrawComponent";
+import TransformAnimation from "../Component/TransformAnimation";
 import GameObject from "../GameObject/GameObject";
 import Vector3 from "../Math/Vector3";
+import Easing from "../Tool/Easing";
 import RandomHelper from "../Tool/RandomHelper";
 import Transform from "../Transform";
 import DamageObstacleComponent from "./DamageObStacle";
@@ -17,7 +19,9 @@ export default class StageParts_Road extends StageParts{
     stage:Stage;
     speed:number;
     baseMaterialName:string;
-    constructor(arg_stage:Stage,arg_materialName:string, arg_meshName:string,arg_size:Vector3,arg_rotate:Vector3,arg_carCount:number){
+    transformAnim:Transform;
+    animFrame:number;
+    constructor(arg_stage:Stage,arg_materialName:string, arg_meshName:string,arg_size:Vector3,arg_rotate:Vector3,arg_carCount:number,arg_anim:Transform,frame:number){
         super();
         this.meshName= arg_meshName;
         this.size=arg_size;
@@ -26,6 +30,8 @@ export default class StageParts_Road extends StageParts{
         this.rotate=arg_rotate;
         this.stage=arg_stage;
         this.baseMaterialName=arg_materialName;
+        this.transformAnim=arg_anim;
+        this.animFrame=frame;
     }
 
     OnSet(){
@@ -47,8 +53,7 @@ export default class StageParts_Road extends StageParts{
             var carModelTransform=new Transform(new Vector3(0,0,0),new Vector3(180,90*direction,0).Add_b(this.rotate),new Vector3(0.0025,0.0025,0.0025));
             carModelTransform.BaseTransform=carTrans;
             var carModel= (new ModelDrawComponent(false, "nonTexcube","red","onlyMaterial",1,false,this.meshName,carModelTransform));
-            
-
+           
             var trip=new RoundTrip(new Vector3(8*direction,-0.5,0),new Vector3(-8*direction,-0.5,0),50*time,50*RandomHelper.GetRandomInt(0,time-1),true);
             this.ary_cars.push(this.gameObject.Manager.AddGameObject("car",carTrans,"car",[damage,trip,carModel]));
         }

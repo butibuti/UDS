@@ -23,6 +23,8 @@ import StageParts from "./StageParts";
 import StageParts_Road from "./StageParts_Road";
 import StageParts_Safe from "./StageParts_Safe";
 import StageParts_Rail from "./StageParts_Rail";
+import TransformAnimation from "../Component/TransformAnimation";
+import Easing from "../Tool/Easing";
 
 enum PrimitiveType{
     sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -35,6 +37,15 @@ enum PrimitiveType{
   const ary_carSizes=[new Vector3(1,1,1),new Vector3(1,1,1),new Vector3(1,1,1),new Vector3(5,1,1)]
   const ary_carRotate=[new Vector3(0,90,0),new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0,180,0)]
 
+  const ary_carAnimTransform=[
+    new Transform(new Vector3(0,-0.7,0),new Vector3(0,0,0),new Vector3(0.0025,0.003,0.0025)),
+    new Transform(new Vector3(0,-0.7,0),new Vector3(0,360,0),new Vector3(0.0025,0.0025,0.0025)),
+    new Transform(new Vector3(0,-0.7,0),new Vector3(0,0,0),new Vector3(0.0025,0.0025,0.0025)),
+    new Transform(new Vector3(0,-0.7,0),new Vector3(0,0,0),new Vector3(0.003,0.0025,0.003)),
+  ]
+  const ary_animFrame=[
+      15,60,60,120
+  ]
 export default class Stage extends Component{
 
 
@@ -122,7 +133,7 @@ export default class Stage extends Component{
         arg_z=Math.trunc(-arg_z);
         if(this.arrival< arg_z){
             this.arrival=arg_z;
-            //this.gameObject.transform.TranslateZ(1.0);
+            this.gameObject.transform.TranslateZ(1.0);
             this.ui.SetArrival(this.arrival);
             if(this.arrival>this.stageStock){
                 this.StageAdd(this.arrival+9);
@@ -173,7 +184,9 @@ export default class Stage extends Component{
             break;
             case 1:
                 var carNum=RandomHelper.GetRandomInt(0,3);
-                var road=new StageParts_Road(this,"road"+baseMaterialNameEx,ary_cars[carNum],ary_carSizes[carNum].Clone(),ary_carRotate[carNum],RandomHelper.GetRandomInt(1,2));
+
+
+                var road=new StageParts_Road(this,"road"+baseMaterialNameEx,ary_cars[carNum],ary_carSizes[carNum].Clone(),ary_carRotate[carNum],RandomHelper.GetRandomInt(1,2),ary_carAnimTransform[carNum],ary_animFrame[carNum]);
                 this.ary_stagePrts.push(road);
                 this.playScene.GetGameManager().AddGameObject("road",addStageTransform,"road",[road]);
             

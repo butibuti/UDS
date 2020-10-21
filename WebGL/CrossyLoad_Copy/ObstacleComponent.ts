@@ -39,7 +39,8 @@ export default class ObstacleComponent extends Component{
                 
                 this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.box_AABB,this.size,0));
               break;
-            case PrimitiveType.box_OBB:this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,this.size,0));
+            case PrimitiveType.box_OBB:
+                this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.box_OBB,this.size,0));
             break;
         }
         

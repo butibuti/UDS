@@ -58,6 +58,8 @@ export default class TransformAnimation extends Component{
     
         this.initPosition=this.transform.LocalPosition;
         this.initScale=this.transform.Scale;
+        this.rotateQuat=this.transform.Rotation.ToQuaternion();
+        this.targetRotateQuat=this.targetTransform.Rotation.ToQuaternion();
     }
 
     ChangeTarget(arg_targetTransform:Transform){
@@ -101,9 +103,10 @@ export default class TransformAnimation extends Component{
     Update(){
 
         this.TimeUpdate();
-        this.transform.Position=this.initPosition.Add(this.offset.Multiply(this.currentTime/this.time));
-        this.transform.Scale= this.initScale.Add(this.scalePase.Multiply(this.easingFunction( this.currentTime/this.time)));
+        var t=this.currentTime/this.time;
+        this.transform.Position=this.initPosition.Add(this.offset.Multiply(t));
+        this.transform.Scale= this.initScale.Add(this.scalePase.Multiply(this.easingFunction( t)));
         //this.transform.Rotation= this.transform.Rotation
-
+        //this.transform.Rotation=this.rotateQuat.SphereLerp(this.targetRotateQuat,t).ToMatrix4x4();
     }
 }

@@ -11,15 +11,14 @@ import TransformAnimation from "../Component/TransformAnimation";
 import PoppingAnimation from "../Component/PoppingAnimation";
 import Stage from "./Stage";
 import Sensor from "./Sensor";
+import Easing from "../Tool/Easing";
 
-const soundDelay:number=5;
 
 export default class PlayerComponent extends Component{
 
     startY: number;
     movePase:number;
     isPush:boolean;
-    soundframe:number;
     upSe:ISound;
     deadSe:ISound;
 
@@ -46,7 +45,6 @@ export default class PlayerComponent extends Component{
         super();
         this.movePase=arg_movePase;
         this.isPush=false;
-        this.soundframe=0;
         this.stage=arg_stage;
         this.ary_sensor=new Array();
     }
@@ -65,9 +63,10 @@ export default class PlayerComponent extends Component{
         this.modelTransform.BaseTransform=this.gameObject.transform;
         this.gameObject.SetComponent(this.poppingComponent);
         this.gameObject.SetComponent(new ModelDrawComponent(true, "cube","caloryMaterial","texShader_light",1,false,"maguro",this.modelTransform)) as ModelDrawComponent;
-        this.minimumTransform=new Transform(new Vector3(0,0.1,0),new Vector3(0,0,0),new Vector3(0.22,0.16,0.2));
+        this.minimumTransform=new Transform(new Vector3(0,0.1,0),new Vector3(0,0,0),new Vector3(0.3,0.16,0.18));
         this.maximumTransform=new Transform(new Vector3(0,-0.1,0),new Vector3(0,0,0),new Vector3(0.2,0.2,0.15));
-        this.scaleComponent=new TransformAnimation(30,true,this.minimumTransform,this.modelTransform);
+        
+        this.scaleComponent=new TransformAnimation(30,true,this.minimumTransform,this.modelTransform,Easing.EaseInOutCirc);
         this.gameObject.SetComponent(this.scaleComponent);
     
         this.ary_targets=new Array(4);
@@ -77,6 +76,8 @@ export default class PlayerComponent extends Component{
         this.ary_targets[2]=new Transform(this.gameObject.transform.Position.Add_b( new Vector3(1,0,0)),new Vector3(0,-90,0));
         this.ary_targets[3]=new Transform(this.gameObject.transform.Position.Add_b( new Vector3(-1,0,0)),new Vector3(0,90,0));
         
+        this.ary_targets.forEach(target=>target.BaseTransform=this.stage.gameObject.transform);
+
         this.ary_sensor[0]=new Sensor(this.gameObject,new Vector3(0,0,-1));
         this.ary_sensor[1]=new Sensor(this.gameObject,new Vector3(0,0,1));
         this.ary_sensor[2]=new Sensor(this.gameObject,new Vector3(1,0,0));
@@ -104,7 +105,7 @@ export default class PlayerComponent extends Component{
                 case "w":
                     target =this.ary_targets[0];
                     if(!this.ary_sensor[0].CanMove()){
-                        target.Position=this.gameObject.transform.Position;
+                        target.Position=this.gameObject.transform.LocalPosition;
                     }else
                     target.Position=this.ary_sensor[0].GetPosition();
                     
@@ -113,9 +114,12 @@ export default class PlayerComponent extends Component{
                 this.poppingComponent.SetTarget(this.movePase,target);
                 break;
                 case "s":
+                    // if(this.gameObject.transform.Position.z>1){
+                    //     break;
+                    // }
                     target =this.ary_targets[1];
                     if(!this.ary_sensor[1].CanMove()){
-                        target.Position=this.gameObject.transform.Position;
+                        target.Position=this.gameObject.transform.LocalPosition;
                     }else
                     target.Position=this.ary_sensor[1].GetPosition();
                     
@@ -127,7 +131,7 @@ export default class PlayerComponent extends Component{
                     }
                     target =this.ary_targets[3];
                     if(!this.ary_sensor[3].CanMove()){
-                        target.Position=this.gameObject.transform.Position;
+                        target.Position=this.gameObject.transform.LocalPosition;
                     }else
                     target.Position=this.ary_sensor[3].GetPosition();
                     
@@ -139,7 +143,7 @@ export default class PlayerComponent extends Component{
                     }
                     target =this.ary_targets[2];
                     if(!this.ary_sensor[2].CanMove()){
-                        target.Position=this.gameObject.transform.Position;
+                        target.Position=this.gameObject.transform.LocalPosition;
                     }else
                     target.Position=this.ary_sensor[2].GetPosition();
                     
@@ -151,11 +155,6 @@ export default class PlayerComponent extends Component{
             this.keyboardEvent=null;
         }
         
-
-        this.soundframe--;
-        if(this.soundframe<=0){
-            this.soundframe=soundDelay;
-        }
 
     }
 
@@ -230,11 +229,17 @@ export default class PlayerComponent extends Component{
         this.OnMoveEnd();
         var target =this.ary_targets[0];
         target.Position=new Vector3(0,-0.5,1);
-
+        target.BaseTransform=this.stage.gameObject.transform;
         this.modelTransform.Scale=new Vector3(0.2,0.2,0.15);
 
         this.poppingComponent.Start();
         this.poppingComponent.SetTarget(this.movePase,target);
+        if(this.scaleComponent){
+            this.scaleComponent.Remove();
+        }
+        this.scaleComponent=new TransformAnimation(30,true,this.minimumTransform,this.modelTransform,Easing.EaseInOutCirc);
+        this.gameObject.SetComponent(this.scaleComponent);
+    
     }
     
     DeadAnimation_Press(arg_gameObject:GameObject){
@@ -242,7 +247,7 @@ export default class PlayerComponent extends Component{
             this.scaleComponent.Remove();
         }
         var petanko=new Transform(new Vector3(0,0.2,0),new Vector3(0,0,0),new Vector3(0.4,0.05,0.22));
-        this.scaleComponent=new TransformAnimation(10,false,petanko,this.modelTransform);
+        this.scaleComponent=new TransformAnimation(10,false,petanko,this.modelTransform,Easing.EaseInOutCirc);
 
         this.gameObject.SetComponent(this.scaleComponent);
         this.poppingComponent.Stop();
