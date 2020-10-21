@@ -72,7 +72,6 @@ export default class GameObjectManager{
         this.gameObjects.filter(obj=>obj.IsRemove).forEach(obj=>obj.Remove());
 
         this.gameObjects=this.gameObjects.filter(obj=>!obj.IsRemove);
-        //console.log(this.gameObjects.length);
     }
     GetGameObject(arg_gameObjectName:string):GameObject{
 

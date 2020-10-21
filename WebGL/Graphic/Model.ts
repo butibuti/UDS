@@ -54,7 +54,6 @@ export default class Model implements IModel{
         this.shader=arg_Shader;
         this.transform=arg_transform;
         this.lights=new Array();
-        console.log(this.subsets);
     }
     SetLight(arg_light:Light):void{
         this.lights.push(arg_light);

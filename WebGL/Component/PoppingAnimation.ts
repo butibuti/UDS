@@ -23,6 +23,7 @@ export default class PoppingAnimation extends Component{
     private direction:number=1;
     private playerCompoent:PlayerComponent;
 
+    private isStop=false;
     constructor(arg_moveObject:PlayerComponent, arg_time:number,arg_isLoop:boolean,arg_targetTransform?:Transform, arg_transform?:Transform,arg_easingFunction?:Function){
         super();
 
@@ -109,8 +110,17 @@ export default class PoppingAnimation extends Component{
         }
     }
 
+    Stop(){
+        this.isStop=true;
+    }
+    Start(){
+        this.isStop=false;
+    }
     Update(){
 
+        if(this.isStop){
+            return;
+        }
         this.TimeUpdate();
         var t=this.easingFunction( this.currentTime/this.time);
         if(t>1){

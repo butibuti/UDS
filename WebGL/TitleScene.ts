@@ -148,10 +148,7 @@ export default class TitleScene extends Scene{
       
     }
     OnUpdate(){
-        // カウンタを元にラジアンを算出
-        //console.log(this.projectionPlane.transform.Scale);
-        
-      //this.texts.transform.Position=(new Vector3( 0,slide/10,0));
+      
       
       
 

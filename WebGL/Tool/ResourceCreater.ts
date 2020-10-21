@@ -200,7 +200,6 @@ class B3MHolder{
                         normal[i*3+2]=this.bufferReader.GetFloat();                 
                     }   
             
-            
         var idx =this.ReadIndex(vertexIndexByteSize);  
                     geometry=ResourceCreater.CreateGeometry({p : pos, n : normal,  uv : uv, i : idx},true,true,false,this.graphicDevice);
                     }
@@ -686,8 +685,6 @@ uv[i*2+1]=this.bufferReader.GetFloat();
                         boneWeight4[i]=this.bufferReader.GetFloat();
                     }   
             
-                    console.log(pos);
-                    console.log(vertexIndexByteSize);
                     var idx =this.ReadIndex(vertexIndexByteSize);  
                     geometry=ResourceCreater.CreateGeometry({p : pos, n : normal,  uv : uv, i : idx},true,true,false,this.graphicDevice);
                     
@@ -1452,18 +1449,17 @@ uv[i*2+1]=this.bufferReader.GetFloat();
         var dir=GetDirectory(this.filePath);
 	    for (var i = 0; i < materialCount; i++) {
 		    var fileNameCount = this.bufferReader.GetInt();
-		    
 		    if (encodeType) {
                 var materialFilePath = this.bufferReader.GetString(fileNameCount);
                 
                 ary_material.push( ResourceCreater.CreateMaterialFromFile(dir+ materialFilePath,this.container,this.graphicDevice));
 		    }
-		else
-		{
-            var materialFilePath = this.bufferReader.GetWString(fileNameCount);          
+		    else
+		    {
+                var materialFilePath = this.bufferReader.GetWString(fileNameCount);          
 
-            ary_material.push(ResourceCreater.CreateMaterialFromFile(dir+materialFilePath,this.container,this.graphicDevice));
-		}
+                ary_material.push(ResourceCreater.CreateMaterialFromFile(dir+materialFilePath,this.container,this.graphicDevice));
+		    }
 		subset[i] = (this.bufferReader.GetInt());
 	    }
         geometry.SetSubset(subset);
@@ -1540,7 +1536,6 @@ class MaterialBinLoader{
     for (var i = 0; i < textureCount; i++) {
 		var texNameCount = materialReader.GetInt();
 		if (texNameCount < 0) {
-			ary_texture.push(this.container.AddTextureFromFile("",this.graphicDevice));
 		}
 		else if (encodeType) {
 			var textureName = materialReader.GetString(texNameCount);
@@ -1577,7 +1572,7 @@ class MaterialBinLoader{
 		}
     }
         
-        this.material.SetParameter(ambient,this.graphicDevice,ary_texture);
+        this.material.SetParameter(diffuse,this.graphicDevice,ary_texture);
         this.container.LoadEnd();
     }
 }

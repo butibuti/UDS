@@ -120,6 +120,7 @@ export default class LoadScene extends Scene{
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/DotEffect.glsl",this.sceneManager.GetGraphicDevice()),"dotEffect");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalColorVS.glsl',"shader/BlackTestFS.glsl",this.sceneManager.GetGraphicDevice()),"black");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/VertexPositionVS.glsl',"shader/AmbientFS.glsl",this.sceneManager.GetGraphicDevice()),"ambient");
+      this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/OnlyMaterialFS.glsl",this.sceneManager.GetGraphicDevice()),"onlyMaterial");
   
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry　( GeometryGenerater.CreateTorus(32,32,0.5,1),false,true,true,this.sceneManager.GetGraphicDevice()),"hsvTorus");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),true,true,true,this.sceneManager.GetGraphicDevice()),"cube");
@@ -129,7 +130,11 @@ export default class LoadScene extends Scene{
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),false, new Vector4(1.0,1.0,1.0,1)),true,false,false,this.sceneManager.GetGraphicDevice()),"plane");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),false, new Vector4(1.0,1.0,1.0,1)),false,true,true,this.sceneManager.GetGraphicDevice()),"floor");
       
-      //this.sceneManger.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/Maguro/maguro.b3m",this.sceneManger.GetResourceContainer(),this.sceneManger.GetGraphicDevice()),"maguro");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/Maguro/maguro.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"maguro");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/crab.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"crab");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/sango.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"sango");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/turtle.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"turtle");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/utubo.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"utubo");
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/kill2.wav","kill");
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/up_se.wav","up");
       

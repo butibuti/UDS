@@ -22,7 +22,7 @@ export default class Sensor extends Component{
     OnSet(){
         this.gameObject.transform.Position=this.parentObject.transform.Position.Add_b(this.offSet);
         this.gameObject.transform.Scale=new Vector3(0.5,0.5,0.5);
-        this.gameObject.SetComponent(new ModelDrawComponent(true, "nonTexcube","red","pointLight",1,false));
+        //this.gameObject.SetComponent(new ModelDrawComponent(true, "nonTexcube","red","pointLight",1,false));
         this.gameObject.ComplexHit=true;
         this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.box_AABB,new Vector3(1.0,1.0,1.0),0));
               

@@ -8,6 +8,7 @@ import CollisionComponent from "../Component/CollisionComponent";
 import GameObjectIDManager from "../Parts/GameObjectIDManager";
 import GameObject from "../GameObject/GameObject";
 import Stage from "./Stage";
+import Transform from "../Transform";
 
 enum PrimitiveType{
     sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -15,19 +16,17 @@ enum PrimitiveType{
 
 
 export default class DamageObstacleComponent extends Component{
-    materialName:string="green";
     stage:Stage;
-    constructor(arg_stage:Stage, arg_materialName?:string){
+    size:Vector3;
+    constructor(arg_stage:Stage,arg_size:Vector3){
         super();
         
-        this.materialName=arg_materialName;
         this.stage=arg_stage;
+        this.size=arg_size;
     }
     OnSet(){
         this.gameObject.objectID=GameObjectIDManager.GetID("damageObstacle");
-        
-        this.gameObject.SetComponent(new ModelDrawComponent(true, "nonTexcube","red","pointLight",1,false));
-        this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.box_AABB,new Vector3(1,1,1),0));
+        this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.box_AABB,this.size,0));
         
         
     }

@@ -30,6 +30,9 @@ enum PrimitiveType{
 
   const stageRange=[ [1,1,2,2,2,3],[1,1,1,2,2,2],[1,1,2,3,3,4]];
   const stageArrayLength=512;
+
+  const ary_cars=["crab","turtle"]
+
 export default class Stage extends Component{
 
 
@@ -131,6 +134,7 @@ export default class Stage extends Component{
     Create(){
 
 
+        this.CreateSafeZone(3);
         for(var i=0;i<11;i++){
             this.StageAdd(i);
         }
@@ -160,26 +164,38 @@ export default class Stage extends Component{
 
         switch(stageNum){
             case 0:
-                var safe=new StageParts_Safe(this,"");
+                var safe=new StageParts_Safe(this);
                 this.ary_stagePrts.push(safe);
                 this.playScene.GetGameManager().AddGameObject("safeArea",addStageTransform,"safeArea",[safe]);
             
             break;
             case 1:
-                var road=new StageParts_Road(this,"",new Vector3(1,1,1),RandomHelper.GetRandomInt(1,2));
+                var road=new StageParts_Road(this,ary_cars[RandomHelper.GetRandomInt(0,1)],new Vector3(1,1,1),RandomHelper.GetRandomInt(1,2));
                 this.ary_stagePrts.push(road);
                 this.playScene.GetGameManager().AddGameObject("road",addStageTransform,"road",[road]);
             
             break;
             
             case 2:
-                var rail=new StageParts_Rail(this,"",new Vector3(1,1,1));
+                var rail=new StageParts_Rail(this,"utubo",new Vector3(1,1,1));
                 this.ary_stagePrts.push(rail);
                 this.playScene.GetGameManager().AddGameObject("rail",addStageTransform,"rail",[rail]);
             
             break;
         }
         
+    }
+    CreateSafeZone(arg_safeCount:number){
+        for(var i=0;i<arg_safeCount;i++){
+
+            var addStageTransform=new Transform(new Vector3(0,0,arg_safeCount-i));
+            addStageTransform.BaseTransform=this.gameObject.transform;
+              
+            var safe=new StageParts_Safe(this);
+            this.ary_stagePrts.push(safe);
+            this.playScene.GetGameManager().AddGameObject("safeArea",addStageTransform,"safeArea",[safe]);
+            
+        }
     }
     StageDestroy(){
 

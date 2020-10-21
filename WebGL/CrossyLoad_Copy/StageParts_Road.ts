@@ -35,15 +35,18 @@ export default class StageParts_Road extends StageParts{
         }
         var time=RandomHelper.GetRandomInt(3,6);
         for(var i=0;i<this.carCount;i++){
-            var carTrans= new Transform();
+            var carTrans= new Transform(new Vector3(0,0,0),new Vector3(0,90*direction,0));
             carTrans.BaseTransform=this.gameObject.transform;
-            var damage=new DamageObstacleComponent(this.stage,"red");
+            var damage=new DamageObstacleComponent(this.stage,new Vector3(1,1,1));
 
 
-
+            var carModelTransform=new Transform(new Vector3(0,0,0),new Vector3(180,0,0),new Vector3(0.0025,0.0025,0.0025));
+            carModelTransform.BaseTransform=carTrans;
+            var carModel= (new ModelDrawComponent(false, "nonTexcube","red","onlyMaterial",1,false,this.meshName,carModelTransform));
+            
 
             var trip=new RoundTrip(new Vector3(6*direction,-0.5,0),new Vector3(-6*direction,-0.5,0),50*time,50*RandomHelper.GetRandomInt(0,time-1),true);
-            this.ary_cars.push(this.gameObject.Manager.AddGameObject("car",carTrans,"car",[damage,trip]));
+            this.ary_cars.push(this.gameObject.Manager.AddGameObject("car",carTrans,"car",[damage,trip,carModel]));
         }
         
     }

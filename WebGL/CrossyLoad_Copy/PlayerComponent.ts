@@ -61,12 +61,12 @@ export default class PlayerComponent extends Component{
         
         this.poppingComponent=new PoppingAnimation(this, this.movePase,false);
 
-        this.modelTransform=new Transform();
+        this.modelTransform=new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0.2,0.2,0.15));
         this.modelTransform.BaseTransform=this.gameObject.transform;
         this.gameObject.SetComponent(this.poppingComponent);
-        this.gameObject.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false,null,this.modelTransform)) as ModelDrawComponent;
-        this.minimumTransform=new Transform(new Vector3(0,0.1,0),new Vector3(0,0,0),new Vector3(1.2,0.8,1.2));
-        this.maximumTransform=new Transform(new Vector3(0,-0.1,0),new Vector3(0,0,0),new Vector3(1.0,1.0,1.0));
+        this.gameObject.SetComponent(new ModelDrawComponent(true, "cube","caloryMaterial","texShader_light",1,false,"maguro",this.modelTransform)) as ModelDrawComponent;
+        this.minimumTransform=new Transform(new Vector3(0,0.1,0),new Vector3(0,0,0),new Vector3(0.22,0.16,0.2));
+        this.maximumTransform=new Transform(new Vector3(0,-0.1,0),new Vector3(0,0,0),new Vector3(0.2,0.2,0.15));
         this.scaleComponent=new TransformAnimation(30,true,this.minimumTransform,this.modelTransform);
         this.gameObject.SetComponent(this.scaleComponent);
     
@@ -169,7 +169,7 @@ export default class PlayerComponent extends Component{
     OnKeyDown(e:KeyboardEvent){
 
         if(!this.canControll){
-            console.log("canControll!");
+            console.log("cantControll!");
             return;
         }
         if(e.key=="q"){
@@ -226,20 +226,50 @@ export default class PlayerComponent extends Component{
         Input.RemoveKeyDownEvent("playerEvent");
         
         this.gameObject.transform.Position=new Vector3(0,-0.5,1);
+        this.gameObject.transform.BaseTransform=this.stage.gameObject.transform;
         this.OnMoveEnd();
         var target =this.ary_targets[0];
         target.Position=new Vector3(0,-0.5,1);
+
+        this.modelTransform.Scale=new Vector3(0.2,0.2,0.15);
+
+        this.poppingComponent.Start();
         this.poppingComponent.SetTarget(this.movePase,target);
     }
     
-    DeadAnimation(){
+    DeadAnimation_Press(arg_gameObject:GameObject){
+        if(this.scaleComponent){
+            this.scaleComponent.Remove();
+        }
+        var petanko=new Transform(new Vector3(0,0.2,0),new Vector3(0,0,0),new Vector3(0.4,0.05,0.22));
+        this.scaleComponent=new TransformAnimation(10,false,petanko,this.modelTransform);
 
+        this.gameObject.SetComponent(this.scaleComponent);
+        this.poppingComponent.Stop();
+    }
+    DeadAnimation_Strike(arg_gameObject:GameObject){
+        this.gameObject.transform.SetPositionX(this.gameObject.transform.Position.Sub(arg_gameObject.transform.Position).x);
+        this.gameObject.transform.SetPositionY(this.gameObject.transform.LocalPosition.y);
+        this.gameObject.transform.SetPositionZ(0.55);
+        this.gameObject.transform.BaseTransform=arg_gameObject.transform;
+        if(this.scaleComponent){
+            this.scaleComponent.Remove();
+        }
+        var petanko=new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0.22,0.22,0.05));
+        this.scaleComponent=new TransformAnimation(10,false,petanko,this.modelTransform);
+
+        this.gameObject.SetComponent(this.scaleComponent);
+        this.poppingComponent.Stop();
     }
 
     OnCollisionEnter(arg_gameObject:GameObject){
         
         if(arg_gameObject.objectID==GameObjectIDManager.GetID("damageObstacle")){
-            this.DeadAnimation();
+            if(arg_gameObject.transform.Position.z<this.gameObject.transform.Position.z){
+                this.DeadAnimation_Press(arg_gameObject);
+            }else{
+                this.DeadAnimation_Press(arg_gameObject);
+            }
             this.stage.Failed();
             return;
         }
