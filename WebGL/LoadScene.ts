@@ -112,17 +112,35 @@ export default class LoadScene extends Scene{
     
     async OnLoad(){
       
+      console.log("1");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/PointLightVS.glsl',"shader/PointLightFS.glsl",this.sceneManager.GetGraphicDevice()),"pointLight");
   
       
+      console.log("2");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/DefaultFS_light.glsl",this.sceneManager.GetGraphicDevice()),"texShader_light");
+      
+      console.log("3");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/ZoomBlur.glsl",this.sceneManager.GetGraphicDevice()),"zoomEffect");
+      
+      console.log("4");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/DotEffect.glsl",this.sceneManager.GetGraphicDevice()),"dotEffect");
+      
+      console.log("5");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalColorVS.glsl',"shader/BlackTestFS.glsl",this.sceneManager.GetGraphicDevice()),"black");
+      
+      console.log("6");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/VertexPositionVS.glsl',"shader/AmbientFS.glsl",this.sceneManager.GetGraphicDevice()),"ambient");
+      
+      console.log("7");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/VertexPositionVS.glsl',"shader/SimpleColorFS.glsl",this.sceneManager.GetGraphicDevice()),"simpleColor");
+      
+      console.log("8");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/OnlyMaterialFS.glsl",this.sceneManager.GetGraphicDevice()),"onlyMaterial");
+      
+      console.log("9");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/RainbowFS.glsl",this.sceneManager.GetGraphicDevice()),"rainbow");
+      
+      console.log("10");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/RainbowAlpha.glsl",this.sceneManager.GetGraphicDevice()),"rainbowAlpha");
   
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry　( GeometryGenerater.CreateTorus(32,32,0.5,1),false,true,true,this.sceneManager.GetGraphicDevice()),"hsvTorus");
