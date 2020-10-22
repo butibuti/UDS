@@ -218,6 +218,22 @@ export default class Transform{
         }
 
     }
+    SetScaleX(arg_x:number):void{
+        this.scale.data[0]=arg_x;
+
+        this.matrix=null;
+
+    }
+    SetScaleY(arg_y:number):void{
+        this.scale.data[1]=arg_y;
+        this.matrix=null;
+
+    }
+    SetScaleZ(arg_z:number):void{
+        this.scale.data[2]=arg_z;
+        this.matrix=null;
+
+    }
 
     Roll_Local(arg_rotateMatrix:Matrix4x4){
         this.rotation.Multiply_b(arg_rotateMatrix);

@@ -1,12 +1,11 @@
 import ModelDrawComponent from "../Component/ModelDrawComponent";
 import GameObject from "../GameObject/GameObject";
 import Vector3 from "../Math/Vector3";
-import GameObjectIDManager from "../Parts/GameObjectIDManager";
 import RandomHelper from "../Tool/RandomHelper";
 import Transform from "../Transform";
 import DamageObstacleComponent from "./DamageObStacle";
-import RoundTrip from "./RoundTrip";
 import RoundTrip_Wait from "./RoundTrip_Wait";
+import SignalComponent from "./SignalComponent";
 import Stage from "./Stage";
 import StageParts from "./StageParts";
 
@@ -34,20 +33,26 @@ export default class StageParts_Rail extends StageParts{
         if(direction<1){
             direction=-1;
         }
-        var time=RandomHelper.GetRandomInt(1,3);
+        var time=RandomHelper.GetRandomInt(3,5);
         var currentTime=RandomHelper.GetRandomInt(1,4);
+
+        currentTime=Math.min(time, currentTime)*100;
+        time*=200;
+
         var trainTrans= new Transform();
         trainTrans.BaseTransform=this.gameObject.transform;
         var damage=new DamageObstacleComponent(this.stage,new Vector3(15,1,1));
 
-        var carModelTransform=new Transform(new Vector3(0,0,0),new Vector3(180,90*-direction,0),new Vector3(0.0025,0.0025,0.0025));
-        carModelTransform.BaseTransform=trainTrans;
-        var carModel= (new ModelDrawComponent(false, "nonTexcube","red","onlyMaterial",1,false,this.meshName,carModelTransform));
+        var trainModelTransform=new Transform(new Vector3(0,0,0),new Vector3(180,90*-direction,0),new Vector3(0.0025,0.0025,0.0025));
+        trainModelTransform.BaseTransform=trainTrans;
+        var trainModel= (new ModelDrawComponent(false, "nonTexcube","red","onlyMaterial",1,false,this.meshName,trainModelTransform));
         
-        var trip=new RoundTrip_Wait(new Vector3(20*direction,-0.5,0),new Vector3(-20*direction,-0.5,0),70,0,time*200,Math.min(time, currentTime)*100,true);
-        this.train=(this.gameObject.Manager.AddGameObject("car",trainTrans,"car",[damage,trip,carModel]));
+        var trip=new RoundTrip_Wait(new Vector3(20*direction,-0.5,0),new Vector3(-20*direction,-0.5,0),70,0,time,currentTime,true);
+        this.train=(this.gameObject.Manager.AddGameObject("train",trainTrans,"train",[damage,trip,trainModel]));
         
-        
+        var signal=new SignalComponent(time,currentTime,time-120,120);
+
+        this.gameObject.SetComponent(signal);
     }
     Destroy(){
         this.stage=null;

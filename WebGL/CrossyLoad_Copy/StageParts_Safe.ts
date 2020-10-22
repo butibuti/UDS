@@ -12,7 +12,11 @@ import StageParts from "./StageParts";
 
 const ary_meshes=["sango"]
 
+const ary_deco=["scallops","seaweed"]
+
 const ary_positions_reset=[0,1,2,3,4,5,6,-6,-5,-4,-3,-2,-1,];
+
+const ary_decoY=[0,-0.5];
 
 var ary_positions=ary_positions_reset.slice();
 
@@ -29,7 +33,7 @@ export default class StageParts_Safe extends StageParts{
             ary_positions[0]=1;
         }
 
-        this.carCount=RandomHelper.GetRandomInt(3,4);
+        this.carCount=RandomHelper.GetRandomInt(2,3);
         
         this.ary_obstacles=new Array(this.carCount);
         this.stage=arg_stage;
@@ -60,6 +64,22 @@ export default class StageParts_Safe extends StageParts{
             this.ary_obstacles.push(obs);
         }
         
+        var decoCount=RandomHelper.GetRandomInt(1,4);
+        for(var i=0;i<decoCount;i++){
+            var position=RandomHelper.GetRandomInt(0,12-(i+this.carCount));
+            var decoNum=RandomHelper.GetRandomInt(0,1);
+            var obstacleTrans= new Transform(new Vector3(ary_positions[position],ary_decoY[decoNum],0));
+            ary_positions.splice(position,1);
+            obstacleTrans.BaseTransform=this.gameObject.transform;
+
+            var modelTransform=new Transform(new Vector3(0,0,0),new Vector3(0,90*RandomHelper.GetRandomInt(0,3),0),new Vector3(0.0025,0.0025,0.0025))
+            modelTransform.BaseTransform=obstacleTrans;
+
+            var drawComp= (new ModelDrawComponent(false, "nonTexcube","red","onlyMaterial",1,false,ary_deco[decoNum],modelTransform));
+            
+            this.gameObject.SetComponent(drawComp);
+        }
+
         ary_positions=ary_positions_reset.slice();
     }
     Destroy(){

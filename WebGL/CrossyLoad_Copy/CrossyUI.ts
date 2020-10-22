@@ -8,8 +8,13 @@ import Vector4 from "../Math/Vector4";
 import Easing from "../Tool/Easing";
 import Transform from "../Transform";
 
+const maskLinerFrame=30;
+const maskLinerFrameMax=60;
+
 export default class CrossyUI extends Component{
-    coinText:TextDrawComponent;
+    comboBarDrawComponent:ModelDrawComponent;
+    feverBarDrawComponent:ModelDrawComponent;
+    activeBarDrawComponent:ModelDrawComponent;
     arrivalText:TextDrawComponent;
     retry:TextDrawComponent;
     logo:ModelDrawComponent;
@@ -22,16 +27,36 @@ export default class CrossyUI extends Component{
     logoTransform_Show:Transform;
     logoTransform_Hide:Transform;
 
+    maskColor:Vector4;
+
+    maskDir:number=-1.0;
+    maskPer:number=0;
+    isMask:boolean=false;
+
+
     constructor(){
         super();
     }
 
     OnSet(){
-        var coinTrans=new Transform(new Vector3(400,-400,-1),new Vector3(0,0,0),new Vector3(50,50,50));
-        this.coinText=new TextDrawComponent("0","font","fontShader",new Vector4(0.9,0.9,0.25,1),2,false,coinTrans);
+
+        
+        var comboBarBaseTransform=new Transform(new Vector3(400,0,-1),new Vector3(0,0,0),new Vector3(1,1.0,1));
+        
+        var comboBarTransform=new Transform(new Vector3(0,200,0),new Vector3(0,0,0),new Vector3(50,300,1));
+        
+        comboBarTransform.BaseTransform=comboBarBaseTransform;
+
+        this.feverBarDrawComponent=new ModelDrawComponent(false,"uvNormalBar","yellow","rainbow",2,false,null,comboBarTransform);
+        this.comboBarDrawComponent=new ModelDrawComponent(false,"uvNormalBar","yellow","onlyMaterial",2,false,null,comboBarTransform);
+        
+        this.gameObject.SetComponent(this.comboBarDrawComponent);
+        this.gameObject.SetComponent(this.feverBarDrawComponent);
+        
+        this.activeBarDrawComponent=this.comboBarDrawComponent;
         var arrivalTrans=new Transform(new Vector3(-400,-400,-1),new Vector3(0,0,0),new Vector3(50,50,50));
-        this.arrivalText=new TextDrawComponent("0","font","fontShader",new Vector4(0.1,0.1,0.1,1),2,false,arrivalTrans);
-        this.gameObject.SetComponent(this.coinText);
+        this.arrivalText=new TextDrawComponent("0","font","fontShader",new Vector4(0.9,0.9,0.25,1),2,false,arrivalTrans);
+        
 
         this.gameObject.SetComponent(this.arrivalText);
 
@@ -45,26 +70,78 @@ export default class CrossyUI extends Component{
 
         this.retryAnim=new TransformAnimation(40,false,this.retryTransform_Hide ,retryTrans,Easing.EaseInOutQuint,true);
 
+
+        this.maskColor=new Vector4(0.5,0.5,1.0,0.0);
+        
+        var mask=new ModelDrawComponent(false, "plane_position","red","simpleColor",2,false,null,new Transform(new Vector3(0,0,-1.2),new Vector3(0,0,0),new Vector3(600,600,600)));
+
+        this.gameObject.Manager.AddGameObject("mask",new Transform(),"mask",[mask]);
+        
+        mask.model.AddExParam(4,4,this.maskColor);
+
+
         this.gameObject.SetComponent(this.retry); 
         this.gameObject.SetComponent(this.retryAnim);
         this.retry.UnRegistDraw();
 
-        this.logo=new ModelDrawComponent(false, "plane","caloryMaterial","texShader",2,false,null,new Transform(new Vector3(-1110,0,-0.5),new Vector3(0,0,180),new Vector3(600,600,600)));
+        this.logo=new ModelDrawComponent(false, "plane","logoMaterial","texShader",2,false,null,new Transform(new Vector3(-1110,0,-0.5),new Vector3(0,0,180),new Vector3(600,600,600)));
 
         this.gameObject.SetComponent(this.logo);
 
-        this.logoTransform_Show=new Transform(new Vector3(0,0,-0.5),new Vector3(0,0,180),new Vector3(600,600,600));
-        this.logoTransform_Hide=new Transform(new Vector3(1100,0,-0.5),new Vector3(0,0,180),new Vector3(600,600,600));
+
+        this.logoTransform_Show=new Transform(new Vector3(-20,-100,-0.5),new Vector3(0,0,180),new Vector3(600,600,600));
+        this.logoTransform_Hide=new Transform(new Vector3(1100,-100,-0.5),new Vector3(0,0,180),new Vector3(600,600,600));
 
 
 
     }
+
+    Update(){
+
+        if(this.isMask){
+
+            this.maskPer+=this.maskDir;
+
+            if(this.maskPer>maskLinerFrameMax){
+                this.maskPer=maskLinerFrameMax;
+                this.maskDir=-1;
+            }
+            if(this.maskPer<0){
+                this.maskPer=0;
+                this.isMask=false;
+            }
+
+            this.maskColor.data[3]=this.maskPer/maskLinerFrame;
+        }
+
+        
+    }
+
     SetCoinNum(arg_coin:number){
-        this.coinText.SetText(arg_coin+"");
+        //this.comboBarDrawComponent.SetText(arg_coin+"");
     }
     SetArrival(arg_arrival:number){
         this.arrivalText.SetText(arg_arrival+"");
     }
+
+    SetComboMater(arg_persentage:number){
+        
+        this.activeBarDrawComponent.transform.SetScaleY(arg_persentage*300);
+    }
+
+    FeverStart(){
+        this.activeBarDrawComponent=this.feverBarDrawComponent;
+        this.comboBarDrawComponent.UnRegistDraw();
+        this.feverBarDrawComponent.RegistDraw();
+    }
+
+    FeverEnd(){
+        this.activeBarDrawComponent=this.comboBarDrawComponent;
+
+        this.comboBarDrawComponent.RegistDraw();
+        this.feverBarDrawComponent.UnRegistDraw();
+    }
+
     ShowRetry(){
         this.retryAnim.ChangeTarget(this.retryTransform_Show);
         this.retry.RegistDraw();
@@ -83,7 +160,12 @@ export default class CrossyUI extends Component{
         var logoAnim =new TransformAnimation(30,false,this.logoTransform_Hide,this.logo.transform,Easing.EaseInOutCirc);
         this.gameObject.SetComponent(logoAnim);
     }
+    MaskIn(){
+        this.maskDir=1.0;
+        this.isMask=true;
+    }
     Reset(){
-        this.logo.transform.Position=new Vector3(-1110,0,-0.5);
+        this.logo.transform.Position=new Vector3(-1110,-100,-0.5);
+        this.maskColor.data[3]=0;
     }
 }

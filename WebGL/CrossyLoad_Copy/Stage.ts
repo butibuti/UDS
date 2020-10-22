@@ -1,10 +1,7 @@
 import CameraChaser from "../Component/CameraChaser";
 import CollisionComponent from "../Component/CollisionComponent";
 import Component from "../Component/Component";
-import ModelDrawComponent from "../Component/ModelDrawComponent";
-import SinWaveMover from "../Component/SinWaveMover";
 import GameObject from "../GameObject/GameObject";
-import Vector2 from "../Math/Vector2";
 import Vector3 from "../Math/Vector3";
 import GameObjectIDManager from "../Parts/GameObjectIDManager";
 import ISound from "../Resource/ISound";
@@ -12,19 +9,14 @@ import IScene from "../Scene/IScene";
 import Input from "../Tool/Input";
 import RandomHelper from "../Tool/RandomHelper";
 import Transform from "../Transform";
-import CheckPoint from "./CheckPoint";
 import CoinComponent from "./CoinComponent";
 import CrossyUI from "./CrossyUI";
-import DamageObstacleComponent from "./DamageObStacle";
 
-import ObstacleComponent from "./ObstacleComponent";
 import PlayerComponent from "./PlayerComponent";
 import StageParts from "./StageParts";
 import StageParts_Road from "./StageParts_Road";
 import StageParts_Safe from "./StageParts_Safe";
 import StageParts_Rail from "./StageParts_Rail";
-import TransformAnimation from "../Component/TransformAnimation";
-import Easing from "../Tool/Easing";
 
 enum PrimitiveType{
     sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -37,15 +29,6 @@ enum PrimitiveType{
   const ary_carSizes=[new Vector3(1,1,1),new Vector3(1,1,1),new Vector3(1,1,1),new Vector3(5,1,1)]
   const ary_carRotate=[new Vector3(0,90,0),new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0,180,0)]
 
-  const ary_carAnimTransform=[
-    new Transform(new Vector3(0,-0.7,0),new Vector3(0,0,0),new Vector3(0.0025,0.003,0.0025)),
-    new Transform(new Vector3(0,-0.7,0),new Vector3(0,360,0),new Vector3(0.0025,0.0025,0.0025)),
-    new Transform(new Vector3(0,-0.7,0),new Vector3(0,0,0),new Vector3(0.0025,0.0025,0.0025)),
-    new Transform(new Vector3(0,-0.7,0),new Vector3(0,0,0),new Vector3(0.003,0.0025,0.003)),
-  ]
-  const ary_animFrame=[
-      15,60,60,120
-  ]
 export default class Stage extends Component{
 
 
@@ -73,6 +56,13 @@ export default class Stage extends Component{
     stageStock=1;
 
     stageArray:Int16Array;
+
+    feverGage=0;
+
+    gageMinLine=0.0;
+
+    gageDownPase=0.2;
+    gageUpPase=10;
 
     constructor(arg_scene:IScene){
         super();
@@ -112,6 +102,8 @@ export default class Stage extends Component{
         camera.SetComponent(new CameraChaser(0.02,this.player.transform));
         camera.transform.BaseTransform=this.gameObject.transform;
          this.Create();
+
+         this.ui.HideIn();
 }
     OnRemove(){
         this.playScene=null;
@@ -126,13 +118,36 @@ export default class Stage extends Component{
     GetCoin(){
         this.coinse.Play_new();
         this.coin++;
+        this.gageMinLine+=this.gageUpPase;
+        this.GageUp();
+        
         this.ui.SetCoinNum(this.coin);
     }
 
+    GageUp(){
+
+        if(this.feverGage<100&&!this.playerComponent.IsFever){
+
+            this.feverGage+=this.gageUpPase;
+        }
+        this.gageDownPase=0.2;
+        if(this.feverGage>=100){
+            this.ui.FeverStart();
+        this.playerComponent.FeverStart();
+        this.gageMinLine=0.0;
+        }
+    }
     GoFront(arg_z:number){
         arg_z=Math.trunc(-arg_z);
+
+        if(arg_z==-1){
+            
+        this.ui.HideOut();
+        }
+
         if(this.arrival< arg_z){
             this.arrival=arg_z;
+            this.GageUp();
             this.gameObject.transform.TranslateZ(1.0);
             this.ui.SetArrival(this.arrival);
             if(this.arrival>this.stageStock){
@@ -186,7 +201,7 @@ export default class Stage extends Component{
                 var carNum=RandomHelper.GetRandomInt(0,3);
 
 
-                var road=new StageParts_Road(this,"road"+baseMaterialNameEx,ary_cars[carNum],ary_carSizes[carNum].Clone(),ary_carRotate[carNum],RandomHelper.GetRandomInt(1,2),ary_carAnimTransform[carNum],ary_animFrame[carNum]);
+                var road=new StageParts_Road(this,"road"+baseMaterialNameEx,ary_cars[carNum],ary_carSizes[carNum].Clone(),ary_carRotate[carNum],RandomHelper.GetRandomInt(1,2));
                 this.ary_stagePrts.push(road);
                 this.playScene.GetGameManager().AddGameObject("road",addStageTransform,"road",[road]);
             
@@ -226,9 +241,20 @@ export default class Stage extends Component{
     Update(){
         //this.gameObject.transform.TranslateZ(0.01);
 
+        this.ui.SetComboMater(this.feverGage/100);
+
+        this.feverGage-=this.gageDownPase;
+
+        if(this.feverGage<this.gageMinLine){
+            this.feverGage=this.gageMinLine;
+            this.gageDownPase=0.0;
+            this.playerComponent.FeverEnd();
+            this.ui.FeverEnd();
+        }
+
+
         if(this.fadeCount==0){
             this.Reset();
-            this.ui.HideOut();
             this.fadeCount=-1;this.startWait=30;
         }else
         if(this.fadeCount>0){
@@ -239,6 +265,8 @@ export default class Stage extends Component{
         }else if(this.fadeCount>0){
             this.startWait--;
         }
+
+        
     }
 
     Failed(){
@@ -266,6 +294,10 @@ export default class Stage extends Component{
         this.ui.SetCoinNum(this.coin);
         this.ui.SetArrival(this.arrival);
         this.playScene.GetCamera("main").transform.Position=new Vector3(1,-6,4);
+        this.feverGage=0;
+        this.gageDownPase=0.2;
+        this.gageUpPase=10;
+        this.gageMinLine=0.0;
     }
 
 
@@ -277,6 +309,7 @@ export default class Stage extends Component{
         this.ui.HideRetry();
         this.ui.Reset();
         this.ui.HideIn();
+        this.ui.MaskIn();
         this.fadeCount=60;
     }
 }

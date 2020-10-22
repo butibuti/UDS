@@ -120,14 +120,21 @@ export default class LoadScene extends Scene{
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/DotEffect.glsl",this.sceneManager.GetGraphicDevice()),"dotEffect");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalColorVS.glsl',"shader/BlackTestFS.glsl",this.sceneManager.GetGraphicDevice()),"black");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/VertexPositionVS.glsl',"shader/AmbientFS.glsl",this.sceneManager.GetGraphicDevice()),"ambient");
+      this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/VertexPositionVS.glsl',"shader/SimpleColorFS.glsl",this.sceneManager.GetGraphicDevice()),"simpleColor");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/OnlyMaterialFS.glsl",this.sceneManager.GetGraphicDevice()),"onlyMaterial");
+      this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/RainbowFS.glsl",this.sceneManager.GetGraphicDevice()),"rainbow");
+      this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/RainbowAlpha.glsl",this.sceneManager.GetGraphicDevice()),"rainbowAlpha");
   
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry　( GeometryGenerater.CreateTorus(32,32,0.5,1),false,true,true,this.sceneManager.GetGraphicDevice()),"hsvTorus");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),true,true,true,this.sceneManager.GetGraphicDevice()),"cube");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),false,false,false,this.sceneManager.GetGraphicDevice()),"cube_position");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),false,true,true,this.sceneManager.GetGraphicDevice()),"nonTexcube");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateSphere(12,12,0.5,new Vector4(0.0,0.0,0.0,1)),false,true,true,this.sceneManager.GetGraphicDevice()),"sphere");
+      this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateSphere(4,4,0.5,new Vector4(0.0,0.0,0.0,1)),true,true,false,this.sceneManager.GetGraphicDevice()),"effectSphere");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),false, new Vector4(1.0,1.0,1.0,1)),true,false,false,this.sceneManager.GetGraphicDevice()),"plane");
+      this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),false, new Vector4(1.0,1.0,1.0,1)),false,false,false,this.sceneManager.GetGraphicDevice()),"plane_position");
+      this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),false, new Vector4(1.0,1.0,1.0,1)),true,true,false,this.sceneManager.GetGraphicDevice()),"uvNormalPlane");
+      this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateBar(new Vector2(1,1),false, new Vector4(1.0,1.0,1.0,1)),true,true,false,this.sceneManager.GetGraphicDevice()),"uvNormalBar");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreatePlane(new Vector2(1,1),false, new Vector4(1.0,1.0,1.0,1)),false,true,true,this.sceneManager.GetGraphicDevice()),"floor");
       
       this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/Maguro/maguro.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"maguro");
@@ -136,16 +143,21 @@ export default class LoadScene extends Scene{
       this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/turtle.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"turtle");
       this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/utubo.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"utubo");
       this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/fishes.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"fishes");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/clownfish.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"clownfish");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/seaweed.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"seaweed");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/scallops.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"scallops");
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/kill2.wav","kill");
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/up_se.wav","up");
       
       // テクスチャを生成
       var caloryTexture= ResourceCreater.CreateTexture ('image/calory.png',this.sceneManager.GetGraphicDevice());
       this.sceneManager.GetResourceContainer().AddTexture(caloryTexture,"calory");
+      this.sceneManager.GetResourceContainer().AddTextureFromFile("image/magurossy.png",this.sceneManager.GetGraphicDevice());
       this.sceneManager.GetResourceContainer().AddTextureFromFile("image/circle32.png",this.sceneManager.GetGraphicDevice());
       
       
       var material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial (new Vector4(0.1,0.1,0.1,1.0),this.sceneManager.GetGraphicDevice(),[this.sceneManager.GetResourceContainer().GetTexture("calory")]),"caloryMaterial");
+      var material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial (new Vector4(0.1,0.1,0.1,1.0),this.sceneManager.GetGraphicDevice(),[this.sceneManager.GetResourceContainer().GetTexture("image/magurossy.png")]),"logoMaterial");
       material.AddExParam(4,3,new Vector3(5,5,10));
       material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial (new Vector4(0.1,0.1,0.1,1.0),this.sceneManager.GetGraphicDevice(),[this.sceneManager.GetResourceContainer().GetTexture("image/circle32.png")]),"circleMaterial");
       material.AddExParam(4,3,new Vector3(5,5,10));

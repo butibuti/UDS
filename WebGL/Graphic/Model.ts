@@ -10,6 +10,55 @@ import IMesh from "../Resource/IMesh"
 import Matrix4x4 from "../Math/Matrix"
 import Vector3 from "../Math/Vector3"
 
+
+
+class ExParameter{
+    slot:number;
+    param;
+    size:number;
+    atachFunc:Function;
+    constructor(arg_slot:number,arg_size:number,arg_param){
+        this.slot=arg_slot;
+        this.param=arg_param;
+        this.size=arg_size;
+        
+        switch(arg_size){
+            case 1:
+            this.atachFunc=this.Atach1f;
+            break;
+            case 2:
+            this.atachFunc=this.Atach2f;
+            break;
+            case 3:
+            this.atachFunc=this.Atach3f;
+            break;
+            case 4:
+            this.atachFunc=this.Atach4f;
+            break;
+            case 16:
+            this.atachFunc=this.AtachMat;
+            break;
+        }
+    }
+
+
+    Atach1f(device:GraphicDevice){
+        device.context.uniform1fv(device.shader.uniformLocations[this.slot], this.param.data);
+    }
+    Atach2f(device:GraphicDevice){
+        device.context.uniform2fv(device.shader.uniformLocations[this.slot], this.param.data);
+    }
+    Atach3f(device:GraphicDevice){
+        device.context.uniform3fv(device.shader.uniformLocations[this.slot], this.param.data);
+    }
+    Atach4f(device:GraphicDevice){
+        device.context.uniform4fv(device.shader.uniformLocations[this.slot], this.param.data);
+    }
+    AtachMat(device:GraphicDevice){
+        device.context.uniformMatrix4fv(device.shader.uniformLocations[this.slot],false, this.param.data);
+    }
+}
+
 export default class Model implements IModel{
     graphicDevice:GraphicDevice;
     geometry:IGeometry;
@@ -18,6 +67,7 @@ export default class Model implements IModel{
     transform:Transform;
     lights:Array<Light>;
     subsets:Array<number>;
+    exParams:Array<ExParameter>;
     
     Draw:Function;
     constructor (isLight:boolean ,isBillBoard?:boolean){
@@ -33,6 +83,7 @@ export default class Model implements IModel{
             else
             this.Draw=this.Draw_NonLight;
         }
+        this.exParams=new Array();
     }
     Initialize_geom(arg_graphicDevice:GraphicDevice,arg_geometry:IGeometry,arg_material:IMaterial,arg_Shader:IShader,arg_transform:Transform){
         this.graphicDevice=arg_graphicDevice;
@@ -59,6 +110,9 @@ export default class Model implements IModel{
         this.lights.push(arg_light);
     }
 
+    AddExParam(arg_slot:number,arg_size:number,arg_param){
+        this.exParams.push(new ExParameter(arg_slot,arg_size,arg_param));
+    }
     Draw_NonLight():void{
 
         this.shader.Attach();
@@ -73,6 +127,9 @@ export default class Model implements IModel{
 
         
         
+        for(var i=0;i< this.exParams.length;i++){
+            this.exParams[i].atachFunc(this.graphicDevice);
+        }
         
         this.geometry.Draw();
         var offset=0;
@@ -99,6 +156,9 @@ export default class Model implements IModel{
         
         this.lights.forEach(light=>light.Atach());
         
+        for(var i=0;i< this.exParams.length;i++){
+            this.exParams[i].atachFunc(this.graphicDevice);
+        }
         this.geometry.Draw();
         var offset=0;
         
@@ -127,6 +187,9 @@ export default class Model implements IModel{
 
         
         
+        for(var i=0;i< this.exParams.length;i++){
+            this.exParams[i].atachFunc(this.graphicDevice);
+        }
         
         this.geometry.Draw();
         var offset=0;
@@ -156,6 +219,9 @@ export default class Model implements IModel{
 
         
         
+        for(var i=0;i< this.exParams.length;i++){
+            this.exParams[i].atachFunc(this.graphicDevice);
+        }
         
         this.geometry.Draw();
         var offset=0;
@@ -166,6 +232,7 @@ export default class Model implements IModel{
             offset+=this.subsets[i];
 
         }
+
     }
 
     

@@ -19,9 +19,7 @@ export default class StageParts_Road extends StageParts{
     stage:Stage;
     speed:number;
     baseMaterialName:string;
-    transformAnim:Transform;
-    animFrame:number;
-    constructor(arg_stage:Stage,arg_materialName:string, arg_meshName:string,arg_size:Vector3,arg_rotate:Vector3,arg_carCount:number,arg_anim:Transform,frame:number){
+    constructor(arg_stage:Stage,arg_materialName:string, arg_meshName:string,arg_size:Vector3,arg_rotate:Vector3,arg_carCount:number){
         super();
         this.meshName= arg_meshName;
         this.size=arg_size;
@@ -30,8 +28,6 @@ export default class StageParts_Road extends StageParts{
         this.rotate=arg_rotate;
         this.stage=arg_stage;
         this.baseMaterialName=arg_materialName;
-        this.transformAnim=arg_anim;
-        this.animFrame=frame;
     }
 
     OnSet(){

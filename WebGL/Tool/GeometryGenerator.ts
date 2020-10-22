@@ -132,60 +132,114 @@ export default class GeometryGenerater{
         return {p : pos, n : nor, c : col, uv : st, i : idx};
     }
     
-  static CreatePlane(arg_size:Vector2,isReverse:boolean,arg_color?:Vector4){
-    var pos=new Array();
-    var nor =new Array();
-    var col = new Array();
-    var idx = new Array();
-    var uv=new Array();
-    pos= [
-        -arg_size.x,  arg_size.y,  0.0,
-        arg_size.x,  arg_size.y,  0.0,
-        -arg_size.x, -arg_size.y,  0.0,
-        arg_size.x, -arg_size.y,  0.0,
-    ];
-    nor=[
-        0.0,  0.0,  -1.0,
-        0.0,  0.0,  -1.0,
-        0.0,  0.0,  -1.0,
-        0.0,  0.0,  -1.0,
-    ];
-    if(arg_color){
-
-        col=[
-            arg_color.x,arg_color.y,arg_color.z,arg_color.w,
-            arg_color.x,arg_color.y,arg_color.z,arg_color.w,
-            arg_color.x,arg_color.y,arg_color.z,arg_color.w,
-            arg_color.x,arg_color.y,arg_color.z,arg_color.w
+    static CreatePlane(arg_size:Vector2,isReverse:boolean,arg_color?:Vector4){
+        var pos=new Array();
+        var nor =new Array();
+        var col = new Array();
+        var idx = new Array();
+        var uv=new Array();
+        pos= [
+            -arg_size.x,  arg_size.y,  0.0,
+            arg_size.x,  arg_size.y,  0.0,
+            -arg_size.x, -arg_size.y,  0.0,
+            arg_size.x, -arg_size.y,  0.0,
         ];
-    }else {
-        col=[1,1,1,1,
-            1,1,1,1,
-            1,1,1,1,
-            1,1,1,1
-        ]
-    }
-    idx=[
-        2, 3, 1,
-        2, 1, 0,
-    ];
-    if(isReverse)
-    uv=[
-        0.0, 1.0,
-        1.0, 1.0,
-        0.0, 0.0,
-        1.0, 0.0
-    ];
-    else{
+        nor=[
+            0.0,  0.0,  -1.0,
+            0.0,  0.0,  -1.0,
+            0.0,  0.0,  -1.0,
+            0.0,  0.0,  -1.0,
+        ];
+        if(arg_color){
+    
+            col=[
+                arg_color.x,arg_color.y,arg_color.z,arg_color.w,
+                arg_color.x,arg_color.y,arg_color.z,arg_color.w,
+                arg_color.x,arg_color.y,arg_color.z,arg_color.w,
+                arg_color.x,arg_color.y,arg_color.z,arg_color.w
+            ];
+        }else {
+            col=[1,1,1,1,
+                1,1,1,1,
+                1,1,1,1,
+                1,1,1,1
+            ]
+        }
+        idx=[
+            2, 3, 1,
+            2, 1, 0,
+        ];
+        if(isReverse)
         uv=[
-            0.0, 0.0,
-            1.0, 0.0,
             0.0, 1.0,
-            1.0, 1.0
+            1.0, 1.0,
+            0.0, 0.0,
+            1.0, 0.0
         ];
-    }
-    return {p : pos, n : nor, c : col, i : idx,uv:uv};
-  }
+        else{
+            uv=[
+                0.0, 0.0,
+                1.0, 0.0,
+                0.0, 1.0,
+                1.0, 1.0
+            ];
+        }
+        return {p : pos, n : nor, c : col, i : idx,uv:uv};
+      }
+      static CreateBar(arg_size:Vector2,isReverse:boolean,arg_color?:Vector4){
+        var pos=new Array();
+        var nor =new Array();
+        var col = new Array();
+        var idx = new Array();
+        var uv=new Array();
+        pos= [
+            -arg_size.x,  0,  0.0,
+            arg_size.x,  0,  0.0,
+            -arg_size.x, -arg_size.y*2,  0.0,
+            arg_size.x, -arg_size.y*2,  0.0,
+        ];
+        nor=[
+            0.0,  0.0,  -1.0,
+            0.0,  0.0,  -1.0,
+            0.0,  0.0,  -1.0,
+            0.0,  0.0,  -1.0,
+        ];
+        if(arg_color){
+    
+            col=[
+                arg_color.x,arg_color.y,arg_color.z,arg_color.w,
+                arg_color.x,arg_color.y,arg_color.z,arg_color.w,
+                arg_color.x,arg_color.y,arg_color.z,arg_color.w,
+                arg_color.x,arg_color.y,arg_color.z,arg_color.w
+            ];
+        }else {
+            col=[1,1,1,1,
+                1,1,1,1,
+                1,1,1,1,
+                1,1,1,1
+            ]
+        }
+        idx=[
+            2, 3, 1,
+            2, 1, 0,
+        ];
+        if(isReverse)
+        uv=[
+            0.0, 1.0,
+            1.0, 1.0,
+            0.0, 0.0,
+            1.0, 0.0
+        ];
+        else{
+            uv=[
+                0.0, 0.0,
+                1.0, 0.0,
+                0.0, 1.0,
+                1.0, 1.0
+            ];
+        }
+        return {p : pos, n : nor, c : col, i : idx,uv:uv};
+      }
 
   static CreateTextGeometry(textLength:number){
     var pos=new Array();
