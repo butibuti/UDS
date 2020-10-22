@@ -117,7 +117,7 @@ export default class LoadScene extends Scene{
   
       
       //console.log("2");
-      //this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/DefaultFS_light.glsl",this.sceneManager.GetGraphicDevice()),"texShader_light");
+      this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/DefaultFS_light.glsl",this.sceneManager.GetGraphicDevice()),"texShader_light");
       
       
       console.log("5");
@@ -136,7 +136,7 @@ export default class LoadScene extends Scene{
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/RainbowFS.glsl",this.sceneManager.GetGraphicDevice()),"rainbow");
       
       console.log("10");
-      this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/RainbowAlpha.glsl",this.sceneManager.GetGraphicDevice()),"rainbowAlpha");
+      //this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/RainbowAlpha.glsl",this.sceneManager.GetGraphicDevice()),"rainbowAlpha");
   
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry　( GeometryGenerater.CreateTorus(32,32,0.5,1),false,true,true,this.sceneManager.GetGraphicDevice()),"hsvTorus");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),true,true,true,this.sceneManager.GetGraphicDevice()),"cube");

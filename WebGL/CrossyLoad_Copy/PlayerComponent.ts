@@ -43,7 +43,7 @@ export default class PlayerComponent extends Component{
 
     isInvisible=false;
 
-    invisibleEffect:ModelDrawComponent;
+    //invisibleEffect:ModelDrawComponent;
 
     constructor(arg_movePase:number,arg_stage:Stage){
         super();
@@ -68,11 +68,11 @@ export default class PlayerComponent extends Component{
         this.gameObject.SetComponent(this.poppingComponent);
         this.gameObject.SetComponent(new ModelDrawComponent(true, "cube","caloryMaterial","texShader_light",1,false,"maguro",this.modelTransform)) as ModelDrawComponent;
         
-        var effectTransform=new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new  Vector3(0,0,0));
-        effectTransform.BaseTransform=this.gameObject.transform;
-        this.invisibleEffect=new ModelDrawComponent(false,"effectSphere","yellow","rainbowAlpha",1,false,null,effectTransform);
-        this.gameObject.SetComponent(this.invisibleEffect);
-        this.invisibleEffect.UnRegistDraw();
+        // var effectTransform=new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new  Vector3(0,0,0));
+        // effectTransform.BaseTransform=this.gameObject.transform;
+        // this.invisibleEffect=new ModelDrawComponent(false,"effectSphere","yellow","rainbowAlpha",1,false,null,effectTransform);
+        // this.gameObject.SetComponent(this.invisibleEffect);
+        // this.invisibleEffect.UnRegistDraw();
 
 
         this.minimumTransform=new Transform(new Vector3(0,0.1,0),new Vector3(0,0,0),new Vector3(0.3,0.16,0.18));
@@ -104,8 +104,8 @@ export default class PlayerComponent extends Component{
     Update(){
 
         if(this.isInvisible){
-            this.invisibleEffect.transform.RollX_Local_Degrees(2);
-            this.invisibleEffect.transform.RollY_Local_Degrees(2);
+            //this.invisibleEffect.transform.RollX_Local_Degrees(2);
+            //this.invisibleEffect.transform.RollY_Local_Degrees(2);
         }
         if(!this.canControll){
             return;
@@ -177,16 +177,16 @@ export default class PlayerComponent extends Component{
     FeverStart(){
         this.isInvisible=true;
 
-        this.gameObject.SetComponent(new TransformAnimation(40,false,new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(1,1,1)),this.invisibleEffect.transform));
-        this.invisibleEffect.UnRegistDraw();
-        this.invisibleEffect.RegistDraw();
+        //this.gameObject.SetComponent(new TransformAnimation(40,false,new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(1,1,1)),this.invisibleEffect.transform));
+        //this.invisibleEffect.UnRegistDraw();
+        //this.invisibleEffect.RegistDraw();
         
     }
 
     FeverEnd(){
 
         this.isInvisible=false;
-        this.gameObject.SetComponent(new TransformAnimation(30,false,new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0,0,0)),this.invisibleEffect.transform));
+        //this.gameObject.SetComponent(new TransformAnimation(30,false,new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0,0,0)),this.invisibleEffect.transform));
         
     }
 
@@ -276,7 +276,7 @@ export default class PlayerComponent extends Component{
         this.scaleComponent=new TransformAnimation(30,true,this.minimumTransform,this.modelTransform,Easing.EaseInOutCirc);
         this.gameObject.SetComponent(this.scaleComponent);
     
-        this.invisibleEffect.UnRegistDraw();
+        //this.invisibleEffect.UnRegistDraw();
     }
     
     DeadAnimation_Press(arg_gameObject:GameObject){
