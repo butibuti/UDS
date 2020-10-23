@@ -32,7 +32,7 @@ export default class CrossyUI extends Component{
     maskDir:number=-1.0;
     maskPer:number=0;
     isMask:boolean=false;
-
+    mask: ModelDrawComponent;
 
     constructor(){
         super();
@@ -73,11 +73,11 @@ export default class CrossyUI extends Component{
 
         this.maskColor=new Vector4(0.5,0.5,1.0,0.0);
         
-        var mask=new ModelDrawComponent(false, "plane_position","red","simpleColor",2,false,null,new Transform(new Vector3(0,0,-1.2),new Vector3(0,0,0),new Vector3(600,600,600)));
+        this.mask=new ModelDrawComponent(false, "plane_position","red","simpleColor",2,false,null,new Transform(new Vector3(0,0,-0.8),new Vector3(0,0,0),new Vector3(600,600,600)));
 
-        this.gameObject.Manager.AddGameObject("mask",new Transform(),"mask",[mask]);
-        
-        mask.model.AddExParam(4,4,this.maskColor);
+        this.gameObject.Manager.AddGameObject("mask",new Transform(),"mask",[this.mask]);
+        this.mask.UnRegistDraw();
+        this.mask.model.AddExParam(4,4,this.maskColor);
 
 
         this.gameObject.SetComponent(this.retry); 
@@ -108,7 +108,7 @@ export default class CrossyUI extends Component{
             }
             if(this.maskPer<0){
                 this.maskPer=0;
-                this.isMask=false;
+                this.isMask=false;this.mask.UnRegistDraw();
             }
 
             this.maskColor.data[3]=this.maskPer/maskLinerFrame;
@@ -133,6 +133,7 @@ export default class CrossyUI extends Component{
         this.activeBarDrawComponent=this.feverBarDrawComponent;
         this.comboBarDrawComponent.UnRegistDraw();
         this.feverBarDrawComponent.RegistDraw();
+        
     }
 
     FeverEnd(){
@@ -152,17 +153,21 @@ export default class CrossyUI extends Component{
     }
     HideIn(){
 
-        var logoAnim =new TransformAnimation(30,false,this.logoTransform_Show,this.logo.transform,Easing.EaseInOutCirc);
+        var logoAnim =new TransformAnimation(30,false,this.logoTransform_Show,this.logo.transform);
         this.gameObject.SetComponent(logoAnim);
     }
     HideOut(){
 
-        var logoAnim =new TransformAnimation(30,false,this.logoTransform_Hide,this.logo.transform,Easing.EaseInOutCirc);
+        var logoAnim =new TransformAnimation(30,false,this.logoTransform_Hide,this.logo.transform);
         this.gameObject.SetComponent(logoAnim);
     }
     MaskIn(){
         this.maskDir=1.0;
         this.isMask=true;
+        this.mask.RegistDraw();
+
+        this.logo.UnRegistDraw();
+        this.logo.RegistDraw();
     }
     Reset(){
         this.logo.transform.Position=new Vector3(-1110,-100,-0.5);

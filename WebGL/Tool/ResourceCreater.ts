@@ -1591,8 +1591,8 @@ export default class ResourceCreater{
     }
 
 
-    static CreateShader(vsSource:string,fsSource:string,arg_graphicDevice:GraphicDevice):IShader{
-        return new Shader (vsSource,fsSource,arg_graphicDevice);
+    static CreateShader(vsSource:string,fsSource:string,arg_graphicDevice:GraphicDevice ,vsSource_direct?:boolean,fsSource_direct?:boolean):IShader{
+        return new Shader (vsSource,fsSource,arg_graphicDevice,vsSource_direct,fsSource_direct);
     }
 
     static CreateSound(arg_soundSorce:string):ISound{

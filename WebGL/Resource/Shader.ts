@@ -35,12 +35,21 @@ export default class Shader implements IShader{
     lightDirSlot:number;
     textureSlots:Array<number>;
 
-    constructor(vsSource:string,fsSource:string,arg_graphicDevice:GraphicDevice){
+    constructor(vsSource:string,fsSource:string,arg_graphicDevice:GraphicDevice,vsSource_direct?:boolean,fsSource_direct?:boolean){
         this.graphicDevice=arg_graphicDevice;
 
-        var vsData=FileLoader.LoadText(vsSource);
+        var vsData:string;
+        if(vsSource_direct){
+            vsData=(document.getElementById(vsSource) as HTMLScriptElement).text;
+        }else
+        vsData=FileLoader.LoadText(vsSource);
         var v_shader = this.graphicDevice.CreateVertexShader(vsData);
-        var fsData=FileLoader.LoadText(fsSource);
+
+        var fsData:string;
+        if(fsSource_direct){
+            fsData=(document.getElementById(fsSource) as HTMLScriptElement).text;
+        }else
+        fsData=FileLoader.LoadText(fsSource);
         var f_shader =this. graphicDevice.CreateFragmentShader(fsData);
         this.ambientSlot=-1;
         this.lightPosSlot=-1;

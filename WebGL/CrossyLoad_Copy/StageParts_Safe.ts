@@ -4,6 +4,7 @@ import Vector3 from "../Math/Vector3";
 import { PrimitiveType } from "../Parts/Collision/PrimitiveType";
 import RandomHelper from "../Tool/RandomHelper";
 import Transform from "../Transform";
+import CoinComponent from "./CoinComponent";
 import DamageObstacleComponent from "./DamageObStacle";
 import ObstacleComponent from "./ObstacleComponent";
 import RoundTrip from "./RoundTrip";
@@ -16,9 +17,13 @@ const ary_deco=["scallops","seaweed"]
 
 const ary_positions_reset=[0,1,2,3,4,5,6,-6,-5,-4,-3,-2,-1,];
 
+const randomAryLength=12;
+
 const ary_decoY=[0,-0.5];
 
 var ary_positions=ary_positions_reset.slice();
+
+const ary_coinCount=[0,0,0,1];
 
 export default class StageParts_Safe extends StageParts{
     size:Vector3;
@@ -26,14 +31,14 @@ export default class StageParts_Safe extends StageParts{
     ary_obstacles:Array<GameObject>;
     stage:Stage;
     baseMaterialName:string;
-    constructor(arg_stage:Stage,arg_materialName:string,isStart?:boolean){
+    constructor(arg_stage:Stage,arg_materialName:string,arg_carCount:number,isStart?:boolean){
         super();
 
         if(isStart){
             ary_positions[0]=1;
         }
 
-        this.carCount=RandomHelper.GetRandomInt(2,3);
+        this.carCount=arg_carCount;
         
         this.ary_obstacles=new Array(this.carCount);
         this.stage=arg_stage;
@@ -47,7 +52,7 @@ export default class StageParts_Safe extends StageParts{
         this.gameObject.SetComponent(new ModelDrawComponent(false, "cube_position",this.baseMaterialName,"ambient",1,false,null,modelTransform));
 
         for(var i=0;i<this.carCount;i++){
-            var position=RandomHelper.GetRandomInt(0,12-i);
+            var position=RandomHelper.GetRandomInt(0,randomAryLength-i);
             var obstacleTrans= new Transform(new Vector3(ary_positions[position],-0.5,0));
             ary_positions.splice(position,1);
             obstacleTrans.BaseTransform=this.gameObject.transform;
@@ -66,7 +71,7 @@ export default class StageParts_Safe extends StageParts{
         
         var decoCount=RandomHelper.GetRandomInt(1,4);
         for(var i=0;i<decoCount;i++){
-            var position=RandomHelper.GetRandomInt(0,12-(i+this.carCount));
+            var position=RandomHelper.GetRandomInt(0,randomAryLength-(i+this.carCount));
             var decoNum=RandomHelper.GetRandomInt(0,1);
             var obstacleTrans= new Transform(new Vector3(ary_positions[position],ary_decoY[decoNum],0));
             ary_positions.splice(position,1);
@@ -78,6 +83,16 @@ export default class StageParts_Safe extends StageParts{
             var drawComp= (new ModelDrawComponent(false, "nonTexcube","red","onlyMaterial",1,false,ary_deco[decoNum],modelTransform));
             
             this.gameObject.SetComponent(drawComp);
+        }
+        var coinCount=ary_coinCount[ RandomHelper.GetRandomInt(0,3)];
+        for(var i=0;i<coinCount;i++){
+            var position=RandomHelper.GetRandomInt(0,randomAryLength-(i+this.carCount+decoCount));
+            var coin=new CoinComponent(this.stage);
+            var coinTrans=new Transform(new Vector3(ary_positions[position],-0.5,0));
+            coinTrans.BaseTransform=this.gameObject.transform;
+            
+            this.gameObject.Manager.AddGameObject("coin",coinTrans,"coin",[coin]);
+            ary_positions.splice(position,1);
         }
 
         ary_positions=ary_positions_reset.slice();

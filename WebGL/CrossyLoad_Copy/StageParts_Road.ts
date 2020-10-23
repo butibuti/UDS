@@ -5,10 +5,21 @@ import Vector3 from "../Math/Vector3";
 import Easing from "../Tool/Easing";
 import RandomHelper from "../Tool/RandomHelper";
 import Transform from "../Transform";
+import CoinComponent from "./CoinComponent";
 import DamageObstacleComponent from "./DamageObStacle";
 import RoundTrip from "./RoundTrip";
 import Stage from "./Stage";
 import StageParts from "./StageParts";
+
+
+const ary_positions_reset=[0,1,2,3,4,-4,-3,-2,-1,];
+
+const randomAryLength=9;
+
+
+var ary_positions=ary_positions_reset.slice();
+
+const ary_coinCount=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1];
 
 export default class StageParts_Road extends StageParts{
     meshName:string;
@@ -54,6 +65,18 @@ export default class StageParts_Road extends StageParts{
             this.ary_cars.push(this.gameObject.Manager.AddGameObject("car",carTrans,"car",[damage,trip,carModel]));
         }
         
+        var coinCount=ary_coinCount[ RandomHelper.GetRandomInt(0,ary_coinCount.length-1)];
+        for(var i=0;i<coinCount;i++){
+            var position=RandomHelper.GetRandomInt(0,randomAryLength-(i));
+            var coin=new CoinComponent(this.stage);
+            var coinTrans=new Transform(new Vector3(ary_positions[position],-0.5,0));
+            coinTrans.BaseTransform=this.gameObject.transform;
+            
+            this.gameObject.Manager.AddGameObject("coin",coinTrans,"coin",[coin]);
+            ary_positions.splice(position,1);
+        }
+
+        ary_positions=ary_positions_reset.slice();
     }
     Destroy(){
         this.stage=null;

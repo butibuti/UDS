@@ -31,6 +31,8 @@ class float{
 }
 
 
+
+
 export default class LoadScene extends Scene{
     constructor(sceneManger:ISceneManager){
         super(sceneManger);
@@ -112,7 +114,6 @@ export default class LoadScene extends Scene{
     
     async OnLoad(){
       
-      console.log("1");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/PointLightVS.glsl',"shader/PointLightFS.glsl",this.sceneManager.GetGraphicDevice()),"pointLight");
   
       
@@ -120,23 +121,17 @@ export default class LoadScene extends Scene{
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/DefaultFS_light.glsl",this.sceneManager.GetGraphicDevice()),"texShader_light");
       
       
-      console.log("5");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalColorVS.glsl',"shader/BlackTestFS.glsl",this.sceneManager.GetGraphicDevice()),"black");
       
-      console.log("6");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/VertexPositionVS.glsl',"shader/AmbientFS.glsl",this.sceneManager.GetGraphicDevice()),"ambient");
       
-      console.log("7");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/VertexPositionVS.glsl',"shader/SimpleColorFS.glsl",this.sceneManager.GetGraphicDevice()),"simpleColor");
       
-      console.log("8");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/OnlyMaterialFS.glsl",this.sceneManager.GetGraphicDevice()),"onlyMaterial");
       
-      console.log("9");
       this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/RainbowFS.glsl",this.sceneManager.GetGraphicDevice()),"rainbow");
       
-      console.log("10");
-      //this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"shader/RainbowAlpha.glsl",this.sceneManager.GetGraphicDevice()),"rainbowAlpha");
+      this.sceneManager.GetResourceContainer().AddShader(ResourceCreater.CreateShader ('shader/UVNormalVS.glsl',"RainbowAlpha",this.sceneManager.GetGraphicDevice(),false,true),"rainbowAlpha");
   
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry　( GeometryGenerater.CreateTorus(32,32,0.5,1),false,true,true,this.sceneManager.GetGraphicDevice()),"hsvTorus");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),true,true,true,this.sceneManager.GetGraphicDevice()),"cube");

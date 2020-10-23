@@ -43,7 +43,9 @@ export default class PlayerComponent extends Component{
 
     isInvisible=false;
 
-    //invisibleEffect:ModelDrawComponent;
+    invisibleEffect:ModelDrawComponent;
+
+    isfailed=false;
 
     constructor(arg_movePase:number,arg_stage:Stage){
         super();
@@ -68,11 +70,11 @@ export default class PlayerComponent extends Component{
         this.gameObject.SetComponent(this.poppingComponent);
         this.gameObject.SetComponent(new ModelDrawComponent(true, "cube","caloryMaterial","texShader_light",1,false,"maguro",this.modelTransform)) as ModelDrawComponent;
         
-        // var effectTransform=new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new  Vector3(0,0,0));
-        // effectTransform.BaseTransform=this.gameObject.transform;
-        // this.invisibleEffect=new ModelDrawComponent(false,"effectSphere","yellow","rainbowAlpha",1,false,null,effectTransform);
-        // this.gameObject.SetComponent(this.invisibleEffect);
-        // this.invisibleEffect.UnRegistDraw();
+        var effectTransform=new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new  Vector3(0,0,0));
+        effectTransform.BaseTransform=this.gameObject.transform;
+        this.invisibleEffect=new ModelDrawComponent(false,"effectSphere","yellow","rainbowAlpha",1,false,null,effectTransform);
+        this.gameObject.SetComponent(this.invisibleEffect);
+        this.invisibleEffect.UnRegistDraw();
 
 
         this.minimumTransform=new Transform(new Vector3(0,0.1,0),new Vector3(0,0,0),new Vector3(0.3,0.16,0.18));
@@ -104,8 +106,8 @@ export default class PlayerComponent extends Component{
     Update(){
 
         if(this.isInvisible){
-            //this.invisibleEffect.transform.RollX_Local_Degrees(2);
-            //this.invisibleEffect.transform.RollY_Local_Degrees(2);
+            this.invisibleEffect.transform.RollX_Local_Degrees(2);
+            this.invisibleEffect.transform.RollY_Local_Degrees(2);
         }
         if(!this.canControll){
             return;
@@ -122,17 +124,17 @@ export default class PlayerComponent extends Component{
                     target =this.ary_targets[0];
                     if(!this.ary_sensor[0].CanMove()){
                         target.Position=this.gameObject.transform.LocalPosition;
-                    }else
+                    }else{
                     target.Position=this.ary_sensor[0].GetPosition();
                     
                     this.stage.GoFront(this.gameObject.transform.LocalPosition.z);
-                    
+                    }
                 this.poppingComponent.SetTarget(this.movePase,target);
                 break;
                 case "s":
-                    // if(this.gameObject.transform.Position.z>1){
-                    //     break;
-                    // }
+                    if(this.gameObject.transform.Position.z>4){
+                        break;
+                    }
                     target =this.ary_targets[1];
                     if(!this.ary_sensor[1].CanMove()){
                         target.Position=this.gameObject.transform.LocalPosition;
@@ -177,16 +179,16 @@ export default class PlayerComponent extends Component{
     FeverStart(){
         this.isInvisible=true;
 
-        //this.gameObject.SetComponent(new TransformAnimation(40,false,new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(1,1,1)),this.invisibleEffect.transform));
-        //this.invisibleEffect.UnRegistDraw();
-        //this.invisibleEffect.RegistDraw();
+        this.gameObject.SetComponent(new TransformAnimation(40,false,new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(1,1,1)),this.invisibleEffect.transform));
+        this.invisibleEffect.UnRegistDraw();
+        this.invisibleEffect.RegistDraw();
         
     }
 
     FeverEnd(){
 
         this.isInvisible=false;
-        //this.gameObject.SetComponent(new TransformAnimation(30,false,new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0,0,0)),this.invisibleEffect.transform));
+        this.gameObject.SetComponent(new TransformAnimation(30,false,new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0,0,0)),this.invisibleEffect.transform));
         
     }
 
@@ -203,11 +205,7 @@ export default class PlayerComponent extends Component{
     }
     OnKeyDown(e:KeyboardEvent){
 
-        if(!this.canControll){
-            console.log("cantControll!");
-            return;
-        }
-        if(e.key=="q"){
+        if( this.isfailed){
             return;
         }
         if(this.keyboardEvent!=null){
@@ -224,15 +222,17 @@ export default class PlayerComponent extends Component{
 
         this.gameObject.SetComponent(this.scaleComponent);
         this.isPush=true;
+        this.keyboardEvent=e;
     }
     OnKeyUp(e:KeyboardEvent){
 
+        if( this.isfailed){
+            return;
+        }
         if(!this.canControll){
             return;
         }
-        if(e.key=="q"){
-            this.ToStart();
-        }
+        
         if(this.keyboardEvent!=null){
             return;
         }
@@ -244,7 +244,6 @@ export default class PlayerComponent extends Component{
         this.scaleComponent=new TransformAnimation(10,false,this.maximumTransform,this.modelTransform);
 
         this.gameObject.SetComponent(this.scaleComponent);
-        this.keyboardEvent=e;
         this.isPush=false;
     }
 
@@ -276,6 +275,7 @@ export default class PlayerComponent extends Component{
         this.scaleComponent=new TransformAnimation(30,true,this.minimumTransform,this.modelTransform,Easing.EaseInOutCirc);
         this.gameObject.SetComponent(this.scaleComponent);
     
+        this.isfailed=false;
         //this.invisibleEffect.UnRegistDraw();
     }
     
@@ -306,11 +306,15 @@ export default class PlayerComponent extends Component{
 
     OnCollisionEnter(arg_gameObject:GameObject){
         
-        if(arg_gameObject.objectID==GameObjectIDManager.GetID("damageObstacle")&&!this.isInvisible){
+        if(arg_gameObject.objectID==GameObjectIDManager.GetID("damageObstacle")&&!this.isInvisible&&!this.isfailed){
             if(arg_gameObject.transform.Position.z<this.gameObject.transform.Position.z){
                 this.DeadAnimation_Press(arg_gameObject);
+                this.deadSe.Play();
+                this.isfailed=true;
             }else{
                 this.DeadAnimation_Press(arg_gameObject);
+                this.deadSe.Play();
+                this.isfailed=true;
             }
             this.stage.Failed();
             return;

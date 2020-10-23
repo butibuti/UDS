@@ -53,7 +53,7 @@ export default class Stage extends Component{
 
     ary_stagePrts:Array<StageParts>;
 
-    stageStock=1;
+    stageStock=2;
 
     stageArray:Int16Array;
 
@@ -138,9 +138,9 @@ export default class Stage extends Component{
         }
     }
     GoFront(arg_z:number){
-        arg_z=Math.trunc(-arg_z);
+        arg_z=Math.floor(-arg_z)+2;
 
-        if(arg_z==-1){
+        if(arg_z==1){
             
         this.ui.HideOut();
         }
@@ -151,7 +151,7 @@ export default class Stage extends Component{
             this.gameObject.transform.TranslateZ(1.0);
             this.ui.SetArrival(this.arrival);
             if(this.arrival>this.stageStock){
-                this.StageAdd(this.arrival+9);
+                this.StageAdd(this.arrival+8);
                 this.StageDestroy();
             }
         }
@@ -164,15 +164,7 @@ export default class Stage extends Component{
             this.StageAdd(i);
         }
 
-        for(var i=0;i<3;i++){
-
-            var coin=new CoinComponent(this);
-            var coinTrans=new Transform(new Vector3(0,-0.5,-5+i));
-            coinTrans.BaseTransform=this.gameObject.transform;
-            
-            this.playScene.GetGameManager().AddGameObject("coin",coinTrans,"coin",[coin]);
-            
-        }
+        
     }
     Destroy(){
         this.gameObject.Manager.GetGameObjects(GameObjectIDManager.GetID("coin")).forEach(coin=>coin.Dead());
@@ -192,7 +184,7 @@ export default class Stage extends Component{
         }
         switch(stageNum){
             case 0:
-                var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx);
+                var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx,RandomHelper.GetRandomInt(2,3));
                 this.ary_stagePrts.push(safe);
                 this.playScene.GetGameManager().AddGameObject("safeArea",addStageTransform,"safeArea",[safe]);
             
@@ -225,8 +217,9 @@ export default class Stage extends Component{
         if((i+1)%2!=0){
             baseMaterialNameEx="_d"
         }
+
             var carCount=arg_safeCount-i==this.startPos.z
-            var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx,carCount);
+            var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx,RandomHelper.GetRandomInt(0,arg_safeCount-i),carCount);
             this.ary_stagePrts.push(safe);
             this.playScene.GetGameManager().AddGameObject("safeArea",addStageTransform,"safeArea",[safe]);
             

@@ -37,6 +37,9 @@ export default class TextModel implements IModel{
             this.Draw=this.Draw_NonLight;
         }
     }
+    AddExParam(arg_slot: number, arg_size: number, arg_param: any): void {
+        //throw new Error("Method not implemented.")
+    }
     Initialize_geom(arg_graphicDevice:GraphicDevice,arg_geometry:IGeometry,arg_material:IMaterial,arg_Shader:IShader,arg_transform:Transform){
         this.graphicDevice=arg_graphicDevice;
         this.geometry=arg_geometry;
