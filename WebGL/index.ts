@@ -35,6 +35,16 @@ onload = function(){
   sceneManager.AddScene(new TitleScene (sceneManager),"title");
   sceneManager.AddScene(new LoadScene (sceneManager),"load");
   sceneManager.ChangeScene("title");
+
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open("POST","/score",false);
+  xmlHttp.setRequestHeader("content-type","application/json");
+  xmlHttp.onreadystatechange = function() {
+ 
+    console.log(xmlHttp.responseText);
+}
+  xmlHttp.send('{"score":200}');
+  
   tick();
   // 恒常ループ
   function tick(){
