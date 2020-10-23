@@ -22,7 +22,6 @@ module.exports ={
     "host": process.env.MAGURO_HOST,
     "dialect": process.env.postgres,
     "port":process.env.MAGURO_PORT,
-    "use_env_variable": true,
     "url": process.env.MAGURO_URI
   }
   
