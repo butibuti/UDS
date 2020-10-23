@@ -20,7 +20,7 @@ module.exports ={
     "database": process.env.MAGURO_DATABASE,
     "password": process.env.MAGURO_PASSWORD,
     "host": process.env.MAGURO_HOST,
-    "dialect": process.env.postgres,
+    "dialect": "postgres",
     "port":process.env.MAGURO_PORT,
     "url": process.env.MAGURO_URI
   }
