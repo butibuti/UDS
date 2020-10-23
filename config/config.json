@@ -15,12 +15,12 @@
     "dialect": "mysql"
   },
   "production": {
-    "database": "MAGURO_DATABASE",
     "username": "MAGURO_USER",
-    "url": "MAGURO_URI",
+    "database": "MAGURO_DATABASE",
     "password": "MAGURO_PASSWORD",
     "host": "MAGURO_HOST",
     "dialect": "postgres",
+    "url": "MAGURO_URI",
     "port":"MAGURO_PORT",
     "use_env_variable":true
   }
