@@ -22,7 +22,7 @@
     "dialect": "postgres",
     "port":"MAGURO_PORT",
     "use_env_variable": true,
-    "uri": "MAGURO_URI"
+    "url": "MAGURO_URI"
   }
   
 }
