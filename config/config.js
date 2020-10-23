@@ -1,4 +1,5 @@
-{
+require('dotenv').config();
+module.exports ={
   "development": {
     "username": "butibuti",
     "password": "0714buti",
@@ -15,14 +16,14 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "MAGURO_USER",
-    "database": "MAGURO_DATABASE",
-    "password": "MAGURO_PASSWORD",
-    "host": "MAGURO_HOST",
-    "dialect": "postgres",
-    "port":"MAGURO_PORT",
+    "username": process.env.MAGURO_USER,
+    "database": process.env.MAGURO_DATABASE,
+    "password": process.env.MAGURO_PASSWORD,
+    "host": process.env.MAGURO_HOST,
+    "dialect": process.env.postgres,
+    "port":process.env.MAGURO_PORT,
     "use_env_variable": true,
-    "url": "MAGURO_URI"
+    "url": process.env.MAGURO_URI
   }
   
 }
