@@ -21,7 +21,7 @@
     "host": "MAGURO_HOST",
     "dialect": "postgres",
     "port":"MAGURO_PORT",
-    "operatorsAliases": true,
+    "use_env_variable": true,
     "url": "MAGURO_URI"
   }
   
