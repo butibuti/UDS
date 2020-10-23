@@ -1538,7 +1538,8 @@ class MaterialBinLoader{
 		if (texNameCount < 0) {
 		}
 		else if (encodeType) {
-			var textureName = materialReader.GetString(texNameCount);
+            var textureName = materialReader.GetString(texNameCount);
+            //sdf
 
 			ary_texture.push(this.container.AddTextureFromFile(dir+ "../"+textureName,this.graphicDevice));
 		}
