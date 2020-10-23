@@ -20,7 +20,6 @@
     "password": "MAGURO_PASSWORD",
     "host": "MAGURO_HOST",
     "dialect": "postgres",
-    "url": "MAGURO_URI",
     "port":"MAGURO_PORT",
     "operatorsAliases": true
   }
