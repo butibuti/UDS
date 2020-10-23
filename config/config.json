@@ -21,7 +21,8 @@
     "password": "MAGURO_PASSWORD",
     "host": "MAGURO_HOST",
     "dialect": "postgres",
-    "port":"MAGURO_PORT"
+    "port":"MAGURO_PORT",
+    "use_env_variable":true
   }
   
 }
