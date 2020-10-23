@@ -37,7 +37,7 @@ onload = function(){
   sceneManager.ChangeScene("title");
 
   var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open("POST","/score",false);
+  xmlHttp.open("POST","/score",true);
   xmlHttp.setRequestHeader("content-type","application/json");
   xmlHttp.onreadystatechange = function() {
  
