@@ -63,7 +63,7 @@ export default class TitleScene extends Scene{
       
       
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/title_se3.wav","title");
-      
+      this.sceneManager.GetResourceContainer().GetSound("title").SetVolume(0.5);
       // テクスチャを生成
       
       this.sceneManager.GetResourceContainer().AddTexture(ResourceCreater.CreateTexture ('image/charmap.png',this.sceneManager.GetGraphicDevice()),"font");
@@ -132,7 +132,7 @@ export default class TitleScene extends Scene{
       pressTarget.Scale=new Vector3(0.4,0.4,0.4);
       pressTarget.Position=new Vector3(0,1,0);
 
-      this.texts.SetComponent(new TextDrawComponent("Title", "font","fontShader",new Vector4(0.75,0.75,0.25,1),1,true,transform)) as ModelDrawComponent;
+      this.texts.SetComponent(new TextDrawComponent("HipStar Whale", "font","fontShader",new Vector4(0.75,0.75,0.25,1),1,true,transform)) as ModelDrawComponent;
       this.texts.SetComponent(new TextDrawComponent("Press Any Key", "font","fontShader",new Vector4(0.0,0.0,0.0,1),1,true,pressAnyTransform)) as ModelDrawComponent;
       this.texts.SetComponent(new TransformAnimation(60,true, pressTarget,pressAnyTransform));
       //this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,true)) as ModelDrawComponent;
@@ -166,18 +166,22 @@ export default class TitleScene extends Scene{
         Input.RemoveKeyDownEvent("titleSceneEvent");
         this.gameObjectManager.GetGameObject("sceneChanger").Dead();
     }
+    ZoomOut(){
+      
+      var sceneChangeObject=this.gameObjectManager.GetGameObject("sceneChanger");
+      if(sceneChangeObject){
+        return;
+      }
+      this.sceneManager.GetResourceContainer().GetSound("title").Play();
+      sceneChangeObject=this.gameObjectManager.AddGameObject("sceneChanger");
+      sceneChangeObject.SetComponent(new SceneChanger("load",100,null));
+      var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(0,0,0));
+      sceneChangeObject.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
+      sceneChangeObject.SetComponent(new SucideComponent(100));
+    }
     OnKeyDown(e:KeyboardEvent){
       if(e.key!="Escape"){
-        var sceneChangeObject=this.gameObjectManager.GetGameObject("sceneChanger");
-        if(sceneChangeObject){
-          return;
-        }
-        this.sceneManager.GetResourceContainer().GetSound("title").Play();
-        sceneChangeObject=this.gameObjectManager.AddGameObject("sceneChanger");
-        sceneChangeObject.SetComponent(new SceneChanger("load",100,null));
-        var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(0,0,0));
-        sceneChangeObject.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
-        sceneChangeObject.SetComponent(new SucideComponent(100));
+        this.ZoomOut();
       }
         
     }

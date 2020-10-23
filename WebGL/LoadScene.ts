@@ -156,7 +156,7 @@ export default class LoadScene extends Scene{
       this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/scallops.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"scallops");
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/kill2.wav","kill");
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/up_se.wav","up");
-      
+      this.sceneManager.GetResourceContainer().GetSound("kill").SetVolume(0.5);
       // テクスチャを生成
       var caloryTexture= ResourceCreater.CreateTexture ('image/calory.png',this.sceneManager.GetGraphicDevice());
       this.sceneManager.GetResourceContainer().AddTexture(caloryTexture,"calory");

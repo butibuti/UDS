@@ -7,6 +7,7 @@ import Vector3 from "../Math/Vector3";
 import Vector4 from "../Math/Vector4";
 import Easing from "../Tool/Easing";
 import Transform from "../Transform";
+import RoundTrip from "./RoundTrip";
 
 const maskLinerFrame=30;
 const maskLinerFrameMax=60;
@@ -122,6 +123,7 @@ export default class CrossyUI extends Component{
     }
     SetArrival(arg_arrival:number){
         this.arrivalText.SetText(arg_arrival+"");
+
     }
 
     SetComboMater(arg_persentage:number){

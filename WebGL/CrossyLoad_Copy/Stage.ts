@@ -184,7 +184,7 @@ export default class Stage extends Component{
         }
         switch(stageNum){
             case 0:
-                var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx,RandomHelper.GetRandomInt(2,3));
+                var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx,RandomHelper.GetRandomInt(1,2));
                 this.ary_stagePrts.push(safe);
                 this.playScene.GetGameManager().AddGameObject("safeArea",addStageTransform,"safeArea",[safe]);
             

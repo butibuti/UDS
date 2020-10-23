@@ -15,9 +15,9 @@ const ary_meshes=["sango"]
 
 const ary_deco=["scallops","seaweed"]
 
-const ary_positions_reset=[0,1,2,3,4,5,6,-6,-5,-4,-3,-2,-1,];
+const ary_positions_reset=[0,1,2,3,4,-4,-3,-2,-1,];
 
-const randomAryLength=12;
+const randomAryLength=8;
 
 const ary_decoY=[0,-0.5];
 

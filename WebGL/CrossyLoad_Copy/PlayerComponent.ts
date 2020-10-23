@@ -169,7 +169,7 @@ export default class PlayerComponent extends Component{
                 break;
             }
             
-        this.upSe.Play_new();
+        this.upSe.Play();
             this.keyboardEvent=null;
         }
         
