@@ -4,6 +4,7 @@
   "description": "This is so cool daruma.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "webpack --config webpack.dev.config",
     "release": "webpack --config webpack.pro.config",
