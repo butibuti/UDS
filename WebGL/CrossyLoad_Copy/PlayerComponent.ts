@@ -13,6 +13,18 @@ import Stage from "./Stage";
 import Sensor from "./Sensor";
 import Easing from "../Tool/Easing";
 
+function TransKey(arg_key:string):string{
+    if(arg_key== "w" ||arg_key=="ArrowUp"){
+        return "w";
+    }else if(arg_key== "s" ||arg_key=="ArrowDown"){
+        return "s";
+    }else if(arg_key== "a" ||arg_key=="ArrowLeft"){
+        return "a";
+    }else if(arg_key== "d" ||arg_key=="ArrowRight"){
+        return "d";
+    }
+    return "";
+}
 
 export default class PlayerComponent extends Component{
 
@@ -119,8 +131,8 @@ export default class PlayerComponent extends Component{
         if(this.keyboardEvent&& !this.poppingComponent.IsMove()){
             var target:Transform;
 
-            switch(this.keyboardEvent.key){
-                case "w":
+            switch(TransKey( this.keyboardEvent.key)){
+                case "w" :
                     target =this.ary_targets[0];
                     if(!this.ary_sensor[0].CanMove()){
                         target.Position=this.gameObject.transform.LocalPosition;
@@ -205,6 +217,9 @@ export default class PlayerComponent extends Component{
     }
     OnKeyDown(e:KeyboardEvent){
 
+        if(!this.canControll){
+            return;
+        }
         if( this.isfailed){
             return;
         }

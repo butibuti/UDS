@@ -42,14 +42,14 @@ export default class CrossyUI extends Component{
     OnSet(){
 
         
-        var comboBarBaseTransform=new Transform(new Vector3(400,0,-1),new Vector3(0,0,0),new Vector3(1,1.0,1));
+        var comboBarBaseTransform=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(1,1.0,1));
         
-        var comboBarTransform=new Transform(new Vector3(0,200,0),new Vector3(0,0,0),new Vector3(50,300,1));
+        var comboBarTransform=new Transform(new Vector3(0,400,0),new Vector3(0,0,0),new Vector3(50,20,1));
         
         comboBarTransform.BaseTransform=comboBarBaseTransform;
 
-        this.feverBarDrawComponent=new ModelDrawComponent(false,"uvNormalBar","yellow","rainbow",2,false,null,comboBarTransform);
-        this.comboBarDrawComponent=new ModelDrawComponent(false,"uvNormalBar","yellow","onlyMaterial",2,false,null,comboBarTransform);
+        this.feverBarDrawComponent=new ModelDrawComponent(false,"uvNormalPlane","yellow","rainbow",2,false,null,comboBarTransform);
+        this.comboBarDrawComponent=new ModelDrawComponent(false,"uvNormalPlane","yellow","onlyMaterial",2,false,null,comboBarTransform);
         
         this.gameObject.SetComponent(this.comboBarDrawComponent);
         this.gameObject.SetComponent(this.feverBarDrawComponent);
@@ -105,11 +105,11 @@ export default class CrossyUI extends Component{
 
             if(this.maskPer>maskLinerFrameMax){
                 this.maskPer=maskLinerFrameMax;
-                this.maskDir=-1;
             }
             if(this.maskPer<0){
                 this.maskPer=0;
-                this.isMask=false;this.mask.UnRegistDraw();
+                this.isMask=false;
+                this.mask.UnRegistDraw();
             }
 
             this.maskColor.data[3]=this.maskPer/maskLinerFrame;
@@ -128,7 +128,7 @@ export default class CrossyUI extends Component{
 
     SetComboMater(arg_persentage:number){
         
-        this.activeBarDrawComponent.transform.SetScaleY(arg_persentage*300);
+        this.activeBarDrawComponent.transform.SetScaleX(arg_persentage*500);
     }
 
     FeverStart(){
@@ -170,6 +170,10 @@ export default class CrossyUI extends Component{
 
         this.logo.UnRegistDraw();
         this.logo.RegistDraw();
+    }
+    MaskOut(){
+
+        this.maskDir=-1;
     }
     Reset(){
         this.logo.transform.Position=new Vector3(-1110,-100,-0.5);

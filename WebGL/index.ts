@@ -32,7 +32,6 @@ onload = function(){
 
 
   sceneManager.AddScene(new TitleScene (sceneManager),"title");
-  sceneManager.AddScene(new LoadScene (sceneManager),"load");
   sceneManager.ChangeScene("title");
 
   

@@ -45,11 +45,10 @@ export default class Stage extends Component{
 
     arrival:number=0;
 
-    fadeCount:number=-1;
-
-    startWait=30;
-
     isFailed:boolean;
+
+    fadeCount:number=-1;
+    startCount:number=-1;
 
     ary_stagePrts:Array<StageParts>;
 
@@ -63,6 +62,9 @@ export default class Stage extends Component{
 
     gageDownPase=0.2;
     gageUpPase=10;
+
+    rank:number=null;
+    firstScore:number=null;
 
     constructor(arg_scene:IScene){
         super();
@@ -111,13 +113,12 @@ export default class Stage extends Component{
 
 
 
-    GetRing(){
-        
-    }
-
     GetCoin(){
         this.coinse.Play_new();
         this.coin++;
+        if( this.playerComponent.IsFever){
+
+        }else
         this.gageMinLine+=this.gageUpPase;
         this.GageUp();
         
@@ -133,8 +134,8 @@ export default class Stage extends Component{
         this.gageDownPase=0.2;
         if(this.feverGage>=100){
             this.ui.FeverStart();
+            this.gageMinLine=0;
         this.playerComponent.FeverStart();
-        this.gageMinLine=0.0;
         }
     }
     GoFront(arg_z:number){
@@ -246,54 +247,60 @@ export default class Stage extends Component{
         }
 
 
-        if(this.fadeCount==0){
-            this.Reset();
-            this.fadeCount=-1;this.startWait=30;
+        if(this.fadeCount==0&&this.rank!=null){
+                this.ShowRanking();
+                this.Reset();
         }else
         if(this.fadeCount>0){
             this.fadeCount--;
         }
-        if(this.startWait<=0){
+        if(this.startCount==0){
             this.playerComponent.SetCanControll(true);
-        }else if(this.fadeCount>0){
-            this.startWait--;
+            console.log("startCount==0");
+            this.startCount=-1;
+        }else if(this.startCount>0){
+            this.startCount--;
+            console.log("startCount="+this.startCount);
         }
+        
+        
 
         
     }
     SendArrival(){
         
         
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open("POST","/score",false);
-  xmlHttp.setRequestHeader("content-type","application/json");
-  xmlHttp.onreadystatechange = function() {
- 
-    alert("今回の順位:"+xmlHttp.responseText+"!!");
-}
-  xmlHttp.send('{"score":'+this.arrival+'}');
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST","/score",true);
+        xmlHttp.setRequestHeader("content-type","application/json");
+        xmlHttp.onreadystatechange =ResieveRankInfo(xmlHttp,this);
+        xmlHttp.send('{"score":'+this.arrival+'}');
     }
 
     Failed(){
-        if(this.fadeCount>0){
-        return;
-    }
+        if(this.isFailed){
+            return;
+        }
         this.ui.ShowRetry();
         Input.AddKeyDownEvent(this,"stage_retry",true);
         this.playerComponent.SetCanControll(false);
-        this.startWait=30;
+        this.isFailed=true;
 
+        this.SendArrival();
      }
      ToStart(){
          this.playerComponent.ToStart();
      }
 
+     ShowRanking(){
+        alert("今回の順位:"+this.rank+"!!");
+        this.rank=null;
+     }
+
     Reset(){
-        this.SendArrival();
+        
         this.StageArrayCreate();
         this.gameObject.transform.SetPositionZ(0);
-        this.playerComponent.Reset();
-        this.player.Update();
         this.coin=0;
         this.arrival=0;
         this.Destroy();
@@ -305,18 +312,38 @@ export default class Stage extends Component{
         this.gageDownPase=0.2;
         this.gageUpPase=10;
         this.gageMinLine=0.0;
+        this.fadeCount=-1;
+        this.isFailed=false;
     }
 
 
     OnKeyDown(e:KeyboardEvent){
+        if(!this.isFailed){
+            
+            console.log("Reset!");
+            this.fadeCount=-1;
+            this.playerComponent.Reset();
+            this.player.Update();
+            this.ui.MaskOut();
+            this.rank=null;
+            Input.RemoveKeyDownEvent("stage_retry");
+            this.startCount=30;
+            return;
+        }
         if(this.fadeCount>0){
             return;
         }
-        Input.RemoveKeyDownEvent("stage_retry");
         this.ui.HideRetry();
         this.ui.Reset();
         this.ui.HideIn();
         this.ui.MaskIn();
         this.fadeCount=60;
+    }
+}
+
+
+function ResieveRankInfo(xmlHttp:XMLHttpRequest,stage:Stage){
+    return  function() {
+        stage.rank=parseInt( xmlHttp.responseText);
     }
 }

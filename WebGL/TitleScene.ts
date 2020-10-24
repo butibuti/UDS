@@ -76,13 +76,14 @@ export default class TitleScene extends Scene{
 
       material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial (new Vector4(0.1,0.1,0.1,1.0),this.sceneManager.GetGraphicDevice(),[this.sceneManager.GetResourceContainer().GetTexture("loadingCamera")]),"loadingCameraMaterial");
       
-      
 
     }
 
 
     OnInitialize(){
       
+      
+  this.sceneManager.AddScene(new LoadScene (this.sceneManager),"load");
       this.renderer.AddLayer();
       this.AddCamera(0 ,1,"main",false,this.sceneManager.GetResourceContainer().GetTexture("titleCamera") as FrameBufferTexture);
   // 頂点シェーダとフラグメントシェーダの生成

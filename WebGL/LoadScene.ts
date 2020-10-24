@@ -170,7 +170,7 @@ export default class LoadScene extends Scene{
       
       
       var material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial (new Vector4(0.1,0.1,0.1,1.0),this.sceneManager.GetGraphicDevice(),[this.sceneManager.GetResourceContainer().GetTexture("calory")]),"caloryMaterial");
-      var material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial (new Vector4(0.1,0.1,0.1,1.0),this.sceneManager.GetGraphicDevice(),[this.sceneManager.GetResourceContainer().GetTexture("image/magurossy.png")]),"logoMaterial");
+      material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial (new Vector4(0.1,0.1,0.1,1.0),this.sceneManager.GetGraphicDevice(),[this.sceneManager.GetResourceContainer().GetTexture("image/magurossy.png")]),"logoMaterial");
       material.AddExParam(4,3,new Vector3(5,5,10));
       material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial (new Vector4(0.1,0.1,0.1,1.0),this.sceneManager.GetGraphicDevice(),[this.sceneManager.GetResourceContainer().GetTexture("image/circle32.png")]),"circleMaterial");
       material.AddExParam(4,3,new Vector3(5,5,10));
@@ -195,7 +195,7 @@ export default class LoadScene extends Scene{
       
       material=this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.1, 0.1, 0.1, 1.0),this.sceneManager.GetGraphicDevice()),"zoomEffect");
       
-        this.sceneManager.AddScene(new SampleScene(this.sceneManager),"sample");
+      this.sceneManager.AddScene(new SampleScene(this.sceneManager),"sample");
       
 
     }
