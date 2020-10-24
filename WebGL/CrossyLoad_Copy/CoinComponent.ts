@@ -5,6 +5,7 @@ import GameObject from "../GameObject/GameObject";
 import Vector3 from "../Math/Vector3";
 import Vector4 from "../Math/Vector4";
 import GameObjectIDManager from "../Parts/GameObjectIDManager";
+import Transform from "../Transform";
 import Stage from "./Stage";
 
 enum PrimitiveType{
@@ -20,14 +21,15 @@ export default class CoinComponent extends Component{
         this.stage=arg_stage;
     }
     OnSet(){
-        this.drawComponent=new ModelDrawComponent(true, "sphere","yellow","pointLight",1,false);
+        var modelTransform=new Transform(new Vector3(0,0.25,0),new Vector3(180,180,0),new Vector3(0.0025,0.0025,0.0025));
+        modelTransform.BaseTransform=this.gameObject.transform;
+        this.drawComponent=new ModelDrawComponent(true, "sphere","yellow","onlyMaterial",1,false,"coin",modelTransform);
         this.gameObject.SetComponent(this.drawComponent);
         this.gameObject.SetComponent(new CollisionComponent(PrimitiveType.sphere,new Vector3(0.3,0.3,0.3),0));
     }
     Update(){
 
         
-        this.gameObject.transform.RollY_Local_Degrees(2);
 
     }
     OnCollision(arg_gameObject:GameObject){

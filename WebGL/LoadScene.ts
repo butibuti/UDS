@@ -154,6 +154,11 @@ export default class LoadScene extends Scene{
       this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/clownfish.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"clownfish");
       this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/seaweed.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"seaweed");
       this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/scallops.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"scallops");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/coin.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"coin");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/rock.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"rock");
+      this.sceneManager.GetResourceContainer().AddMesh(ResourceCreater.CreateMeshResourceFromFile("model/FBX/sango_another.b3m",this.sceneManager.GetResourceContainer(),this.sceneManager.GetGraphicDevice()),"sango_another");
+      
+      
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/kill2.wav","kill");
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/up_se.wav","up");
       this.sceneManager.GetResourceContainer().GetSound("kill").SetVolume(0.5);
