@@ -57,7 +57,6 @@ export default class Input{
         if(event){
             return;
         }
-        console.log("AddKey");
         event={obj:arg_obj ,handleEvent: OnKeyUp};
         this.keyUpEvents[arg_eventName]=event;
         if(isUseEvent)
@@ -109,7 +108,6 @@ export default class Input{
     static RemoveKeyDownEvent(arg_eventName:string){
         var event=this.keyDownEvents[arg_eventName];
         if(event){
-            console.log(arg_eventName);
             document.removeEventListener("keydown", event,true);
             this.keyDownEvents[arg_eventName]=null;
         }

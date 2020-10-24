@@ -256,11 +256,9 @@ export default class Stage extends Component{
         }
         if(this.startCount==0){
             this.playerComponent.SetCanControll(true);
-            console.log("startCount==0");
             this.startCount=-1;
         }else if(this.startCount>0){
             this.startCount--;
-            console.log("startCount="+this.startCount);
         }
         
         
@@ -299,6 +297,7 @@ export default class Stage extends Component{
 
     Reset(){
         
+        console.log("Reset!");
         this.StageArrayCreate();
         this.gameObject.transform.SetPositionZ(0);
         this.coin=0;
@@ -308,6 +307,7 @@ export default class Stage extends Component{
         this.ui.SetCoinNum(this.coin);
         this.ui.SetArrival(this.arrival);
         this.playScene.GetCamera("main").transform.Position=new Vector3(1,-6,4);
+        this.player.transform.Position=new Vector3(0,-0.5,1);
         this.feverGage=0;
         this.gageDownPase=0.2;
         this.gageUpPase=10;
@@ -320,7 +320,7 @@ export default class Stage extends Component{
     OnKeyDown(e:KeyboardEvent){
         if(!this.isFailed){
             
-            console.log("Reset!");
+            console.log("MaskOUt!");
             this.fadeCount=-1;
             this.playerComponent.Reset();
             this.player.Update();
