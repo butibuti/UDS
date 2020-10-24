@@ -261,6 +261,18 @@ export default class Stage extends Component{
 
         
     }
+    SendArrival(){
+        
+        
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open("POST","/score",false);
+  xmlHttp.setRequestHeader("content-type","application/json");
+  xmlHttp.onreadystatechange = function() {
+ 
+    alert("今回の順位:"+xmlHttp.responseText+"!!");
+}
+  xmlHttp.send('{"score":'+this.arrival+'}');
+    }
 
     Failed(){
         if(this.fadeCount>0){
@@ -270,12 +282,14 @@ export default class Stage extends Component{
         Input.AddKeyDownEvent(this,"stage_retry",true);
         this.playerComponent.SetCanControll(false);
         this.startWait=30;
+
      }
      ToStart(){
          this.playerComponent.ToStart();
      }
 
     Reset(){
+        this.SendArrival();
         this.StageArrayCreate();
         this.gameObject.transform.SetPositionZ(0);
         this.playerComponent.Reset();

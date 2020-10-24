@@ -4,6 +4,7 @@ const cool = require('cool-ascii-faces') ;
 const layouts = require("express-ejs-layouts");
 const pageController=require("./controllers/PagesController")
 const bodyParser = require('body-parser');
+const { Op } = require("sequelize");
 
 const db = require("./models/index");
 const PORT = process.env.PORT || 5000;
@@ -19,24 +20,16 @@ app.get('/',pageController.home);
 app.get('/game',pageController.game("UDS"));
 app.get('/cool',pageController.cool(cool));
 
-async function response (req, res) {
-    
-    var ranks=await db.Ranking.findAll();
-
-    ranks.forEach(element => {
-        console.log(element.id);
-    }); 
-
-    db.Ranking.create({
-      name: req.body.rankName,
-    }).then(() => {
-        
-      res.send("Data Created.");
-    });
-  }
   async function SetScore (req, res) {
     
-    var ranks=await db.Score.max('value');
+    var ranks=await db.Score.findAll( 
+      {
+        where: {
+        value: {
+          [Op.gt]: req.body.score
+        }
+      }
+    });
 
     console.log(ranks);
 
@@ -44,11 +37,10 @@ async function response (req, res) {
       value: req.body.score,
     }).then(() => {
         
-      res.send(ranks+"");
+      res.send(ranks.length+1+"");
     });
   }
 
-app.post("/create",response );
 
 app.post("/score",SetScore);
 
