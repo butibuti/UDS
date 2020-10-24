@@ -10,7 +10,6 @@ import LoadScene from "./LoadScene";
 
 onload = function(){
 
-  console.log("this js is webGL/index.ts")
   //canvasエレメントを取得
   var canvas :HTMLCanvasElement= document.getElementById('myCanvas') as HTMLCanvasElement;
   
@@ -45,15 +44,18 @@ onload = function(){
 // }
 //   xmlHttp.send('{"score":200}');
   
+var befNow:number=performance.now();
+var now:number=performance.now();
   tick();
   // 恒常ループ
   function tick(){
-
+    now = performance.now();
     
-    sceneManager.Update();
-    //console.log(Input.mousePosition.x+","+Input.mousePosition.x);
+    if(now-befNow>14){
+      sceneManager.Update();
+      befNow=now;
+    }
 
-    
 
     requestAnimationFrame(tick);
   };
