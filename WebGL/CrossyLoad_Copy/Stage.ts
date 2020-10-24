@@ -122,7 +122,6 @@ export default class Stage extends Component{
         this.gageMinLine+=this.gageUpPase;
         this.GageUp();
         
-        this.ui.SetCoinNum(this.coin);
     }
 
     GageUp(){
@@ -291,7 +290,7 @@ export default class Stage extends Component{
      }
 
      ShowRanking(){
-        alert("今回の順位:"+this.rank+"!!\n一位:"+this.firstScore);
+         this.ui.ShowRanking(this.arrival, this.rank,this.firstScore);
         this.rank=null;
      }
 
@@ -303,7 +302,6 @@ export default class Stage extends Component{
         this.arrival=0;
         this.Destroy();
         this.Create();
-        this.ui.SetCoinNum(this.coin);
         this.ui.SetArrival(this.arrival);
         this.playScene.GetCamera("main").transform.Position=new Vector3(1,-6,4);
         this.player.transform.Position=new Vector3(0,-0.5,1);
@@ -324,6 +322,7 @@ export default class Stage extends Component{
             this.player.Update();
             this.ui.MaskOut();
             this.rank=null;
+            this.ui.HideRanking();
             Input.RemoveKeyDownEvent("stage_retry");
             this.startCount=30;
             return;

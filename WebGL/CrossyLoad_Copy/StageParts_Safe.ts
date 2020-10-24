@@ -92,6 +92,9 @@ export default class StageParts_Safe extends StageParts{
         var coinCount=ary_coinCount[ RandomHelper.GetRandomInt(0,3)];
         
         for(var i=0;i<coinCount;i++){
+            if(this.isStart){
+                break;
+            }
             var position=RandomHelper.GetRandomInt(1,randomAryLength-(i+this.carCount+decoCount));
             var coin=new CoinComponent(this.stage);
             var coinPos=ary_positions[position];

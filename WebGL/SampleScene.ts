@@ -145,17 +145,6 @@ export default class SampleScene extends Scene{
     OnKeyDown(e:KeyboardEvent){
 
       
-          if(e.key=="Escape"){
-            var sceneChangeObject=this.gameObjectManager.GetGameObject("sceneChanger");
-            if(sceneChangeObject){
-              return;
-            }
-            sceneChangeObject=this.gameObjectManager.AddGameObject("sceneChanger");
-            sceneChangeObject.SetComponent(new SceneChanger("title",100,null));
-            var trans=new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(0,0,0));
-            sceneChangeObject.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
-            sceneChangeObject.SetComponent(new SucideComponent(100));
-          }
           
     }
 }

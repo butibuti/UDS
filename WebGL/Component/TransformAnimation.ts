@@ -15,13 +15,14 @@ export default class TransformAnimation extends Component{
     initScale:Vector3;
     scalePase:Vector3;
     linerPase:number;    
-    easingFunction:Function;
+    easingFunction_scale:Function;
+    easingFunction_translate:Function;
     TimeUpdate:Function;
     currentTime:number=0;
     time:number;
     direction:number=1;
 
-    constructor(arg_time:number,arg_isLoop:boolean,arg_targetTransform:Transform, arg_transform?:Transform,arg_easingFunction?:Function,arg_isRemain?:boolean){
+    constructor(arg_time:number,arg_isLoop:boolean,arg_targetTransform:Transform, arg_transform?:Transform,arg_easingFunction_Scale?:Function,arg_easingFunction_Translate?:Function,arg_isRemain?:boolean){
         super();
 
         
@@ -32,10 +33,15 @@ export default class TransformAnimation extends Component{
         if(arg_transform){
             this.transform=arg_transform;
         }
-        if(arg_easingFunction){
-            this.easingFunction=arg_easingFunction;
+        if(arg_easingFunction_Scale){
+            this.easingFunction_scale=arg_easingFunction_Scale;
         }else{
-            this.easingFunction=Easing. EaseInOutBack;
+            this.easingFunction_scale=Easing. EaseInOutBack;
+        }
+        if(arg_easingFunction_Translate){
+            this.easingFunction_translate=arg_easingFunction_Translate;
+        }else{
+            this.easingFunction_translate=Easing. EaseInOutBack;
         }
 
         if(arg_isLoop){
@@ -104,8 +110,8 @@ export default class TransformAnimation extends Component{
 
         this.TimeUpdate();
         var t=this.currentTime/this.time;
-        this.transform.Position=this.initPosition.Add(this.offset.Multiply(t));
-        this.transform.Scale= this.initScale.Add(this.scalePase.Multiply(this.easingFunction( t)));
+        this.transform.Position=this.initPosition.Add(this.offset.Multiply(this.easingFunction_translate(t)));
+        this.transform.Scale= this.initScale.Add(this.scalePase.Multiply(this.easingFunction_scale( t)));
         //this.transform.Rotation= this.transform.Rotation
         //this.transform.Rotation=this.rotateQuat.SphereLerp(this.targetRotateQuat,t).ToMatrix4x4();
     }
