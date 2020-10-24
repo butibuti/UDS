@@ -12,6 +12,7 @@ import Stage from "./Stage";
 import StageParts from "./StageParts";
 
 const ary_meshes=["sango","sango","sango_another","sango_another","sango","rock"]
+const ary_obsY=[0.4,0.4,0.4,0.4,0.4,0.2]
 
 const ary_deco=["scallops","seaweed"]
 
@@ -62,10 +63,11 @@ export default class StageParts_Safe extends StageParts{
             ary_positions.splice(position,1);
             obstacleTrans.BaseTransform=this.gameObject.transform;
 
-            var modelTransform=new Transform(new Vector3(0,0.1,0),new Vector3(180,0,0),new Vector3(0.0025,0.0025,0.0025))
+            var obsMeshNum=RandomHelper.GetRandomInt(0,5);
+            var modelTransform=new Transform(new Vector3(0,ary_obsY[obsMeshNum],0),new Vector3(180,0,0),new Vector3(0.0025,0.0025,0.0025))
             modelTransform.BaseTransform=obstacleTrans;
 
-            var drawComp= (new ModelDrawComponent(false, "nonTexcube","red","onlyMaterial",1,false,ary_meshes[RandomHelper.GetRandomInt(0,5)],modelTransform));
+            var drawComp= (new ModelDrawComponent(false, "nonTexcube","red","onlyMaterial",1,false,ary_meshes[obsMeshNum],modelTransform));
             
             var obstacle=new ObstacleComponent(PrimitiveType.box_AABB,new Vector3(1,1,1), this.stage);
 

@@ -113,7 +113,7 @@ export default class CrossyUI extends Component{
         
 
         
-            var yourFirstTrans=new Transform(new Vector3(0,-100,-0.5),new Vector3(0,0,0),new Vector3(75,75,50));
+            var yourFirstTrans=new Transform(new Vector3(0,0,-0.5),new Vector3(0,0,0),new Vector3(75,75,50));
             yourFirstTrans.BaseTransform=this.rankingBaseTransform;
             var yourFirstScoreTrans=new Transform(new Vector3(0,200,-0.5),new Vector3(0,0,0),new Vector3(75,75,50));
             yourFirstScoreTrans.BaseTransform=this.rankingBaseTransform;

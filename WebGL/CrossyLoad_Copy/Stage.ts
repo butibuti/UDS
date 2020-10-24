@@ -23,6 +23,7 @@ enum PrimitiveType{
   }
 
   const stageRange=[ [1,1,2,2,2,3],[1,1,1,2,2,2],[1,1,2,3,3,4]];
+  const stageTable=[0,0,1,1,1,2,2,2];
   const stageArrayLength=512;
 
   const ary_cars=["crab","turtle","turtle","utubo"]
@@ -81,7 +82,7 @@ export default class Stage extends Component{
     StageArrayCreate(){
 
         for(var i=0;i<stageArrayLength;){
-            var stage=RandomHelper.GetRandomInt(0,2);
+            var stage=stageTable[ RandomHelper.GetRandomInt(0,stageTable.length-1)];
             var range=stageRange[stage][ RandomHelper.GetRandomInt(1,5)];
             for(var j=0;j<range;j++,i++){
                 this.stageArray[i]=stage;
