@@ -132,8 +132,7 @@ export default class TitleScene extends Scene{
       pressTarget.Scale=new Vector3(0.4,0.4,0.4);
       pressTarget.Position=new Vector3(0,1,0);
 
-      this.texts.SetComponent(new TextDrawComponent("HipStar Whale", "font","fontShader",new Vector4(0.75,0.75,0.25,1),1,true,transform)) as ModelDrawComponent;
-      this.texts.SetComponent(new TextDrawComponent("Press Any Key", "font","fontShader",new Vector4(0.0,0.0,0.0,1),1,true,pressAnyTransform)) as ModelDrawComponent;
+      this.texts.SetComponent(new TextDrawComponent("Now Loading", "font","fontShader",new Vector4(0.75,0.75,0.25,1),1,true,transform)) as ModelDrawComponent;
       this.texts.SetComponent(new TransformAnimation(60,true, pressTarget,pressAnyTransform));
       //this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,true)) as ModelDrawComponent;
       
@@ -148,7 +147,9 @@ export default class TitleScene extends Scene{
       
     }
     OnUpdate(){
-      
+      if(this.sceneManager.GetScene("load").IsLoaded()&&this.sceneManager.GetScene("sample").IsLoaded()){
+        this.ZoomOut();
+      }
       
       
 
