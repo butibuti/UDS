@@ -30,14 +30,13 @@ app.get('/cool',pageController.cool(cool));
         }
       }
     });
-
-    console.log(ranks);
+    var firstScore= await db.Score.max("value");
 
     db.Score.create({
       value: req.body.score,
     }).then(() => {
         
-      res.send(ranks.length+1+"");
+      res.send(ranks.length+1+","+firstScore);
     });
   }
 

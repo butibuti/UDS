@@ -15,7 +15,7 @@ const ary_meshes=["sango","sango","sango_another","sango_another","sango","rock"
 
 const ary_deco=["scallops","seaweed"]
 
-const ary_positions_reset=[0,1,2,3,4,-4,-3,-2,-1,];
+const ary_positions_reset=[0,1,2,3,4,-4,-3,-2,-1];
 
 const randomAryLength=8;
 
@@ -31,11 +31,15 @@ export default class StageParts_Safe extends StageParts{
     ary_obstacles:Array<GameObject>;
     stage:Stage;
     baseMaterialName:string;
+    isStart=false;
+    ary_coins:Array<GameObject>;
     constructor(arg_stage:Stage,arg_materialName:string,arg_carCount:number,isStart?:boolean){
         super();
 
         if(isStart){
-            ary_positions[0]=1;
+            this.isStart=isStart;
+        }if(this.isStart){
+            ary_positions[0]=ary_positions[1];
         }
 
         this.carCount=arg_carCount;
@@ -44,6 +48,7 @@ export default class StageParts_Safe extends StageParts{
         this.stage=arg_stage;
         this.baseMaterialName=arg_materialName;
         
+        this.ary_coins=new Array<GameObject>();
     }
 
     OnSet(){
@@ -69,7 +74,7 @@ export default class StageParts_Safe extends StageParts{
             this.ary_obstacles.push(obs);
         }
         
-        var decoCount=RandomHelper.GetRandomInt(1,4);
+        var decoCount=RandomHelper.GetRandomInt(1,3);
         for(var i=0;i<decoCount;i++){
             var position=RandomHelper.GetRandomInt(0,randomAryLength-(i+this.carCount));
             var decoNum=RandomHelper.GetRandomInt(0,1);
@@ -85,13 +90,16 @@ export default class StageParts_Safe extends StageParts{
             this.gameObject.SetComponent(drawComp);
         }
         var coinCount=ary_coinCount[ RandomHelper.GetRandomInt(0,3)];
+        
         for(var i=0;i<coinCount;i++){
-            var position=RandomHelper.GetRandomInt(0,randomAryLength-(i+this.carCount+decoCount));
+            var position=RandomHelper.GetRandomInt(1,randomAryLength-(i+this.carCount+decoCount));
             var coin=new CoinComponent(this.stage);
-            var coinTrans=new Transform(new Vector3(ary_positions[position],-0.5,0));
+            var coinPos=ary_positions[position];
+            
+            var coinTrans=new Transform(new Vector3(coinPos,-0.5,0));
             coinTrans.BaseTransform=this.gameObject.transform;
             
-            this.gameObject.Manager.AddGameObject("coin",coinTrans,"coin",[coin]);
+            this.ary_coins.push( this.gameObject.Manager.AddGameObject("coin",coinTrans,"coin",[coin]));
             ary_positions.splice(position,1);
         }
 
@@ -100,6 +108,8 @@ export default class StageParts_Safe extends StageParts{
     Destroy(){
         this.stage=null;
         this.gameObject. Dead();
+        this.ary_coins.forEach(coin=>{coin.Dead();});
+        this.ary_coins.length=0;
         this.ary_obstacles.forEach(obstacle=>{obstacle.Dead()});
     }
 

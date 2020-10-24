@@ -27,12 +27,14 @@ export default class StageParts_Rail extends StageParts{
     speed:number;
     train:GameObject;
     baseMaterialName:string;
+    ary_coins:Array<GameObject>;
     constructor(arg_stage:Stage,arg_materialName:string, arg_meshName:string,arg_size:Vector3){
         super();
         this.meshName= arg_meshName;
         this.size=arg_size;
         this.stage=arg_stage;
         this.baseMaterialName=arg_materialName;
+        this.ary_coins=new Array<GameObject>();
     }
 
     OnSet(){
@@ -73,7 +75,7 @@ export default class StageParts_Rail extends StageParts{
             var coinTrans=new Transform(new Vector3(ary_positions[position],-0.5,0));
             coinTrans.BaseTransform=this.gameObject.transform;
             
-            this.gameObject.Manager.AddGameObject("coin",coinTrans,"coin",[coin]);
+            this.ary_coins.push(this.gameObject.Manager.AddGameObject("coin",coinTrans,"coin",[coin]));
             ary_positions.splice(position,1);
         }
 
@@ -83,6 +85,8 @@ export default class StageParts_Rail extends StageParts{
         this.stage=null;
         this.gameObject. Dead();
         this.train.Dead();
+        this.ary_coins.forEach(coin=>{coin.Dead();});
+        this.ary_coins.length=0;
     }
 
 

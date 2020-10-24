@@ -72,7 +72,7 @@ export default class StageParts_Road extends StageParts{
             var coinTrans=new Transform(new Vector3(ary_positions[position],-0.5,0));
             coinTrans.BaseTransform=this.gameObject.transform;
             
-            this.gameObject.Manager.AddGameObject("coin",coinTrans,"coin",[coin]);
+            this.ary_cars.push( this.gameObject.Manager.AddGameObject("coin",coinTrans,"coin",[coin]));
             ary_positions.splice(position,1);
         }
 

@@ -220,7 +220,7 @@ export default class Stage extends Component{
         }
 
             var carCount=arg_safeCount-i==this.startPos.z
-            var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx,RandomHelper.GetRandomInt(0,arg_safeCount-i),carCount);
+            var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx,RandomHelper.GetRandomInt(0,arg_safeCount-i),true);
             this.ary_stagePrts.push(safe);
             this.playScene.GetGameManager().AddGameObject("safeArea",addStageTransform,"safeArea",[safe]);
             
@@ -248,8 +248,8 @@ export default class Stage extends Component{
 
 
         if(this.fadeCount==0&&this.rank!=null){
-                this.ShowRanking();
-                this.Reset();
+            this.ShowRanking();
+            this.Reset();
         }else
         if(this.fadeCount>0){
             this.fadeCount--;
@@ -291,13 +291,12 @@ export default class Stage extends Component{
      }
 
      ShowRanking(){
-        alert("今回の順位:"+this.rank+"!!");
+        alert("今回の順位:"+this.rank+"!!\n一位:"+this.firstScore);
         this.rank=null;
      }
 
     Reset(){
         
-        console.log("Reset!");
         this.StageArrayCreate();
         this.gameObject.transform.SetPositionZ(0);
         this.coin=0;
@@ -320,7 +319,6 @@ export default class Stage extends Component{
     OnKeyDown(e:KeyboardEvent){
         if(!this.isFailed){
             
-            console.log("MaskOUt!");
             this.fadeCount=-1;
             this.playerComponent.Reset();
             this.player.Update();
@@ -344,6 +342,8 @@ export default class Stage extends Component{
 
 function ResieveRankInfo(xmlHttp:XMLHttpRequest,stage:Stage){
     return  function() {
-        stage.rank=parseInt( xmlHttp.responseText);
+        var data=xmlHttp.responseText.split(",");
+        stage.rank=parseInt( data[0]);
+        stage.firstScore=parseInt( data[1]);
     }
 }
