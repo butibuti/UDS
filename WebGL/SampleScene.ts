@@ -83,10 +83,8 @@ export default class SampleScene extends Scene{
       this.sceneManager.GetGraphicDevice().EnableStencil();
   
 
-      this.GetCamera("main").transform.Position=new Vector3(1,-6,4);
+      this.GetCamera("main").transform.Position=new Vector3(1.5,-9,8);
       
-      
-
       this.GetCamera("main").transform.LookAt( new Vector3(0,0,-1),Vector3.yAxis);
       this.GetCamera("main").clearColor=new Vector4(0.3,0.3,0.3,1.0);
 
@@ -99,12 +97,13 @@ export default class SampleScene extends Scene{
       
 
       //this.anotherCube.SetComponent(new ModelDrawComponent(false, "cube","caloryMaterial","texShader",1,false)) as ModelDrawComponent;
-      {
+      
 
-        this.projectionPlane.SetComponent(new ModelDrawComponent(false, "plane","playCameraMaterial","texShader",0,false)) as ModelDrawComponent;
+      var modelDraw_projection=new ModelDrawComponent(false, "plane","playCameraMaterial","texShader",0,false);
+        this.projectionPlane.SetComponent(modelDraw_projection) ;
         this.projectionPlane.transform.Scale=new Vector3(0,0,0);
     
-      }
+      
      
       
       
@@ -112,7 +111,7 @@ export default class SampleScene extends Scene{
       
       this.projectionPlane.transform.Position=new Vector3(0,0,0);
       
-       this.stage=new Stage(this);
+       this.stage=new Stage(this,modelDraw_projection);
 
       this.gameObjectManager.AddGameObject("stage",new Transform(new Vector3(0,0,0),new Vector3(0,0,0)),"stage",[this.stage]);
     
@@ -121,7 +120,7 @@ export default class SampleScene extends Scene{
       Input.AddKeyDownEvent(this,"sampleSceneEvent",true);
       if(this.IsLoaded()){
         
-        var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(300,300,0));
+        var trans=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(600,600,1));
         this.projectionPlane.SetComponent(new TransformAnimation(90,false,trans,this.projectionPlane.transform,Easing.EaseInOutCirc));
         
       this.stage.ToStart();
@@ -132,10 +131,6 @@ export default class SampleScene extends Scene{
       this.stage.Reset();
     }
     OnUpdate(){
-        // カウンタを元にラジアンを算出
-      var rad = (this.sceneManager.GetGameTime().AbsoluteFrame % 360) * Math.PI / 180;
-        
-      var time = 1.5;
       
       
       

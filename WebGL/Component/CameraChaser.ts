@@ -6,8 +6,8 @@ import Component from "./Component";
 
 const zMin=-2.5;
 const zMax=-2.25;
-const xMin=1.0;
-const xMax=2.0;
+const xMin=2.0;
+const xMax=3.0;
 
 export default class CameraChaser extends Component{
 

@@ -136,6 +136,7 @@ export default class LoadScene extends Scene{
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry　( GeometryGenerater.CreateTorus(32,32,0.5,1),false,true,true,this.sceneManager.GetGraphicDevice()),"hsvTorus");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),true,true,true,this.sceneManager.GetGraphicDevice()),"cube");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),false,false,false,this.sceneManager.GetGraphicDevice()),"cube_position");
+      this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCubeSandWitch(1,new Vector4(1.0,1.0,1.0,1)),false,false,false,this.sceneManager.GetGraphicDevice()),"sandwitchCube_position");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateCube(1,new Vector4(1.0,1.0,1.0,1)),false,true,true,this.sceneManager.GetGraphicDevice()),"nonTexcube");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateSphere(12,12,0.5,new Vector4(0.0,0.0,0.0,1)),false,true,true,this.sceneManager.GetGraphicDevice()),"sphere");
       this.sceneManager.GetResourceContainer().AddGeometry(ResourceCreater.CreateGeometry( GeometryGenerater.CreateSphere(4,4,0.5,new Vector4(0.0,0.0,0.0,1)),true,true,false,this.sceneManager.GetGraphicDevice()),"effectSphere");
@@ -185,10 +186,13 @@ export default class LoadScene extends Scene{
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.5, 0.5, 1.0, 1.0),this.sceneManager.GetGraphicDevice()),"blue");
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.4, 0.6, 0.9, 1.0),this.sceneManager.GetGraphicDevice()),"road");
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.36, 0.54, 0.81, 1.0),this.sceneManager.GetGraphicDevice()),"road_d");
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.32, 0.48, 0.72, 1.0),this.sceneManager.GetGraphicDevice()),"road_d_d");
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.8, 0.8, 0.7, 1.0),this.sceneManager.GetGraphicDevice()),"safe");
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.72, 0.72, 0.63, 1.0),this.sceneManager.GetGraphicDevice()),"safe_d");
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.64, 0.64, 0.56, 1.0),this.sceneManager.GetGraphicDevice()),"safe_d_d");
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.6, 0.5, 0.6, 1.0),this.sceneManager.GetGraphicDevice()),"rail");
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.54, 0.45, 0.54, 1.0),this.sceneManager.GetGraphicDevice()),"rail_d");
+      material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.48, 0.40, 0.48, 1.0),this.sceneManager.GetGraphicDevice()),"rail_d_d");
       
       material= this.sceneManager.GetResourceContainer().AddMaterial(ResourceCreater.CreateMaterial(new Vector4(0.5, 1.0, 0.5, 1.0),this.sceneManager.GetGraphicDevice()),"green");
       

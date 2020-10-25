@@ -6,6 +6,7 @@ import ISceneManager from "./ISceneManager";
 import GameObjectManager from "../GameObject/GameObjectManager";
 import FrameBufferTexture from "../Resource/FrameBufferTexture";
 import CollisionManager from "../Parts/Collision/CollisionManager";
+import Vector4 from "../Math/Vector4";
 
 function Sleep(time) {
     return new Promise( (resolve) => {
@@ -31,6 +32,7 @@ export default class Scene implements IScene{
         this.gameObjectManager=new GameObjectManager(this);
         this.Update=this.Update_WithoutCollision;
         this.AddCamera(0,0,"last",true);
+        //this.GetCamera("last").clearColor=new Vector4(1,0,0,1);
     }
     IsCurrentScene(): boolean {
         return this.isCurrent;

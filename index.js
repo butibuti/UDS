@@ -19,26 +19,27 @@ app.set('view engine', 'ejs');
 app.get('/',pageController.home);
 app.get('/game',pageController.game("UDS"));
 app.get('/cool',pageController.cool(cool));
+app.get('/setZeroScore',pageController.cool(cool));
 
-  async function SetScore (req, res) {
+async function SetScore (req, res) {
     
-    var ranks=await db.Score.findAll( 
-      {
-        where: {
-        value: {
-          [Op.gt]: req.body.score
-        }
+  var ranks=await db.Score.findAll( 
+    {
+      where: {
+      value: {
+        [Op.gt]: req.body.score
       }
-    });
-    var firstScore= await db.Score.max("value");
+    }
+  });
+  var firstScore= await db.Score.max("value");
 
-    db.Score.create({
-      value: req.body.score,
-    }).then(() => {
-        
-      res.send(ranks.length+1+","+firstScore);
-    });
-  }
+  db.Score.create({
+    value: req.body.score,
+  }).then(() => {
+      
+    res.send(ranks.length+1+","+firstScore);
+  });
+}
 
 
 app.post("/score",SetScore);

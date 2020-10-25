@@ -131,6 +131,113 @@ export default class GeometryGenerater{
         ];
         return {p : pos, n : nor, c : col, uv : st, i : idx};
     }
+    static  CreateCubeSandWitch(side:number, color?:Vector4){
+        var hs = side * 0.5;
+        var pos = [
+            -hs-side, -hs,  hs, 
+            hs-side, -hs,  hs,  
+            hs-side,  hs,  hs, 
+            -hs-side,  hs,  hs,
+            -hs-side, -hs, -hs, 
+            -hs-side,  hs, -hs, 
+            hs-side,  hs, -hs, 
+            hs-side, -hs, -hs,
+            -hs-side,  hs, -hs, 
+            -hs-side,  hs,  hs,  
+            hs-side,  hs,  hs,  
+            hs-side,  hs, -hs,
+            -hs-side, -hs, -hs,  
+            hs-side, -hs, -hs,  
+            hs-side, -hs,  hs, 
+            -hs-side, -hs,  hs,
+             hs-side, -hs, -hs,  
+             hs-side,  hs, -hs,
+            hs-side,  hs,  hs,  
+            hs-side, -hs,  hs,
+            -hs-side, -hs, -hs, 
+            -hs-side, -hs,  hs, 
+            -hs-side,  hs,  hs, 
+            -hs-side,  hs, -hs,
+            
+            -hs+side, -hs,  hs, 
+            hs+side, -hs,  hs,  
+            hs+side,  hs,  hs, 
+            -hs+side,  hs,  hs,
+            -hs+side, -hs, -hs, 
+            -hs+side,  hs, -hs, 
+            hs+side,  hs, -hs, 
+            hs+side, -hs, -hs,
+            -hs+side,  hs, -hs, 
+            -hs+side,  hs,  hs,  
+            hs+side,  hs,  hs,  
+            hs+side,  hs, -hs,
+            -hs+side, -hs, -hs,  
+            hs+side, -hs, -hs,  
+            hs+side, -hs,  hs, 
+            -hs+side, -hs,  hs,
+             hs+side, -hs, -hs,  
+             hs+side,  hs, -hs,
+            hs+side,  hs,  hs,  
+            hs+side, -hs,  hs,
+            -hs+side, -hs, -hs, 
+            -hs+side, -hs,  hs, 
+            -hs+side,  hs,  hs, 
+            -hs+side,  hs, -hs
+        ];
+        var nor = [
+            -1.0, -1.0,  1.0,  1.0, -1.0,  1.0,  1.0,  1.0,  1.0, -1.0,  1.0,  1.0,
+            -1.0, -1.0, -1.0, -1.0,  1.0, -1.0,  1.0,  1.0, -1.0,  1.0, -1.0, -1.0,
+            -1.0,  1.0, -1.0, -1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0, -1.0,
+            -1.0, -1.0, -1.0,  1.0, -1.0, -1.0,  1.0, -1.0,  1.0, -1.0, -1.0,  1.0,
+             1.0, -1.0, -1.0,  1.0,  1.0, -1.0,  1.0,  1.0,  1.0,  1.0, -1.0,  1.0,
+            -1.0, -1.0, -1.0, -1.0, -1.0,  1.0, -1.0,  1.0,  1.0, -1.0,  1.0, -1.0,
+            -1.0, -1.0,  1.0,  1.0, -1.0,  1.0,  1.0,  1.0,  1.0, -1.0,  1.0,  1.0,
+            -1.0, -1.0, -1.0, -1.0,  1.0, -1.0,  1.0,  1.0, -1.0,  1.0, -1.0, -1.0,
+            -1.0,  1.0, -1.0, -1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0, -1.0,
+            -1.0, -1.0, -1.0,  1.0, -1.0, -1.0,  1.0, -1.0,  1.0, -1.0, -1.0,  1.0,
+             1.0, -1.0, -1.0,  1.0,  1.0, -1.0,  1.0,  1.0,  1.0,  1.0, -1.0,  1.0,
+            -1.0, -1.0, -1.0, -1.0, -1.0,  1.0, -1.0,  1.0,  1.0, -1.0,  1.0, -1.0
+        ];
+        var col = new Array();
+        for(var i = 0; i < pos.length / 3; i++){
+            if(color){
+                var tc = color;
+            }else{
+                tc = ColorController.hsva(360 / pos.length / 3 * i, 1, 1, 1);
+            }
+            col.push(tc.x, tc.y, tc.z, tc.w);
+        }
+        var st = [
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0
+        ];
+        var idx = [
+             0,  1,  2,  0,  2,  3,
+             4,  5,  6,  4,  6,  7,
+             8,  9, 10,  8, 10, 11,
+            12, 13, 14, 12, 14, 15,
+            16, 17, 18, 16, 18, 19,
+            20, 21, 22, 20, 22, 23,
+            
+            24,  25,  26,  24,  26,  27,
+            28,  29,  30,  28,  30,  31,
+            32,  31, 34,  32, 34, 35,
+           36, 37, 38, 36, 38, 39,
+           40, 41, 42, 40, 42, 43,
+           44, 45, 46, 44, 46, 47
+        ];
+        return {p : pos, n : nor, c : col, uv : st, i : idx};
+    }
     
     static CreatePlane(arg_size:Vector2,isReverse:boolean,arg_color?:Vector4){
         var pos=new Array();

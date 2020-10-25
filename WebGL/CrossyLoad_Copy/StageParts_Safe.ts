@@ -39,7 +39,6 @@ export default class StageParts_Safe extends StageParts{
 
         if(isStart){
             this.isStart=isStart;
-        }if(this.isStart){
             ary_positions[0]=ary_positions[1];
         }
 
@@ -56,6 +55,8 @@ export default class StageParts_Safe extends StageParts{
         var modelTransform=new Transform(new Vector3(0,0.5,0),new Vector3(0,0,0),new Vector3(9,1,1));
         modelTransform.BaseTransform=this.gameObject.transform;
         this.gameObject.SetComponent(new ModelDrawComponent(false, "cube_position",this.baseMaterialName,"ambient",1,false,null,modelTransform));
+
+        this.gameObject.SetComponent(new ModelDrawComponent(false, "sandwitchCube_position",this.baseMaterialName+"_d","ambient",1,false,null,modelTransform));
 
         for(var i=0;i<this.carCount;i++){
             var position=RandomHelper.GetRandomInt(0,randomAryLength-i);
@@ -92,11 +93,9 @@ export default class StageParts_Safe extends StageParts{
             this.gameObject.SetComponent(drawComp);
         }
         var coinCount=ary_coinCount[ RandomHelper.GetRandomInt(0,3)];
-        
+        if(!this.isStart)
         for(var i=0;i<coinCount;i++){
-            if(this.isStart){
-                break;
-            }
+            
             var position=RandomHelper.GetRandomInt(1,randomAryLength-(i+this.carCount+decoCount));
             var coin=new CoinComponent(this.stage);
             var coinPos=ary_positions[position];

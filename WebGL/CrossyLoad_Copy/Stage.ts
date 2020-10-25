@@ -17,6 +17,7 @@ import StageParts from "./StageParts";
 import StageParts_Road from "./StageParts_Road";
 import StageParts_Safe from "./StageParts_Safe";
 import StageParts_Rail from "./StageParts_Rail";
+import ModelDrawComponent from "../Component/ModelDrawComponent";
 
 enum PrimitiveType{
     sphere=0,box_AABB=1,box_OBB=2,point=3,
@@ -39,6 +40,8 @@ export default class Stage extends Component{
     player:GameObject;
     ui:CrossyUI;
     playerComponent:PlayerComponent;
+
+    projectionComponent:ModelDrawComponent;
 
     coinse:ISound;
 
@@ -67,11 +70,12 @@ export default class Stage extends Component{
     rank:number=null;
     firstScore:number=null;
 
-    constructor(arg_scene:IScene){
+    constructor(arg_scene:IScene,arg_projection:ModelDrawComponent){
         super();
         this.playScene=arg_scene;
         this.startPos=new Vector3(0,-0.5,1);
 
+        this.projectionComponent=arg_projection;
 
         this.coinse=this.playScene.GetSceneManager().GetResourceContainer().GetSound("title");
         this.ary_stagePrts=new Array();
@@ -219,8 +223,8 @@ export default class Stage extends Component{
             baseMaterialNameEx="_d"
         }
 
-            var carCount=arg_safeCount-i==this.startPos.z
-            var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx,RandomHelper.GetRandomInt(0,arg_safeCount-i),true);
+            var carCount=RandomHelper.GetRandomInt(0,2);
+            var safe=new StageParts_Safe(this,"safe"+baseMaterialNameEx,carCount,true);
             this.ary_stagePrts.push(safe);
             this.playScene.GetGameManager().AddGameObject("safeArea",addStageTransform,"safeArea",[safe]);
             
@@ -295,6 +299,11 @@ export default class Stage extends Component{
         this.rank=null;
      }
 
+     ReRegistScreen(){
+        this.projectionComponent.UnRegistDraw();
+        this.projectionComponent.RegistDraw();
+     }
+
     Reset(){
         
         this.StageArrayCreate();
@@ -304,8 +313,7 @@ export default class Stage extends Component{
         this.Destroy();
         this.Create();
         this.ui.SetArrival(this.arrival);
-        this.playScene.GetCamera("main").transform.Position=new Vector3(1,-6,4);
-        this.player.transform.Position=new Vector3(0,-0.5,1);
+        this.playScene.GetCamera("main").transform.Position=new Vector3(1.5,-9,8);
         this.feverGage=0;
         this.gageDownPase=0.2;
         this.gageUpPase=10;
@@ -320,6 +328,7 @@ export default class Stage extends Component{
             
             this.fadeCount=-1;
             this.playerComponent.Reset();
+            this.player.transform.Position=new Vector3(0,-0.5,1);
             this.player.Update();
             this.ui.MaskOut();
             this.rank=null;
@@ -335,6 +344,7 @@ export default class Stage extends Component{
         this.ui.Reset();
         this.ui.HideIn();
         this.ui.MaskIn();
+        this.ReRegistScreen();
         this.fadeCount=60;
     }
 }

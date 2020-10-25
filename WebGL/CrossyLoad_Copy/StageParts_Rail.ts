@@ -42,6 +42,8 @@ export default class StageParts_Rail extends StageParts{
         modelTransform.BaseTransform=this.gameObject.transform;
         this.gameObject.SetComponent(new ModelDrawComponent(false, "cube_position",this.baseMaterialName,"ambient",1,false,null,modelTransform));
 
+        this.gameObject.SetComponent(new ModelDrawComponent(false, "sandwitchCube_position",this.baseMaterialName+"_d","ambient",1,false,null,modelTransform));
+
         var direction=RandomHelper.GetRandomInt(0,1);
         if(direction<1){
             direction=-1;

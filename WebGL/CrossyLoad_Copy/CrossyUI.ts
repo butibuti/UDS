@@ -55,7 +55,7 @@ export default class CrossyUI extends Component{
         
         var comboBarBaseTransform=new Transform(new Vector3(0,0,-1),new Vector3(0,0,0),new Vector3(1,1.0,1));
         
-        var comboBarTransform=new Transform(new Vector3(0,400,0),new Vector3(0,0,0),new Vector3(50,20,1));
+        var comboBarTransform=new Transform(new Vector3(0,250,0),new Vector3(0,0,0),new Vector3(50,10,1));
         
         comboBarTransform.BaseTransform=comboBarBaseTransform;
 
@@ -66,7 +66,7 @@ export default class CrossyUI extends Component{
         this.gameObject.SetComponent(this.feverBarDrawComponent);
         
         this.activeBarDrawComponent=this.comboBarDrawComponent;
-        var arrivalTrans=new Transform(new Vector3(-400,-400,-1),new Vector3(0,0,0),new Vector3(50,50,50));
+        var arrivalTrans=new Transform(new Vector3(-400,-200,-1),new Vector3(0,0,0),new Vector3(50,50,50));
         this.arrivalText=new TextDrawComponent("0","font","fontShader",new Vector4(0.9,0.9,0.25,1),2,false,arrivalTrans);
         
 
@@ -96,26 +96,26 @@ export default class CrossyUI extends Component{
         this.gameObject.SetComponent(this.retry);
         this.retry.UnRegistDraw();
 
-        this.logo=new ModelDrawComponent(false, "plane","logoMaterial","texShader",2,false,null,new Transform(new Vector3(-1110,-300,-0.5),new Vector3(0,0,180),new Vector3(600,600,600)));
+        this.logo=new ModelDrawComponent(false, "plane","logoMaterial","texShader",2,false,null,new Transform(new Vector3(-1110,-150,-0.5),new Vector3(0,0,180),new Vector3(300,300,300)));
 
         this.gameObject.SetComponent(this.logo);
         {
 
             this.rankingBaseTransform=new Transform();
             
-            var yourRankTrans=new Transform(new Vector3(0,0,-0.5),new Vector3(0,0,0),new Vector3(75,75,50));
+            var yourRankTrans=new Transform(new Vector3(0,0,-0.5),new Vector3(0,0,0),new Vector3(40,40,50));
             yourRankTrans.BaseTransform=this.rankingBaseTransform;
-            var yourScoreTrans=new Transform(new Vector3(0,150,-0.5),new Vector3(0,0,0),new Vector3(75,75,50));
+            var yourScoreTrans=new Transform(new Vector3(0,100,-0.5),new Vector3(0,0,0),new Vector3(40,40,50));
             yourScoreTrans.BaseTransform=this.rankingBaseTransform;
-            var firstScoreTrans=new Transform(new Vector3(0,300,-0.5),new Vector3(0,0,0),new Vector3(75,75,50));
+            var firstScoreTrans=new Transform(new Vector3(0,200,-0.5),new Vector3(0,0,0),new Vector3(40,40,50));
             firstScoreTrans.BaseTransform=this.rankingBaseTransform;
 
         
 
         
-            var yourFirstTrans=new Transform(new Vector3(0,0,-0.5),new Vector3(0,0,0),new Vector3(75,75,50));
+            var yourFirstTrans=new Transform(new Vector3(0,0,-0.5),new Vector3(0,0,0),new Vector3(40,40,50));
             yourFirstTrans.BaseTransform=this.rankingBaseTransform;
-            var yourFirstScoreTrans=new Transform(new Vector3(0,200,-0.5),new Vector3(0,0,0),new Vector3(75,75,50));
+            var yourFirstScoreTrans=new Transform(new Vector3(0,200,-0.5),new Vector3(0,0,0),new Vector3(40,40,50));
             yourFirstScoreTrans.BaseTransform=this.rankingBaseTransform;
 
         
@@ -138,8 +138,8 @@ export default class CrossyUI extends Component{
             this.yourRank.UnRegistDraw();
             this.yourFirstScore.UnRegistDraw();
 }
-        this.logoTransform_Show=new Transform(new Vector3(-20,-300,-0.5),new Vector3(0,0,180),new Vector3(600,600,600));
-        this.logoTransform_Hide=new Transform(new Vector3(1100,-300,-0.5),new Vector3(0,0,180),new Vector3(600,600,600));
+        this.logoTransform_Show=new Transform(new Vector3(-20,-150,-0.5),new Vector3(0,0,180),new Vector3(300,300,300));
+        this.logoTransform_Hide=new Transform(new Vector3(1100,-150,-0.5),new Vector3(0,0,180),new Vector3(300,300,300));
 
         this.rankingTransform_Show=new Transform();
         this.rankingTransform_Hide=new Transform(new Vector3(1100,0,0));
@@ -214,7 +214,6 @@ export default class CrossyUI extends Component{
         this.activeBarDrawComponent=this.feverBarDrawComponent;
         this.comboBarDrawComponent.UnRegistDraw();
         this.feverBarDrawComponent.RegistDraw();
-        
     }
 
     FeverEnd(){
@@ -261,7 +260,7 @@ export default class CrossyUI extends Component{
         this.maskDir=-1;
     }
     Reset(){
-        this.logo.transform.Position=new Vector3(-1110,-300,-0.5);
+        this.logo.transform.Position=new Vector3(-1110,-150,-0.5);
         this.rankingBaseTransform.Position=new Vector3(-1000,0,0);
         this.maskColor.data[3]=0;
     }
