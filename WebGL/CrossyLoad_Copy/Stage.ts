@@ -313,7 +313,6 @@ export default class Stage extends Component{
         this.Destroy();
         this.Create();
         this.ui.SetArrival(this.arrival);
-        this.playScene.GetCamera("main").transform.Position=new Vector3(1.5,-9,8);
         this.feverGage=0;
         this.gageDownPase=0.2;
         this.gageUpPase=10;
@@ -329,6 +328,7 @@ export default class Stage extends Component{
             this.fadeCount=-1;
             this.playerComponent.Reset();
             this.player.transform.Position=new Vector3(0,-0.5,1);
+            this.playScene.GetCamera("main").transform.Position=new Vector3(1.5,-9,8);
             this.player.Update();
             this.ui.MaskOut();
             this.rank=null;

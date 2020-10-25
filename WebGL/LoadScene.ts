@@ -162,7 +162,9 @@ export default class LoadScene extends Scene{
       
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/kill2.wav","kill");
       this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/up_se.wav","up");
+      this.sceneManager.GetResourceContainer().AddSoundFromFile("audio/muteki7.wav","muteki");
       this.sceneManager.GetResourceContainer().GetSound("kill").SetVolume(0.5);
+      this.sceneManager.GetResourceContainer().GetSound("muteki").SetVolume(1.0);
       // テクスチャを生成
       var caloryTexture= ResourceCreater.CreateTexture ('image/calory.png',this.sceneManager.GetGraphicDevice());
       this.sceneManager.GetResourceContainer().AddTexture(caloryTexture,"calory");

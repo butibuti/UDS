@@ -33,6 +33,7 @@ export default class PlayerComponent extends Component{
     isPush:boolean;
     upSe:ISound;
     deadSe:ISound;
+    mutekiSe:ISound;
 
     direction:number=1;
     isMove=false;
@@ -73,6 +74,7 @@ export default class PlayerComponent extends Component{
         
 
         this.deadSe=this.gameObject.Manager.Scene.GetSceneManager().GetResourceContainer().GetSound("kill");
+        this.mutekiSe=this.gameObject.Manager.Scene.GetSceneManager().GetResourceContainer().GetSound("muteki");
         this.upSe=this.gameObject.Manager.Scene.GetSceneManager().GetResourceContainer().GetSound("up");
         
         this.poppingComponent=new PoppingAnimation(this, this.movePase,false);
@@ -194,7 +196,7 @@ export default class PlayerComponent extends Component{
         this.gameObject.SetComponent(new TransformAnimation(40,false,new Transform(new Vector3(0,0,0),new Vector3(0,0,0),new Vector3(1,1,1)),this.invisibleEffect.transform));
         this.invisibleEffect.UnRegistDraw();
         this.invisibleEffect.RegistDraw();
-        
+        this.mutekiSe.Play();
     }
 
     FeverEnd(){
