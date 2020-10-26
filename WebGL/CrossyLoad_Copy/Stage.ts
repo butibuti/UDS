@@ -64,7 +64,7 @@ export default class Stage extends Component{
 
     gageMinLine=0.0;
 
-    gageDownPase=0.2;
+    gageDownPase=0.4;
     gageUpPase=10;
 
     rank:number=null;
