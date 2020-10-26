@@ -182,9 +182,5 @@ export default class TitleScene extends Scene{
       sceneChangeObject.SetComponent(new SucideComponent(100));
     }
     OnKeyDown(e:KeyboardEvent){
-      if(e.key!="Escape"){
-        this.ZoomOut();
-      }
-        
     }
 }
