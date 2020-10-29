@@ -1,12 +1,12 @@
 require('dotenv').config();
 module.exports ={
   "development": {
-    "username": "butibuti",
-    "password": "0714buti",
-    "database": "maguroroad",
-    "host": "127.0.0.1",
+    "username": process.env.MAGURO_USER,
+    "password": process.env.MAGURO_PASSWORD,
+    "database": process.env.MAGURO_DATABASE,
+    "host": process.env.MAGURO_HOST,
     "dialect": "postgres",
-    "operatorsAliases": false
+    "operatorsAliases": true
   },
   "test": {
     "username": "root",
